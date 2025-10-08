@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.AI;
 
-public class TouchManager : MonoBehaviour
+public class MoveAndTouchManager : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private GameObject player;
@@ -17,6 +17,7 @@ public class TouchManager : MonoBehaviour
     private PlayerInput playerInput;
     private InputAction touchPositionAction;
     private InputAction touchPressAction;
+    private InputAction movementAction;
 
     private void Awake()
     {
@@ -45,8 +46,10 @@ public class TouchManager : MonoBehaviour
         {
             touchPositionAction = playerInput.actions.FindAction("TouchPosition");
             touchPressAction = playerInput.actions.FindAction("TouchPress");
+            movementAction = playerInput.actions.FindAction("Movement");
             if (touchPositionAction == null) Debug.LogWarning("TouchManager: acción 'TouchPosition' no encontrada en PlayerInput actions.");
             if (touchPressAction == null) Debug.LogWarning("TouchManager: acción 'TouchPress' no encontrada en PlayerInput actions.");
+            if (movementAction == null) Debug.LogWarning("TouchManager: acción 'Movement' no encontrada en PlayerInput actions. Movimiento por teclado no estará disponible.");
         }
     }
 
@@ -60,6 +63,47 @@ public class TouchManager : MonoBehaviour
     {
         if (touchPressAction != null)
             touchPressAction.performed -= TouchPressed;
+    }
+
+    private void Update()
+    {
+        // Leer entrada de movimiento (WASD / flechas) desde la action 'Movement' si está disponible.
+        if (movementAction != null && agent != null)
+        {
+            Vector2 input = movementAction.ReadValue<Vector2>();
+            if (input.sqrMagnitude > 0.0001f)
+            {
+                // Convertir el vector 2D del input a una dirección mundial basada en la cámara principal.
+                Camera cam = Camera.main;
+                Vector3 dir;
+                if (cam != null)
+                {
+                    Vector3 camForward = cam.transform.forward;
+                    Vector3 camRight = cam.transform.right;
+                    camForward.y = 0f;
+                    camRight.y = 0f;
+                    camForward.Normalize();
+                    camRight.Normalize();
+                    dir = camRight * input.x + camForward * input.y;
+                }
+                else
+                {
+                    // Si no hay cámara, mapear directamente x->x, y->z
+                    dir = new Vector3(input.x, 0f, input.y);
+                }
+
+                if (dir.sqrMagnitude > 1f) dir.Normalize();
+
+                // Asegurarnos de que el agente no esté bloqueado por un path al mover manualmente
+                if (agent.isOnNavMesh)
+                {
+                    // Reseteamos el path para evitar que el NavMeshAgent trate de alcanzar una antigua destination
+                    agent.ResetPath();
+                    float speed = Mathf.Max(0.0001f, agent.speed);
+                    agent.Move(dir * speed * Time.deltaTime);
+                }
+            }
+        }
     }
 
     private void TouchPressed(InputAction.CallbackContext context)
