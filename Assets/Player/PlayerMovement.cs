@@ -266,22 +266,13 @@ public partial class @PlayerMovement: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
-                },
-                {
-                    ""name"": ""Movement"",
-                    ""type"": ""PassThrough"",
-                    ""id"": ""af63412a-057b-4052-8c9d-b0186fa8ed16"",
-                    ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
                 {
                     ""name"": """",
                     ""id"": ""2d59b0eb-608a-4420-a93c-e718ea9d7c8a"",
-                    ""path"": ""<Pointer>/delta"",
+                    ""path"": ""<Touchscreen>/delta"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -296,7 +287,7 @@ public partial class @PlayerMovement: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Movement"",
+                    ""action"": ""Swipe"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
@@ -307,7 +298,7 @@ public partial class @PlayerMovement: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Movement"",
+                    ""action"": ""Swipe"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -318,7 +309,7 @@ public partial class @PlayerMovement: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Movement"",
+                    ""action"": ""Swipe"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -329,7 +320,7 @@ public partial class @PlayerMovement: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Movement"",
+                    ""action"": ""Swipe"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -340,7 +331,7 @@ public partial class @PlayerMovement: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Movement"",
+                    ""action"": ""Swipe"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 }
@@ -357,7 +348,6 @@ public partial class @PlayerMovement: IInputActionCollection2, IDisposable
         // Puzzle2048
         m_Puzzle2048 = asset.FindActionMap("Puzzle2048", throwIfNotFound: true);
         m_Puzzle2048_Swipe = m_Puzzle2048.FindAction("Swipe", throwIfNotFound: true);
-        m_Puzzle2048_Movement = m_Puzzle2048.FindAction("Movement", throwIfNotFound: true);
     }
 
     ~@PlayerMovement()
@@ -558,7 +548,6 @@ public partial class @PlayerMovement: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Puzzle2048;
     private List<IPuzzle2048Actions> m_Puzzle2048ActionsCallbackInterfaces = new List<IPuzzle2048Actions>();
     private readonly InputAction m_Puzzle2048_Swipe;
-    private readonly InputAction m_Puzzle2048_Movement;
     /// <summary>
     /// Provides access to input actions defined in input action map "Puzzle2048".
     /// </summary>
@@ -574,10 +563,6 @@ public partial class @PlayerMovement: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Puzzle2048/Swipe".
         /// </summary>
         public InputAction @Swipe => m_Wrapper.m_Puzzle2048_Swipe;
-        /// <summary>
-        /// Provides access to the underlying input action "Puzzle2048/Movement".
-        /// </summary>
-        public InputAction @Movement => m_Wrapper.m_Puzzle2048_Movement;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -607,9 +592,6 @@ public partial class @PlayerMovement: IInputActionCollection2, IDisposable
             @Swipe.started += instance.OnSwipe;
             @Swipe.performed += instance.OnSwipe;
             @Swipe.canceled += instance.OnSwipe;
-            @Movement.started += instance.OnMovement;
-            @Movement.performed += instance.OnMovement;
-            @Movement.canceled += instance.OnMovement;
         }
 
         /// <summary>
@@ -624,9 +606,6 @@ public partial class @PlayerMovement: IInputActionCollection2, IDisposable
             @Swipe.started -= instance.OnSwipe;
             @Swipe.performed -= instance.OnSwipe;
             @Swipe.canceled -= instance.OnSwipe;
-            @Movement.started -= instance.OnMovement;
-            @Movement.performed -= instance.OnMovement;
-            @Movement.canceled -= instance.OnMovement;
         }
 
         /// <summary>
@@ -703,12 +682,5 @@ public partial class @PlayerMovement: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnSwipe(InputAction.CallbackContext context);
-        /// <summary>
-        /// Method invoked when associated input action "Movement" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnMovement(InputAction.CallbackContext context);
     }
 }

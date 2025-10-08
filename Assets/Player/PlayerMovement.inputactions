@@ -180,22 +180,13 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
-                },
-                {
-                    "name": "Movement",
-                    "type": "PassThrough",
-                    "id": "af63412a-057b-4052-8c9d-b0186fa8ed16",
-                    "expectedControlType": "Vector2",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
                 }
             ],
             "bindings": [
                 {
                     "name": "",
                     "id": "2d59b0eb-608a-4420-a93c-e718ea9d7c8a",
-                    "path": "<Pointer>/delta",
+                    "path": "<Touchscreen>/delta",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -210,7 +201,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Movement",
+                    "action": "Swipe",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
@@ -221,7 +212,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Movement",
+                    "action": "Swipe",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -232,7 +223,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Movement",
+                    "action": "Swipe",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -243,7 +234,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Movement",
+                    "action": "Swipe",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -254,7 +245,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Movement",
+                    "action": "Swipe",
                     "isComposite": false,
                     "isPartOfComposite": true
                 }
