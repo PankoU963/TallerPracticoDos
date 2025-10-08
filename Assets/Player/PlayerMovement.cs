@@ -253,6 +253,98 @@ public partial class @PlayerMovement: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Puzzle2048"",
+            ""id"": ""2d0476eb-d204-440b-8841-73655880f012"",
+            ""actions"": [
+                {
+                    ""name"": ""Swipe"",
+                    ""type"": ""Value"",
+                    ""id"": ""417356e8-c794-4000-ad6e-b94128885c6e"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Movement"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""af63412a-057b-4052-8c9d-b0186fa8ed16"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""2d59b0eb-608a-4420-a93c-e718ea9d7c8a"",
+                    ""path"": ""<Pointer>/delta"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Swipe"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""Arrows"",
+                    ""id"": ""b1574cf5-3d44-4fc5-b1b5-167a5908c6b8"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""eb446d55-4432-4cf2-953c-5b1b12b317f8"",
+                    ""path"": ""<Keyboard>/upArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""de59265d-94c4-48f8-b253-72f6adbe6537"",
+                    ""path"": ""<Keyboard>/downArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""5bb0928b-f220-4f74-9421-8f24060edf20"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""87898761-eef8-4b94-94b6-e8a70a877911"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -262,11 +354,16 @@ public partial class @PlayerMovement: IInputActionCollection2, IDisposable
         m_HorizontalMovement_Movement = m_HorizontalMovement.FindAction("Movement", throwIfNotFound: true);
         m_HorizontalMovement_TouchPosition = m_HorizontalMovement.FindAction("TouchPosition", throwIfNotFound: true);
         m_HorizontalMovement_TouchPress = m_HorizontalMovement.FindAction("TouchPress", throwIfNotFound: true);
+        // Puzzle2048
+        m_Puzzle2048 = asset.FindActionMap("Puzzle2048", throwIfNotFound: true);
+        m_Puzzle2048_Swipe = m_Puzzle2048.FindAction("Swipe", throwIfNotFound: true);
+        m_Puzzle2048_Movement = m_Puzzle2048.FindAction("Movement", throwIfNotFound: true);
     }
 
     ~@PlayerMovement()
     {
         UnityEngine.Debug.Assert(!m_HorizontalMovement.enabled, "This will cause a leak and performance issues, PlayerMovement.HorizontalMovement.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_Puzzle2048.enabled, "This will cause a leak and performance issues, PlayerMovement.Puzzle2048.Disable() has not been called.");
     }
 
     /// <summary>
@@ -456,6 +553,113 @@ public partial class @PlayerMovement: IInputActionCollection2, IDisposable
     /// Provides a new <see cref="HorizontalMovementActions" /> instance referencing this action map.
     /// </summary>
     public HorizontalMovementActions @HorizontalMovement => new HorizontalMovementActions(this);
+
+    // Puzzle2048
+    private readonly InputActionMap m_Puzzle2048;
+    private List<IPuzzle2048Actions> m_Puzzle2048ActionsCallbackInterfaces = new List<IPuzzle2048Actions>();
+    private readonly InputAction m_Puzzle2048_Swipe;
+    private readonly InputAction m_Puzzle2048_Movement;
+    /// <summary>
+    /// Provides access to input actions defined in input action map "Puzzle2048".
+    /// </summary>
+    public struct Puzzle2048Actions
+    {
+        private @PlayerMovement m_Wrapper;
+
+        /// <summary>
+        /// Construct a new instance of the input action map wrapper class.
+        /// </summary>
+        public Puzzle2048Actions(@PlayerMovement wrapper) { m_Wrapper = wrapper; }
+        /// <summary>
+        /// Provides access to the underlying input action "Puzzle2048/Swipe".
+        /// </summary>
+        public InputAction @Swipe => m_Wrapper.m_Puzzle2048_Swipe;
+        /// <summary>
+        /// Provides access to the underlying input action "Puzzle2048/Movement".
+        /// </summary>
+        public InputAction @Movement => m_Wrapper.m_Puzzle2048_Movement;
+        /// <summary>
+        /// Provides access to the underlying input action map instance.
+        /// </summary>
+        public InputActionMap Get() { return m_Wrapper.m_Puzzle2048; }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
+        public void Enable() { Get().Enable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
+        public void Disable() { Get().Disable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
+        public bool enabled => Get().enabled;
+        /// <summary>
+        /// Implicitly converts an <see ref="Puzzle2048Actions" /> to an <see ref="InputActionMap" /> instance.
+        /// </summary>
+        public static implicit operator InputActionMap(Puzzle2048Actions set) { return set.Get(); }
+        /// <summary>
+        /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <param name="instance">Callback instance.</param>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
+        /// </remarks>
+        /// <seealso cref="Puzzle2048Actions" />
+        public void AddCallbacks(IPuzzle2048Actions instance)
+        {
+            if (instance == null || m_Wrapper.m_Puzzle2048ActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_Puzzle2048ActionsCallbackInterfaces.Add(instance);
+            @Swipe.started += instance.OnSwipe;
+            @Swipe.performed += instance.OnSwipe;
+            @Swipe.canceled += instance.OnSwipe;
+            @Movement.started += instance.OnMovement;
+            @Movement.performed += instance.OnMovement;
+            @Movement.canceled += instance.OnMovement;
+        }
+
+        /// <summary>
+        /// Removes <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <remarks>
+        /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
+        /// </remarks>
+        /// <seealso cref="Puzzle2048Actions" />
+        private void UnregisterCallbacks(IPuzzle2048Actions instance)
+        {
+            @Swipe.started -= instance.OnSwipe;
+            @Swipe.performed -= instance.OnSwipe;
+            @Swipe.canceled -= instance.OnSwipe;
+            @Movement.started -= instance.OnMovement;
+            @Movement.performed -= instance.OnMovement;
+            @Movement.canceled -= instance.OnMovement;
+        }
+
+        /// <summary>
+        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="Puzzle2048Actions.UnregisterCallbacks(IPuzzle2048Actions)" />.
+        /// </summary>
+        /// <seealso cref="Puzzle2048Actions.UnregisterCallbacks(IPuzzle2048Actions)" />
+        public void RemoveCallbacks(IPuzzle2048Actions instance)
+        {
+            if (m_Wrapper.m_Puzzle2048ActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        /// <summary>
+        /// Replaces all existing callback instances and previously registered input action callbacks associated with them with callbacks provided via <param cref="instance" />.
+        /// </summary>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
+        /// </remarks>
+        /// <seealso cref="Puzzle2048Actions.AddCallbacks(IPuzzle2048Actions)" />
+        /// <seealso cref="Puzzle2048Actions.RemoveCallbacks(IPuzzle2048Actions)" />
+        /// <seealso cref="Puzzle2048Actions.UnregisterCallbacks(IPuzzle2048Actions)" />
+        public void SetCallbacks(IPuzzle2048Actions instance)
+        {
+            foreach (var item in m_Wrapper.m_Puzzle2048ActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_Puzzle2048ActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    /// <summary>
+    /// Provides a new <see cref="Puzzle2048Actions" /> instance referencing this action map.
+    /// </summary>
+    public Puzzle2048Actions @Puzzle2048 => new Puzzle2048Actions(this);
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "HorizontalMovement" which allows adding and removing callbacks.
     /// </summary>
@@ -484,5 +688,27 @@ public partial class @PlayerMovement: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnTouchPress(InputAction.CallbackContext context);
+    }
+    /// <summary>
+    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Puzzle2048" which allows adding and removing callbacks.
+    /// </summary>
+    /// <seealso cref="Puzzle2048Actions.AddCallbacks(IPuzzle2048Actions)" />
+    /// <seealso cref="Puzzle2048Actions.RemoveCallbacks(IPuzzle2048Actions)" />
+    public interface IPuzzle2048Actions
+    {
+        /// <summary>
+        /// Method invoked when associated input action "Swipe" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSwipe(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Movement" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnMovement(InputAction.CallbackContext context);
     }
 }
