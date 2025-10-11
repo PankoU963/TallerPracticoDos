@@ -44,20 +44,20 @@ Material:
     m_Floats:
     - _ADDITIONAL_LIGHTS: 0
     - _ADDITIONAL_LIGHT_SHADOWS: 0
-    - _EdgeDiffuse: 0.5
-    - _EdgeRim: 0.5
-    - _EdgeRimOffset: 0.5
-    - _EdgeShadowAttenuation: 0.5
-    - _EdgeSpecular: 0.5
-    - _EdgeSpecularAttenuation: 0.5
+    - _EdgeDiffuse: 0
+    - _EdgeRim: 0.116
+    - _EdgeRimOffset: 0.142
+    - _EdgeShadowAttenuation: 0.003
+    - _EdgeSpecular: 0
+    - _EdgeSpecularAttenuation: 0.125
     - _EdgeSpecularOffset: 0.5
     - _MAIN_LIGHT_SHADOWS: 0
     - _MAIN_LIGHT_SHADOWS_CASCADE: 0
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _RimThreshold: 0.78
+    - _RimThreshold: 0.544
     - _SHADOWS_SOFT: 0
-    - _Smoothness: 0.518
+    - _Smoothness: 0.4
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 0}
   m_BuildTextureStacks: []
