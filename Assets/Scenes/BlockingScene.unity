@@ -36169,7 +36169,7 @@ MeshCollider:
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: 1842510883}
+  m_Mesh: {fileID: 953624545}
 --- !u!33 &149881406
 MeshFilter:
   m_ObjectHideFlags: 10
@@ -47976,7 +47976,7 @@ MeshCollider:
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: 904501051}
+  m_Mesh: {fileID: 2076970698}
 --- !u!33 &266709163
 MeshFilter:
   m_ObjectHideFlags: 10
@@ -66081,7 +66081,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 10
+  near clip plane: 5
   far clip plane: 1000
   field of view: 60.000004
   orthographic: 0
@@ -66110,7 +66110,7 @@ Transform:
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
   m_LocalRotation: {x: 0.27059805, y: -0.65328157, z: 0.27059808, w: 0.65328145}
-  m_LocalPosition: {x: -38.2, y: 22.28, z: -58.96}
+  m_LocalPosition: {x: -34.42, y: 22.28, z: -53.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -86993,7 +86993,7 @@ MonoBehaviour:
   Lens:
     FieldOfView: 60.000004
     OrthographicSize: 5
-    NearClipPlane: 10
+    NearClipPlane: 5
     FarClipPlane: 1000
     Dutch: 0
     ModeOverride: 0
@@ -87019,7 +87019,7 @@ Transform:
   m_GameObject: {fileID: 531198357}
   serializedVersion: 2
   m_LocalRotation: {x: 0.27059808, y: -0.6532815, z: 0.27059808, w: 0.6532815}
-  m_LocalPosition: {x: -38.2, y: 22.28, z: -58.96}
+  m_LocalPosition: {x: -34.42, y: 22.28, z: -53.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -153407,7 +153407,7 @@ MeshCollider:
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: 533341224}
+  m_Mesh: {fileID: 1228883133}
 --- !u!33 &926003434
 MeshFilter:
   m_ObjectHideFlags: 10
@@ -200801,7 +200801,7 @@ MeshCollider:
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: 1389156746}
+  m_Mesh: {fileID: 1386371254}
 --- !u!33 &1085929753
 MeshFilter:
   m_ObjectHideFlags: 10
@@ -213499,7 +213499,7 @@ MeshCollider:
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: 1793582830}
+  m_Mesh: {fileID: 323937478}
 --- !u!33 &1214625701
 MeshFilter:
   m_ObjectHideFlags: 10
@@ -232556,7 +232556,7 @@ MeshCollider:
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: 1134735420}
+  m_Mesh: {fileID: 2006327627}
 --- !u!33 &1281130987
 MeshFilter:
   m_ObjectHideFlags: 10
@@ -236871,7 +236871,7 @@ MeshCollider:
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: 2002484617}
+  m_Mesh: {fileID: 814967380}
 --- !u!33 &1330264441
 MeshFilter:
   m_ObjectHideFlags: 10
@@ -250947,7 +250947,7 @@ MeshCollider:
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: 1842510883}
+  m_Mesh: {fileID: 1793582830}
 --- !u!33 &1384461892
 MeshFilter:
   m_ObjectHideFlags: 10
@@ -268750,7 +268750,7 @@ MeshCollider:
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: 904501051}
+  m_Mesh: {fileID: 533341224}
 --- !u!33 &1399925974
 MeshFilter:
   m_ObjectHideFlags: 10
@@ -277404,7 +277404,7 @@ MeshCollider:
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: 1842510883}
+  m_Mesh: {fileID: 904501051}
 --- !u!33 &1406000771
 MeshFilter:
   m_ObjectHideFlags: 10
@@ -296394,7 +296394,7 @@ MeshCollider:
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: 1031456514}
+  m_Mesh: {fileID: 1166492727}
 --- !u!33 &1460958543
 MeshFilter:
   m_ObjectHideFlags: 10
@@ -315315,7 +315315,7 @@ MeshCollider:
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: 868640000}
+  m_Mesh: {fileID: 1899883433}
 --- !u!33 &1494839238
 MeshFilter:
   m_ObjectHideFlags: 10
@@ -318129,7 +318129,7 @@ MeshCollider:
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: 693496306}
+  m_Mesh: {fileID: 229233065}
 --- !u!33 &1535602011
 MeshFilter:
   m_ObjectHideFlags: 10
@@ -329417,7 +329417,7 @@ MeshCollider:
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: 2108823450}
+  m_Mesh: {fileID: 989889871}
 --- !u!33 &1560510582
 MeshFilter:
   m_ObjectHideFlags: 10
@@ -393151,7 +393151,7 @@ MeshCollider:
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: 512065769}
+  m_Mesh: {fileID: 395354659}
 --- !u!33 &1822549388
 MeshFilter:
   m_ObjectHideFlags: 10
@@ -425704,6 +425704,37 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!1 &2003332124
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2003332125}
+  m_Layer: 0
+  m_Name: ModeloBerrio
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2003332125
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2003332124}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2004438703
 GameObject:
   m_ObjectHideFlags: 0
@@ -434580,7 +434611,7 @@ MeshCollider:
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: 102032761}
+  m_Mesh: {fileID: 880428007}
 --- !u!33 &2006839335
 MeshFilter:
   m_ObjectHideFlags: 10
@@ -444921,7 +444952,7 @@ Transform:
   m_GameObject: {fileID: 2096120674}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -58.2, y: 2.28, z: -58.96}
+  m_LocalPosition: {x: -54.42, y: 2.28, z: -53.1}
   m_LocalScale: {x: 1.5, y: 1.7, z: 1.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -463100,3 +463131,4 @@ SceneRoots:
   - {fileID: 491750618}
   - {fileID: 1557896431}
   - {fileID: 1494839242}
+  - {fileID: 2003332125}
