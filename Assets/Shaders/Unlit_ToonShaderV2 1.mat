@@ -37,7 +37,7 @@ Material:
     - _Glossiness: 84.5
     - _RimExponent: 4.2
     - _RimMix: 0
-    - _RimSmooth: 0.199
+    - _RimSmooth: 0.451
     - _RimThreshold: 0.643
     - _SpecularStrength: 0.869
     - _StepSmooth: 0.638
