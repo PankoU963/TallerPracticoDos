@@ -55,16 +55,19 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _ElectricityScale: 20
-    - _ElectricityWidth: 0.648
+    - _ElectricityScale: 10
+    - _ElectricityWidth: 0.5
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _VextexOffset: -1.5
+    - _VextexOffset: -2
+    - _VextexOffsetMax: 2
+    - _VextexOffsetMin: -3
     m_Colors:
-    - _Color: {r: 0.083769545, g: 3.9999995, b: 1.4371771, a: 0}
-    - _ElectricitySpeed: {r: 0, g: 0.5, b: 0, a: 0}
+    - _Color: {r: 2.9960785, g: 2.2588706, b: 0.062745035, a: 1}
+    - _ElectricitySpeed: {r: 2, g: 2, b: 0, a: 0}
     - _NoiseScale: {r: -50, g: 50, b: 0, a: 0}
     - _NoiseSpeed: {r: 0, g: 1, b: 0, a: 0}
     - _Vector2: {r: -5, g: 5, b: 0, a: 0}
+    - _VertexOffset3D: {r: 0, g: 0, b: 4, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
