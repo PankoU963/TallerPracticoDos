@@ -8,6 +8,8 @@ public class Lintern : MonoBehaviour
     [SerializeField] private Texture2D _darkMaskBase;
     [SerializeField] private Renderer _targetRenderer; // where to assign generated mask
     [SerializeField] private string _shaderTextureProperty = "_DarkTex";
+    [SerializeField, Tooltip("Flip the UV Y coordinate when mapping hit textureCoord to the mask (use if shader expects flipped UVs)")] private bool _flipUVY = false;
+    [SerializeField, Tooltip("Enable debug logs for UV, pixel coordinates when painting") ] private bool _debugUV = false;
 
     [Header("Reveal Source")]
     [Tooltip("On desktop reveal follows mouse position; on mobile reveal follows camera center. You can force camera-center reveal.")]
@@ -86,12 +88,60 @@ public class Lintern : MonoBehaviour
     {
         if (_camera == null || _mask == null) return;
 
+        // Reject invalid input that can produce Infinity/NaN screen coords
+        if (float.IsNaN(screenPosition.x) || float.IsNaN(screenPosition.y) ||
+            float.IsInfinity(screenPosition.x) || float.IsInfinity(screenPosition.y))
+        {
+            // Use camera center as a safe fallback
+            screenPosition = new Vector2(_camera.pixelWidth * 0.5f, _camera.pixelHeight * 0.5f);
+        }
+
+        // Clamp to camera pixel rect to avoid ScreenPointToRay errors when outside the viewport
+        Rect pixelRect = _camera.pixelRect;
+        screenPosition.x = Mathf.Clamp(screenPosition.x, pixelRect.xMin, pixelRect.xMax - 1f);
+        screenPosition.y = Mathf.Clamp(screenPosition.y, pixelRect.yMin, pixelRect.yMax - 1f);
+
         Ray ray = _camera.ScreenPointToRay(screenPosition);
         if (!Physics.Raycast(ray, out RaycastHit hit)) return;
 
         Vector2 uv = hit.textureCoord;
+
+        // If we previously assigned the texture to a specific material property,
+        // account for the material's texture scale & offset so UV maps correctly.
+        if (!string.IsNullOrEmpty(_assignedTextureProperty))
+        {
+            Material mat = _targetRenderer != null ? _targetRenderer.material : null;
+            if (mat != null && mat.HasProperty(_assignedTextureProperty))
+            {
+                Vector2 scale = mat.GetTextureScale(_assignedTextureProperty);
+                Vector2 offset = mat.GetTextureOffset(_assignedTextureProperty);
+                uv = Vector2.Scale(uv, scale) + offset;
+            }
+            else if (mat != null && mat.HasProperty("_MainTex"))
+            {
+                Vector2 scale = mat.GetTextureScale("_MainTex");
+                Vector2 offset = mat.GetTextureOffset("_MainTex");
+                uv = Vector2.Scale(uv, scale) + offset;
+            }
+        }
+
+        // Optional Y flip - some shaders / UV conventions require this
+        if (_flipUVY)
+        {
+            uv.y = 1f - uv.y;
+        }
+
+        // Wrap or clamp UVs into 0..1 in case tiling/offset moved them
+        uv.x = uv.x - Mathf.Floor(uv.x);
+        uv.y = uv.y - Mathf.Floor(uv.y);
+
         int px = Mathf.RoundToInt(uv.x * (_maskWidth - 1));
         int py = Mathf.RoundToInt(uv.y * (_maskHeight - 1));
+
+        if (_debugUV)
+        {
+            Debug.Log($"Lintern: hit.uv={hit.textureCoord} adjustedUV={uv} px={px} py={py} prop={_assignedTextureProperty}");
+        }
         PaintAt(px, py);
     }
 
@@ -183,10 +233,38 @@ public class Lintern : MonoBehaviour
             Debug.LogWarning("Lintern: target renderer has no material.");
             return;
         }
+        // Try the configured property first (if provided), otherwise try common texture properties
+        string[] tryProps = new string[] { _shaderTextureProperty, "_MainTex", "_BaseMap" };
+        bool assigned = false;
 
-        if (!string.IsNullOrEmpty(_shaderTextureProperty) && mat.HasProperty(_shaderTextureProperty) == false)
-            Debug.LogWarning($"Lintern: target material shader does not have property '{_shaderTextureProperty}'.");
+        foreach (var prop in tryProps)
+        {
+            if (string.IsNullOrEmpty(prop)) continue;
+            if (mat.HasProperty(prop))
+            {
+                mat.SetTexture(prop, tex);
+                assigned = true;
+                _assignedTextureProperty = prop;
+                break;
+            }
+        }
 
-        mat.SetTexture(_shaderTextureProperty, tex);
+        if (!assigned)
+        {
+            // Last resort: assign to mainTexture field which works for many materials
+            mat.mainTexture = tex;
+
+            // indicate we used mainTexture fallback
+            _assignedTextureProperty = "_MainTex";
+
+            // Warn only when user explicitly configured a property that doesn't exist
+            if (!string.IsNullOrEmpty(_shaderTextureProperty))
+            {
+                Debug.LogWarning($"Lintern: target material shader does not have property '{_shaderTextureProperty}'. Assigned to material.mainTexture as fallback.");
+            }
+        }
     }
+
+    // property actually used to assign the generated mask (helps map material tiling/offset)
+    private string _assignedTextureProperty = null;
 }
