@@ -59,7 +59,7 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ScrollSpeed: 0.07
-    - _VertexOffset: 0.002
+    - _VertexOffset: 0.001
     m_Colors:
     - _FlickerFrecuence: {r: 0.4, g: 0.6, b: 0, a: 0}
     - _FresnelColor: {r: 3.7761717, g: 0.9062836, b: 0, a: 1}

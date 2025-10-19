@@ -29,7 +29,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DarkTex:
-        m_Texture: {fileID: 2800000, guid: 2f4b4dcc29af85140acf6b40757ca61e, type: 3}
+        m_Texture: {fileID: 2800000, guid: 60dd647f31bfa3c4899c9b7c36f95a04, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTexture:
@@ -54,7 +54,7 @@ Material:
     - _QueueOffset: 0
     m_Colors:
     - _OffSet: {r: 0, g: 0, b: 0, a: 0}
-    - _Tilling: {r: 0.01, g: 0.01, b: 0, a: 0}
+    - _Tilling: {r: 1, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &8522284187052283831
