@@ -188,10 +188,11 @@ public class TelePorter : MonoBehaviour
         // Start particle acceleration if any
         System.Collections.Generic.List<float> originalSpeeds = new System.Collections.Generic.List<float>();
         System.Collections.Generic.List<ParticleSystem> modifiedSystems = new System.Collections.Generic.List<ParticleSystem>();
+        System.Collections.Generic.List<bool> originalPlaying = new System.Collections.Generic.List<bool>();
 
-        AccelerateParticles(this, originalSpeeds, modifiedSystems);
+        AccelerateParticles(this, originalSpeeds, modifiedSystems, originalPlaying);
         if (AccelerateLinkedTeleporter && LinkedTeleporter != null)
-            LinkedTeleporter.AccelerateParticles(LinkedTeleporter, originalSpeeds, modifiedSystems);
+            LinkedTeleporter.AccelerateParticles(LinkedTeleporter, originalSpeeds, modifiedSystems, originalPlaying);
 
         if (LockMovementDuringDelay)
         {
@@ -237,7 +238,7 @@ public class TelePorter : MonoBehaviour
         }
 
     // Restore particle speeds
-    RestoreParticleSpeeds(modifiedSystems, originalSpeeds);
+    RestoreParticleSpeeds(modifiedSystems, originalSpeeds, originalPlaying);
 
         // Remove temporary blocker if we added one
         if (blocker != null)
@@ -249,7 +250,7 @@ public class TelePorter : MonoBehaviour
     }
 
     // Accelerate particle systems on a teleporter instance and record original speeds
-    private void AccelerateParticles(TelePorter tp, System.Collections.Generic.List<float> originalSpeeds, System.Collections.Generic.List<ParticleSystem> modifiedSystems)
+    private void AccelerateParticles(TelePorter tp, System.Collections.Generic.List<float> originalSpeeds, System.Collections.Generic.List<ParticleSystem> modifiedSystems, System.Collections.Generic.List<bool> originalPlaying)
     {
         if (tp == null || tp.TeleportParticles == null) return;
 
@@ -257,26 +258,42 @@ public class TelePorter : MonoBehaviour
         {
             if (ps == null) continue;
             var main = ps.main;
-            // store original simulation speed
+            // store original simulation speed and playing state
             originalSpeeds.Add(main.simulationSpeed);
             modifiedSystems.Add(ps);
+            originalPlaying.Add(ps.isPlaying);
+
+            // increase simulation speed
             main.simulationSpeed = main.simulationSpeed * ParticleSpeedMultiplier;
-            // fast-forward one step to make the change visible immediately
-            ps.Simulate(0f, true, false);
+
+            // Ensure the particle system is playing so the faster simulation is visible
+            if (!ps.isPlaying)
+            {
+                ps.Play(true);
+            }
         }
     }
 
     // Restore particle system speeds using the lists filled by AccelerateParticles
-    private void RestoreParticleSpeeds(System.Collections.Generic.List<ParticleSystem> modifiedSystems, System.Collections.Generic.List<float> originalSpeeds)
+    private void RestoreParticleSpeeds(System.Collections.Generic.List<ParticleSystem> modifiedSystems, System.Collections.Generic.List<float> originalSpeeds, System.Collections.Generic.List<bool> originalPlaying)
     {
         if (modifiedSystems == null || originalSpeeds == null) return;
         int n = System.Math.Min(modifiedSystems.Count, originalSpeeds.Count);
+        n = System.Math.Min(n, originalPlaying != null ? originalPlaying.Count : n);
         for (int i = 0; i < n; i++)
         {
             var ps = modifiedSystems[i];
             if (ps == null) continue;
             var main = ps.main;
             main.simulationSpeed = originalSpeeds[i];
+            // restore playing state
+            if (originalPlaying != null && i < originalPlaying.Count)
+            {
+                if (!originalPlaying[i] && ps.isPlaying)
+                    ps.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+                else if (originalPlaying[i] && !ps.isPlaying)
+                    ps.Play(true);
+            }
         }
     }
 
