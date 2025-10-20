@@ -1,8 +1,10 @@
 using Unity.Collections;
 using UnityEngine;
 
-public class Lintern : MonoBehaviour
+namespace Shaders
 {
+    public class Lintern : MonoBehaviour
+    {
     [Header("References")]
     [SerializeField] private Camera _camera;
     [SerializeField] private Texture2D _darkMaskBase;
@@ -295,4 +297,5 @@ public class Lintern : MonoBehaviour
 
     // property actually used to assign the generated mask (helps map material tiling/offset)
     private string _assignedTextureProperty = null;
+    }
 }

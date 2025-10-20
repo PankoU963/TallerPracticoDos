@@ -89,11 +89,22 @@ public class CameraController : MonoBehaviour
 #if CINEMACHINE_INSTALLED
         if (cinemachineTopDown != null || cinemachineFirstPerson != null)
         {
+            // When switching to TopDown, try to position/rotate the TopDown vcam so it matches the player's direction
+            if (mode == CameraMode.TopDown && cinemachineTopDown != null && target != null)
+            {
+                // Position the vcam relative to the player so "up" in the view corresponds to player's forward
+                Vector3 desiredPos = target.position + target.rotation * topDownOffset;
+                Quaternion desiredRot = Quaternion.LookRotation(target.position - desiredPos);
+                try { cinemachineTopDown.transform.position = desiredPos; cinemachineTopDown.transform.rotation = desiredRot; } catch { }
+            }
+
             // Initialize FP vcam via bridge before raising priority to avoid jumps
             if (mode == CameraMode.FirstPerson && cinemachineFirstPerson != null)
             {
                 var bridge = cinemachineFirstPerson.GetComponent<CinemachineInputBridge>();
-                if (bridge != null && Camera.main != null) bridge.InitializeFromCamera(Camera.main.transform);
+                // Prefer initializing from the player FP anchor so the vcam starts aligned with the player
+                Transform initSource = fpCameraAnchor != null ? fpCameraAnchor : (Camera.main != null ? Camera.main.transform : null);
+                if (bridge != null && initSource != null) bridge.InitializeFromCamera(initSource);
             }
 
             if (cinemachineTopDown != null) cinemachineTopDown.Priority = (mode == CameraMode.TopDown ? 100 : 0);
@@ -108,15 +119,29 @@ public class CameraController : MonoBehaviour
             {
                 if (mode == CameraMode.FirstPerson)
                 {
-                    // Try to initialize the FP vcam to the current camera pose to avoid jumps
+                    // Try to initialize the FP vcam to the player's FP anchor (if assigned) to avoid jumps
                     var bridgeComp = cinemachineFirstPerson.GetComponent("CinemachineInputBridge");
-                    Transform camT = Camera.main != null ? Camera.main.transform : null;
+                    Transform camT = fpCameraAnchor != null ? fpCameraAnchor : (Camera.main != null ? Camera.main.transform : null);
                     if (bridgeComp != null && camT != null)
                     {
                         var initMethod = bridgeComp.GetType().GetMethod("InitializeFromCamera");
                         if (initMethod != null) initMethod.Invoke(bridgeComp, new object[] { camT });
                     }
+
+                    // Also try to snap the FP vcam GameObject transform to the fpCameraAnchor to reduce visual jumps when Cinemachine isn't installed
+                    if (fpCameraAnchor != null)
+                    {
+                        try { cinemachineFirstPerson.transform.position = fpCameraAnchor.position; cinemachineFirstPerson.transform.rotation = fpCameraAnchor.rotation; } catch { }
+                    }
                 }
+                // When switching to TopDown, position the top-down GameObject to align to the player's facing
+                if (mode == CameraMode.TopDown && cinemachineTopDown != null && target != null)
+                {
+                    Vector3 desiredPos = target.position + target.rotation * topDownOffset;
+                    Quaternion desiredRot = Quaternion.LookRotation(target.position - desiredPos);
+                    try { cinemachineTopDown.transform.position = desiredPos; cinemachineTopDown.transform.rotation = desiredRot; } catch { }
+                }
+
                 cinemachineFirstPerson.SetActive(mode == CameraMode.FirstPerson);
             }
         }

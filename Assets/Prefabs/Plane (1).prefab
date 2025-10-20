@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 2499476961477916718}
   - component: {fileID: 3311907706011273368}
   - component: {fileID: 3761657037619880197}
-  - component: {fileID: 6472755755469680698}
   - component: {fileID: 6213589200217337855}
   m_Layer: 0
   m_Name: Plane (1)
@@ -29,7 +28,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5978456814962538622}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.70710576, y: -0, z: -0, w: 0.70710784}
+  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 2.56, z: 39.52}
   m_LocalScale: {x: 5.03, y: 1, z: 0.45}
   m_ConstrainProportionsScale: 0
@@ -67,7 +66,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 7aa7b2ed36c09d54d83bb43c89c293ed, type: 2}
+  - {fileID: 2100000, guid: 369149d04112e374d9d7934c234521bf, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -111,21 +110,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &6472755755469680698
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5978456814962538622}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e9b6e78b4700bc94e8684da1cf67b095, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  darkTextureProperty: _DarkTex
-  mainTextureProperty: _MainTex
-  hoverTexture: {fileID: 0}
 --- !u!114 &6213589200217337855
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -139,14 +123,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _camera: {fileID: 0}
-  _darkMaskBase: {fileID: 2800000, guid: 3e47297dafa729247afaed9348e1ece6, type: 3}
+  _darkMaskBase: {fileID: 2800000, guid: 60dd647f31bfa3c4899c9b7c36f95a04, type: 3}
   _targetRenderer: {fileID: 3311907706011273368}
   _shaderTextureProperty: _DarkTex
   _flipUVY: 0
   _debugUV: 0
-  _forceCameraCenterReveal: 0
+  _forceCameraCenterReveal: 1
   _maskScale: 0.5
   _applyEveryNFrames: 2
-  _brushRadius: 16
+  _brushRadius: 30
   _brushStrength: 0.75
   _flashlight: {fileID: 0}
+  _useFlashlightRange: 1
+  _rangeMultiplier: 1
+  _fallbackMaxRevealDistance: 0

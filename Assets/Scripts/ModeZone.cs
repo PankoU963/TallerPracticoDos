@@ -19,7 +19,8 @@ public class ModeZone : MonoBehaviour
         var pc = other.GetComponent<PlayerController>();
         if (pc != null)
         {
-            pc.NotifyZoneExit();
+            // pass the zone's center/position so the player can orient outward when exiting
+            pc.NotifyZoneExit(transform.position);
         }
     }
 }

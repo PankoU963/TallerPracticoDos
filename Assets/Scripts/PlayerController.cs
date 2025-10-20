@@ -238,17 +238,8 @@ public class PlayerController : MonoBehaviour
 
         if (mode == ControlMode.FirstPerson)
         {
-            Transform camT = null;
-            if (Camera.main != null) camT = Camera.main.transform;
-            else if (cameraController != null && cameraController.cinemachineFirstPerson != null)
-                camT = cameraController.cinemachineFirstPerson.transform;
-
-            if (camT != null)
-            {
-                Vector3 euler = transform.rotation.eulerAngles;
-                float camYaw = camT.eulerAngles.y;
-                transform.rotation = Quaternion.Euler(0f, camYaw, 0f);
-            }
+            // Do not force-snap the player's yaw to the camera. The CameraController will initialize the FP camera
+            // from the player's FP anchor (or vice versa). We keep the control blend so movement direction transitions smoothly.
         }
 
         // update cursor according to new mode
@@ -294,11 +285,21 @@ public class PlayerController : MonoBehaviour
 
     /// <summary>
     /// Called by a ModeZone when the player exits it.
-    /// Records exit pos/time and optionally pauses movement.
+    /// Records exit pos/time and optionally pauses movement. The player will be rotated to look outward
+    /// from the zone center so that when returning to TopDown the model faces away from the zone.
     /// </summary>
-    public void NotifyZoneExit()
+    public void NotifyZoneExit(Vector3 zoneCenter)
     {
         SetMode(ControlMode.TopDown);
+
+        // Rotate player to face outward from the zone center
+        Vector3 dirOut = transform.position - zoneCenter;
+        dirOut.y = 0f;
+        if (dirOut.sqrMagnitude > 0.0001f)
+        {
+            transform.rotation = Quaternion.LookRotation(dirOut.normalized);
+        }
+
         if (zonePauseOnExit > 0f) PauseMovement(zonePauseOnExit);
         // Record exit position; start monitoring until the player moves away far enough
         lastZoneExitPos = transform.position;
