@@ -1,16 +1,8 @@
-using System;
+    using System;
+    using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
-/// <summary>
-/// TelePorter: Teleports GameObjects (players or other objects) to a target Transform or linked TelePorter.
-/// Features:
-/// - Configurable target Transform (or link to another TelePorter)
-/// - Cooldown to avoid immediate re-teleport
-/// - Optional tag filter to only allow objects with certain tags
-/// - Supports CharacterController and Rigidbody (kinematic or non-kinematic)
-/// - Public Teleport(GameObject obj) method so UI can call it
-/// </summary>
 public class TelePorter : MonoBehaviour
 {
     [Header("Target")]
@@ -37,8 +29,28 @@ public class TelePorter : MonoBehaviour
     [Tooltip("Optional event invoked after a successful teleport. Passes the teleported GameObject.")]
     public UnityEvent<GameObject> OnTeleported;
 
+    [Header("Effects")]
+    [Tooltip("Delay in seconds before the actual teleport occurs. While waiting, the object's movement can be locked to prevent it from leaving.")]
+    public float TeleportDelay = 0f;
+
+    [Tooltip("If true, temporarily lock CharacterController or Rigidbody movement during TeleportDelay so the object cannot exit before teleport.")]
+    public bool LockMovementDuringDelay = true;
+
+    [Tooltip("Optional particle systems on this teleporter to accelerate while the player is about to be teleported.")]
+    public ParticleSystem[] TeleportParticles;
+
+    [Tooltip("If true, also accelerate particle systems on the linked teleporter (if any).")]
+    public bool AccelerateLinkedTeleporter = true;
+
+    [Tooltip("Multiplier applied to particle system simulation speed during the delay (e.g., 2 = twice as fast).")]
+    public float ParticleSpeedMultiplier = 2f;
+
     // internal cooldown tracker per object (using instanceID)
-    private System.Collections.Generic.Dictionary<int, float> _lastTeleportedTime = new System.Collections.Generic.Dictionary<int, float>();
+    // Use a static dictionary so all TelePorter instances share cooldown state and avoid immediate bounce-back
+    private static System.Collections.Generic.Dictionary<int, float> s_lastTeleportedTime = new System.Collections.Generic.Dictionary<int, float>();
+
+    // Track objects currently pending teleport to avoid duplicate coroutines
+    private static System.Collections.Generic.HashSet<int> s_pendingTeleports = new System.Collections.Generic.HashSet<int>();
 
     // Helper: get the effective destination transform
     private Transform GetDestination()
@@ -74,7 +86,7 @@ public class TelePorter : MonoBehaviour
 
         int id = obj.GetInstanceID();
         float now = Time.time;
-        if (_lastTeleportedTime.TryGetValue(id, out float t))
+        if (s_lastTeleportedTime.TryGetValue(id, out float t))
         {
             if (now - t < Cooldown) return false; // still cooling down
         }
@@ -87,7 +99,7 @@ public class TelePorter : MonoBehaviour
             controller.enabled = false;
             MoveTransform(obj.transform, dest);
             controller.enabled = true;
-            _lastTeleportedTime[id] = now;
+            s_lastTeleportedTime[id] = now;
             OnTeleported?.Invoke(obj);
             return true;
         }
@@ -115,14 +127,14 @@ public class TelePorter : MonoBehaviour
                 MoveTransform(obj.transform, dest);
             }
 
-            _lastTeleportedTime[id] = now;
+            s_lastTeleportedTime[id] = now;
             OnTeleported?.Invoke(obj);
             return true;
         }
 
         // 3) Fallback: just move transform
         MoveTransform(obj.transform, dest);
-        _lastTeleportedTime[id] = now;
+    s_lastTeleportedTime[id] = now;
         OnTeleported?.Invoke(obj);
         return true;
     }
@@ -131,7 +143,141 @@ public class TelePorter : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         // Try teleporting the collided object automatically
-        Teleport(other.gameObject);
+        var obj = other.gameObject;
+        if (TeleportDelay > 0f)
+        {
+            // Start a delayed teleport coroutine on this TelePorter instance
+            StartTeleportWithDelay(obj);
+        }
+        else
+        {
+            Teleport(obj);
+        }
+    }
+
+    // Public helper: start delayed teleport (safe to call multiple places)
+    public void StartTeleportWithDelay(GameObject obj)
+    {
+        if (obj == null) return;
+        int id = obj.GetInstanceID();
+        if (s_pendingTeleports.Contains(id)) return; // already pending
+        StartCoroutine(TeleportDelayCoroutine(obj));
+    }
+
+    private IEnumerator TeleportDelayCoroutine(GameObject obj)
+    {
+        if (obj == null) yield break;
+        int id = obj.GetInstanceID();
+        s_pendingTeleports.Add(id);
+
+        CharacterController controller = obj.GetComponent<CharacterController>();
+        Rigidbody rb = obj.GetComponent<Rigidbody>();
+
+        // Store original physics states
+        bool hasRb = rb != null;
+        var origConstraints = hasRb ? rb.constraints : RigidbodyConstraints.None;
+#if UNITY_2022_2_OR_NEWER
+        var origLinearVelocity = hasRb ? rb.linearVelocity : Vector3.zero;
+#else
+        var origLinearVelocity = hasRb ? rb.velocity : Vector3.zero;
+#endif
+        var origAngularVelocity = hasRb ? rb.angularVelocity : Vector3.zero;
+
+        TemporaryMovementBlocker blocker = null;
+
+        // Start particle acceleration if any
+        System.Collections.Generic.List<float> originalSpeeds = new System.Collections.Generic.List<float>();
+        System.Collections.Generic.List<ParticleSystem> modifiedSystems = new System.Collections.Generic.List<ParticleSystem>();
+
+        AccelerateParticles(this, originalSpeeds, modifiedSystems);
+        if (AccelerateLinkedTeleporter && LinkedTeleporter != null)
+            LinkedTeleporter.AccelerateParticles(LinkedTeleporter, originalSpeeds, modifiedSystems);
+
+        if (LockMovementDuringDelay)
+        {
+            if (controller != null)
+            {
+                // Add a temporary blocker that keeps position fixed but allows rotation
+                blocker = obj.AddComponent<TemporaryMovementBlocker>();
+                blocker.LockPosition = obj.transform.position;
+            }
+
+            if (rb != null)
+            {
+                // zero velocities and freeze constraints to prevent physical motion (do NOT toggle isKinematic)
+#if UNITY_2022_2_OR_NEWER
+                rb.linearVelocity = Vector3.zero;
+                rb.angularVelocity = Vector3.zero;
+#else
+                rb.velocity = Vector3.zero;
+                rb.angularVelocity = Vector3.zero;
+#endif
+                rb.constraints = RigidbodyConstraints.FreezeAll;
+            }
+        }
+
+        // Wait for the effect/delay
+        if (TeleportDelay > 0f)
+            yield return new WaitForSeconds(TeleportDelay);
+
+        // Perform the actual teleport (this will set cooldown timestamp)
+        Teleport(obj);
+
+    // After teleport, restore rigidbody states if they were changed
+        if (hasRb)
+        {
+            rb.constraints = origConstraints;
+#if UNITY_2022_2_OR_NEWER
+            rb.linearVelocity = origLinearVelocity;
+            rb.angularVelocity = origAngularVelocity;
+#else
+            rb.velocity = origLinearVelocity;
+            rb.angularVelocity = origAngularVelocity;
+#endif
+        }
+
+    // Restore particle speeds
+    RestoreParticleSpeeds(modifiedSystems, originalSpeeds);
+
+        // Remove temporary blocker if we added one
+        if (blocker != null)
+        {
+            Destroy(blocker);
+        }
+
+        s_pendingTeleports.Remove(id);
+    }
+
+    // Accelerate particle systems on a teleporter instance and record original speeds
+    private void AccelerateParticles(TelePorter tp, System.Collections.Generic.List<float> originalSpeeds, System.Collections.Generic.List<ParticleSystem> modifiedSystems)
+    {
+        if (tp == null || tp.TeleportParticles == null) return;
+
+        foreach (var ps in tp.TeleportParticles)
+        {
+            if (ps == null) continue;
+            var main = ps.main;
+            // store original simulation speed
+            originalSpeeds.Add(main.simulationSpeed);
+            modifiedSystems.Add(ps);
+            main.simulationSpeed = main.simulationSpeed * ParticleSpeedMultiplier;
+            // fast-forward one step to make the change visible immediately
+            ps.Simulate(0f, true, false);
+        }
+    }
+
+    // Restore particle system speeds using the lists filled by AccelerateParticles
+    private void RestoreParticleSpeeds(System.Collections.Generic.List<ParticleSystem> modifiedSystems, System.Collections.Generic.List<float> originalSpeeds)
+    {
+        if (modifiedSystems == null || originalSpeeds == null) return;
+        int n = System.Math.Min(modifiedSystems.Count, originalSpeeds.Count);
+        for (int i = 0; i < n; i++)
+        {
+            var ps = modifiedSystems[i];
+            if (ps == null) continue;
+            var main = ps.main;
+            main.simulationSpeed = originalSpeeds[i];
+        }
     }
 
     // Calculate destination world position based on destination transform and offset
