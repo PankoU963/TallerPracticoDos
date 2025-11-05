@@ -43,7 +43,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _DitherSize: 1
-    - _MaxDistance: 100
+    - _MaxDistance: 40
     - _MinDistance: 0
     - _QueueControl: 0
     - _QueueOffset: 0
