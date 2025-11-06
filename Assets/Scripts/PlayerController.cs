@@ -11,6 +11,8 @@ public class PlayerController : MonoBehaviour
     public float walkSpeed = 3f;
     public float runMultiplier = 1.8f;
     public float gravity = -9.81f;
+    [Tooltip("Maximum height (meters) the player will reach when jumping")]
+    public float jumpHeight = 1.5f;
 
     [Header("References")]
     public CameraController cameraController;
@@ -42,6 +44,9 @@ public class PlayerController : MonoBehaviour
     bool isPaused = false;
     Coroutine pauseCoroutine = null;
 
+    // Run toggle state
+    bool runToggled = false;
+
     // Input System
     PlayerMovement inputActions;
 
@@ -50,6 +55,13 @@ public class PlayerController : MonoBehaviour
     [Header("UI / Cursor")]
     [Tooltip("If true, hide and lock the cursor while in TopDown mode.")]
     public bool hideCursorInTopDown = true;
+
+    [Header("FirstPerson Mesh")]
+    [Tooltip("If true, hide the player's renderers when switching to FirstPerson. If no renderers are assigned, the script will auto-populate with all child Renderers.")]
+    public bool hideMeshInFirstPerson = true;
+    [Tooltip("Optional: assign specific Renderers (MeshRenderer/SkinnedMeshRenderer) to hide in FirstPerson. Leave empty to auto-detect all child Renderers.")]
+    public Renderer[] renderersToHide;
+    
 
     void Awake()
     {
@@ -63,17 +75,44 @@ public class PlayerController : MonoBehaviour
     {
         // ensure cursor state matches starting mode
         UpdateCursorState();
+        // ensure mesh visibility matches starting mode
+        if (hideMeshInFirstPerson)
+        {
+            EnsureRenderersPopulated();
+            UpdateMeshVisibility(controlMode != ControlMode.FirstPerson);
+        }
+        // subscribe to camera blend complete so we can hide/show the player mesh after transition
+        if (cameraController != null)
+            cameraController.OnModeBlendComplete += OnCameraBlendComplete;
     }
 
     void OnEnable()
     {
         inputActions.Enable();
+        // subscribe to Run performed to toggle run state
+        if (inputActions != null)
+            inputActions.Actions.Run.performed += OnRunPerformed;
     }
 
     void OnDisable()
     {
+        // unsubscribe to avoid leaking delegates
+        if (inputActions != null)
+            inputActions.Actions.Run.performed -= OnRunPerformed;
+
+        if (cameraController != null)
+            cameraController.OnModeBlendComplete -= OnCameraBlendComplete;
+
         inputActions.Disable();
         inputActions.Dispose();
+    }
+
+    void OnRunPerformed(UnityEngine.InputSystem.InputAction.CallbackContext ctx)
+    {
+        if (ctx.performed)
+        {
+            runToggled = !runToggled;
+        }
     }
 
     void Update()
@@ -141,8 +180,19 @@ public class PlayerController : MonoBehaviour
             }
         }
 
+        // Base speed, modified by Run input (left shift by default in PlayerMovement)
         float speed = walkSpeed;
-        // If you had a Run action, you could multiply here. For now keep walkSpeed.
+        try
+        {
+            // Run is a Button action; ReadValue<float>() returns 1 when pressed, 0 otherwise
+            float runVal = inputActions.Actions.Run.ReadValue<float>();
+            if (runVal > 0.5f) speed *= runMultiplier;
+        }
+        catch (System.Exception)
+        {
+            // Defensive: if inputActions or mapping aren't available, fall back to walkSpeed
+            speed = walkSpeed;
+        }
 
         // If we're blending due to a mode switch, interpolate the movement vector horizontally
         if (blendTimer > 0f)
@@ -157,8 +207,22 @@ public class PlayerController : MonoBehaviour
 
         Vector3 horizontalVelocity = move * speed;
 
+        // Jump (triggered) - use Input System action triggered to avoid continuous jumping while held
+        try
+        {
+            if (inputActions.Actions.Jump.triggered && cc.isGrounded)
+            {
+                // v = sqrt(2 * -gravity * jumpHeight)
+                velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+            }
+        }
+        catch (System.Exception)
+        {
+            // ignore missing input bindings
+        }
+
         // Apply gravity
-        if (cc.isGrounded && velocity.y < 0)
+        if (cc.isGrounded && velocity.y < 0f)
             velocity.y = -1f; // small negative to keep grounded
 
         velocity.x = horizontalVelocity.x;
@@ -244,6 +308,33 @@ public class PlayerController : MonoBehaviour
 
         // update cursor according to new mode
         UpdateCursorState();
+
+    }
+
+    void EnsureRenderersPopulated()
+    {
+        if (renderersToHide != null && renderersToHide.Length > 0) return;
+        // auto populate with all child renderers
+        renderersToHide = GetComponentsInChildren<Renderer>(true);
+    }
+
+    void UpdateMeshVisibility(bool visible)
+    {
+        if (renderersToHide == null) return;
+        foreach (var r in renderersToHide)
+        {
+            if (r == null) continue;
+            // enable/disable renderer component
+            try { r.enabled = visible; } catch { }
+        }
+    }
+
+    void OnCameraBlendComplete(CameraController.CameraMode mode)
+    {
+        if (!hideMeshInFirstPerson) return;
+        EnsureRenderersPopulated();
+        bool visible = mode != CameraController.CameraMode.FirstPerson;
+        UpdateMeshVisibility(visible);
     }
 
     void UpdateCursorState()

@@ -1833,8 +1833,8 @@
     "m_ObjectId": "32145b032c234a04b3e570888e32dae9",
     "m_Title": "Distrub",
     "m_Position": {
-        "x": -2856.7998046875,
-        "y": -1000.7999267578125
+        "x": -2856.800048828125,
+        "y": -1000.7999877929688
     }
 }
 
@@ -1988,7 +1988,7 @@
         "square"
     ],
     "m_Precision": 0,
-    "m_PreviewExpanded": false,
+    "m_PreviewExpanded": true,
     "m_DismissedVersion": 0,
     "m_PreviewMode": 0,
     "m_CustomColors": {
@@ -2537,8 +2537,8 @@
     "m_ObjectId": "4caaf1330aac43c8ab0f3ea097a1fd9a",
     "m_Title": "ElectricArc",
     "m_Position": {
-        "x": -3323.199462890625,
-        "y": -293.59991455078127
+        "x": -3323.19970703125,
+        "y": -302.39990234375
     }
 }
 
@@ -4015,10 +4015,10 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -1432.0001220703125,
-            "y": -77.59996795654297,
-            "width": 128.0001220703125,
-            "height": 93.60005187988281
+            "x": -1456.7999267578125,
+            "y": -242.40000915527345,
+            "width": 208.0,
+            "height": 277.6000061035156
         }
     },
     "m_Slots": [
@@ -4035,7 +4035,7 @@
         "opposite"
     ],
     "m_Precision": 0,
-    "m_PreviewExpanded": false,
+    "m_PreviewExpanded": true,
     "m_DismissedVersion": 0,
     "m_PreviewMode": 0,
     "m_CustomColors": {
@@ -4132,7 +4132,7 @@
         "scale"
     ],
     "m_Precision": 0,
-    "m_PreviewExpanded": false,
+    "m_PreviewExpanded": true,
     "m_DismissedVersion": 0,
     "m_PreviewMode": 0,
     "m_CustomColors": {

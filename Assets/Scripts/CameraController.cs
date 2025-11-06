@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 #if CINEMACHINE_INSTALLED
 using Cinemachine;
@@ -32,6 +33,9 @@ public class CameraController : MonoBehaviour
 
     CameraMode mode = CameraMode.TopDown;
     Vector2 lookAngles = Vector2.zero; // x -> yaw, y -> pitch
+    // Event invoked when the camera finished transitioning/blending to a mode
+    public System.Action<CameraMode> OnModeBlendComplete;
+    Coroutine modeBlendCoroutine = null;
     // CameraController is now a lightweight manager: it activates/deactivates VCams and provides non-Cinemachine fallback
     public float CurrentYaw => lookAngles.x;
 
@@ -146,6 +150,61 @@ public class CameraController : MonoBehaviour
             }
         }
 #endif
+        // Start monitoring the camera blend/transition and invoke completion when done
+        if (modeBlendCoroutine != null) StopCoroutine(modeBlendCoroutine);
+        modeBlendCoroutine = StartCoroutine(ModeBlendMonitor(mode));
+    }
+
+    IEnumerator ModeBlendMonitor(CameraMode targetMode)
+    {
+        float start = Time.time;
+        float timeout = 2.0f; // fallback timeout in seconds
+
+#if CINEMACHINE_INSTALLED
+        // If Cinemachine is present, use the Brain to detect when blending has finished
+        CinemachineBrain brain = null;
+        if (Camera.main != null) brain = Camera.main.GetComponent<CinemachineBrain>();
+        if (brain != null)
+        {
+            // Wait until the active blend is finished
+            while (brain.ActiveBlend != null && Time.time - start < timeout)
+                yield return null;
+            // small extra frame to ensure final camera state applied
+            yield return null;
+            OnModeBlendComplete?.Invoke(targetMode);
+            modeBlendCoroutine = null;
+            yield break;
+        }
+#endif
+
+        // Fallback: wait until the manual camera transform reaches close to the target transform
+        float positionThreshold = 0.05f;
+        float angleThreshold = 2f; // degrees
+        while (Time.time - start < timeout)
+        {
+            if (targetMode == CameraMode.TopDown)
+            {
+                // compute desired position/rotation
+                if (this.target == null) break;
+                Vector3 desiredPos = this.target.position + topDownOffset;
+                float posDist = Vector3.Distance(transform.position, desiredPos);
+                Quaternion desiredRot = Quaternion.Euler(45f, 45f, 0f);
+                float angleDist = Quaternion.Angle(transform.rotation, desiredRot);
+                if (posDist <= positionThreshold && angleDist <= angleThreshold) break;
+            }
+            else // FirstPerson
+            {
+                if (fpCameraAnchor == null) break;
+                float posDist = Vector3.Distance(transform.position, fpCameraAnchor.position);
+                float angleDist = Quaternion.Angle(transform.rotation, Quaternion.Euler(lookAngles.y, lookAngles.x, 0f));
+                if (posDist <= positionThreshold && angleDist <= angleThreshold) break;
+            }
+            yield return null;
+        }
+
+        // Invoke even on timeout
+        OnModeBlendComplete?.Invoke(targetMode);
+        modeBlendCoroutine = null;
     }
     // Removed POV reflection helpers; use dedicated CinemachineInputBridge component for POV control.
 }
