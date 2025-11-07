@@ -1,5 +1,18 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-4825374913930907456
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 9
 --- !u!21 &2100000
 Material:
   serializedVersion: 8
@@ -7,8 +20,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Smoke_Shader Graphs
-  m_Shader: {fileID: -6465566751694194690, guid: 320f0a1c9a755cf4db1f4c9035474cd7, type: 3}
+  m_Name: Shader Graphs_Smoke-Cloud
+  m_Shader: {fileID: -6465566751694194690, guid: a3bbe7addeafdf1439e85340c72989fc, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -38,35 +51,22 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Density: 2.5
-    - _DepthContrast: 2.23
-    - _EdgeFade: 15.74
-    - _FresnelPower: 1
-    - _LightIntensity: 1.96
+    - _Contrast: 1.71
+    - _DepthIntensity: 0.65
+    - _Displacement: 0.29
+    - _EdgeFade: 1.57
+    - _FresnelPower: 17.47
+    - _InteriorScale: 0.34
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _Smoothness: -0.438
-    - _VertexOffset: 0.5
-    - _smoothstep: 2.1
-    - _speed: 0.05
+    - _Scale: 0.33
+    - _Speed: 0.2
     m_Colors:
-    - _Color: {r: 0.68789494, g: 0.48820928, b: 0.7207546, a: 1}
-    - _ColorShadow: {r: 0.7509433, g: 0.7509433, b: 0.7509433, a: 0.9411765}
-    - _LightColor: {r: 0.7509433, g: 0.7509433, b: 0.7509433, a: 0}
-    - _SpeedDirection: {r: -0.1, g: 0.1, b: 0, a: 0}
-    - _tiling: {r: 0.25, g: 0.25, b: 0.25, a: 0}
+    - _ColorA: {r: 0.690566, g: 0.690566, b: 0.690566, a: 0}
+    - _ColorB: {r: 0.3886792, g: 0.3886792, b: 0.3886792, a: 0}
+    - _Tiling: {r: 2, g: 2, b: 0, a: 0}
+    - _Tiling_1: {r: 3, g: 3, b: 0, a: 0}
+    - _Vector3: {r: 1, g: 1, b: 1, a: 0}
+    - _Vector3_1: {r: 1, g: 1, b: 1, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
---- !u!114 &8215631953546166379
-MonoBehaviour:
-  m_ObjectHideFlags: 11
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  version: 9
