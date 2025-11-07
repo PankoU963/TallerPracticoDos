@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-8008187808002517232
+--- !u!114 &-1296229836025803568
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
@@ -20,13 +20,13 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: CelShading 1
-  m_Shader: {fileID: -6465566751694194690, guid: 466135b9d7bcb294fa6a3c4ec56f25f6, type: 3}
+  m_Name: Shader Graphs_ZeldaToonShaderGraph
+  m_Shader: {fileID: -6465566751694194690, guid: 7755fd2a050ba844ab3c3c12b464745d, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
   m_InvalidKeywords: []
-  m_LightmapFlags: 2
+  m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
@@ -37,7 +37,7 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - _BaseMap:
+    - _Texture2D:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -55,13 +55,18 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _AmbientIntensity: 0
+    - _AdditionalLightSmoothness: -26.4
+    - _Glossiness: 32
+    - _OutlineThickness: 0.78
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _RimLightPower: 9.27
+    - _RimAmount: 0.7
+    - _RimThreshold: 0.084
     m_Colors:
-    - _LightCelShaded: {r: 1, g: 1, b: 1, a: 0.87058824}
-    - _RimLightColor: {r: 1.4980392, g: 0.8985563, b: 0, a: 0}
-    - _Tint: {r: 1, g: 0.9743854, b: 0, a: 0}
+    - _AdditionalLightColor: {r: 1, g: 1, b: 1, a: 0}
+    - _AmbientColor: {r: 0.10943389, g: 0.10943389, b: 0.10943389, a: 0}
+    - _MainColor: {r: 1, g: 1, b: 1, a: 0}
+    - _RimColor: {r: 1, g: 1, b: 1, a: 0}
+    - _SpecularColor: {r: 1, g: 1, b: 1, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
