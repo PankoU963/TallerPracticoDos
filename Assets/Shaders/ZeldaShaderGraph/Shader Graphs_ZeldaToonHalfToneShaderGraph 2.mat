@@ -52,7 +52,7 @@ Material:
     - _QueueOffset: 0
     - _RimAmount: 0.573
     - _RimThreshold: 0.19
-    - _ShadowThreshold: 0.31
+    - _ShadowThreshold: 0.39
     m_Colors:
     - _AdditionalLightColor: {r: 1, g: 1, b: 1, a: 0}
     - _AmbientColor: {r: 0.7132075, g: 0.7132075, b: 0.7132075, a: 0}
