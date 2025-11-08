@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8603385714521798136}
   - component: {fileID: 382015741147508312}
   - component: {fileID: 4098680016317927187}
+  - component: {fileID: 2062549019366393650}
   m_Layer: 0
   m_Name: Caballo (1)
   m_TagString: Untagged
@@ -86,6 +87,29 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!136 &2062549019366393650
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3073032090429599485}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.015318757
+  m_Height: 0.015478399
+  m_Direction: 1
+  m_Center: {x: -0.00050800294, y: 0.000078372665, z: 0.00051933376}
 --- !u!1 &7249718548413141507
 GameObject:
   m_ObjectHideFlags: 0
@@ -248,7 +272,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 1.5
+  m_Radius: 4
   m_Height: 4
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
@@ -264,11 +288,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77256aa215aa99c4981ee8e64e3561f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  playerTag: Player
-  activationDistance: 0.5
-  childName: 
-  targetRenderer: {fileID: 4098680016317927187}
-  dissolveMaterial: {fileID: 2100000, guid: b58f09a03e5530040beef2d46d695b11, type: 2}
+  targetChild: {fileID: 3073032090429599485}
   dissolveProperty: _Disolve
-  dissolveSpeed: -0.1
+  dissolveSpeed: -0.3
+  reverseOnExit: 0
+  playerTag: Player

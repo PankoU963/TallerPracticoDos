@@ -119,6 +119,7 @@ GameObject:
   - component: {fileID: 7584714486334390714}
   - component: {fileID: 8692456626445981042}
   - component: {fileID: 4573716588548651013}
+  - component: {fileID: 8373851828740634691}
   m_Layer: 0
   m_Name: Estatua Cabeza (1)
   m_TagString: Untagged
@@ -172,7 +173,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c32032345bae26a4bbe9f190fe611856, type: 2}
+  - {fileID: 2100000, guid: b58f09a03e5530040beef2d46d695b11, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -194,6 +195,29 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!136 &8373851828740634691
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4674207463484880332}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.015355983
+  m_Height: 0.025551159
+  m_Direction: 1
+  m_Center: {x: 0.000020522844, y: -0.0016021726, z: -0.00011023768}
 --- !u!1 &5555299201984846423
 GameObject:
   m_ObjectHideFlags: 0
@@ -203,6 +227,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9000395672862284222}
+  - component: {fileID: 8883036137196427656}
+  - component: {fileID: 8560409147159164901}
   m_Layer: 0
   m_Name: PedestalCabeza
   m_TagString: Untagged
@@ -223,7 +249,47 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 255079731195590351}
   - {fileID: 7584714486334390714}
+  - {fileID: 255079731195590351}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!136 &8883036137196427656
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5555299201984846423}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 4
+  m_Height: 4
+  m_Direction: 1
+  m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &8560409147159164901
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5555299201984846423}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77256aa215aa99c4981ee8e64e3561f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetChild: {fileID: 4674207463484880332}
+  dissolveProperty: _Disolve
+  dissolveSpeed: -0.3
+  reverseOnExit: 0
+  playerTag: Player

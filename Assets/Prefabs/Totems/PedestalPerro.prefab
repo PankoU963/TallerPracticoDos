@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6117720891677460316}
   - component: {fileID: 2030579737541408116}
   - component: {fileID: 2905223777480150739}
+  - component: {fileID: 8537494295773498495}
   m_Layer: 0
   m_Name: Perro (1)
   m_TagString: Untagged
@@ -64,7 +65,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c32032345bae26a4bbe9f190fe611856, type: 2}
+  - {fileID: 2100000, guid: b58f09a03e5530040beef2d46d695b11, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -86,6 +87,29 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!136 &8537494295773498495
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1845425016792266669}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.02272461
+  m_Height: 0.022652665
+  m_Direction: 1
+  m_Center: {x: 0.004069703, y: -9.313227e-10, z: 0.0007679468}
 --- !u!1 &3275568128918297908
 GameObject:
   m_ObjectHideFlags: 0
@@ -95,6 +119,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3923498454010893147}
+  - component: {fileID: 2354726588477711275}
+  - component: {fileID: 6126559258667896106}
   m_Layer: 0
   m_Name: PedestalPerro
   m_TagString: Untagged
@@ -115,10 +141,50 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 3441802496849278026}
   - {fileID: 6117720891677460316}
+  - {fileID: 3441802496849278026}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!136 &2354726588477711275
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3275568128918297908}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 4
+  m_Height: 4
+  m_Direction: 1
+  m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &6126559258667896106
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3275568128918297908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77256aa215aa99c4981ee8e64e3561f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetChild: {fileID: 1845425016792266669}
+  dissolveProperty: _Disolve
+  dissolveSpeed: -0.3
+  reverseOnExit: 0
+  playerTag: Player
 --- !u!1 &7553287524380452719
 GameObject:
   m_ObjectHideFlags: 0

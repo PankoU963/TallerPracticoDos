@@ -7,14 +7,13 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: ShaderDisolve
-  m_Shader: {fileID: -6465566751694194690, guid: f05de79737e31e441954fa0f689a49ce, type: 3}
+  m_Name: FenceMuseo
+  m_Shader: {fileID: -6465566751694194690, guid: f07d2d014928cba4090ebb5ddec85c36, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords:
-  - _DIRECTION_UP
+  m_ValidKeywords: []
   m_InvalidKeywords: []
-  m_LightmapFlags: 2
+  m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
@@ -39,19 +38,18 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _DIRECTION: 3
-    - _Disolve: 0
-    - _EdgeWidth: 0.08
-    - _NoiseScale: 70.3
-    - _NoiseStrenght: 1.11
+    - _Density: 20
+    - _GridRotation: 45
     - _QueueControl: 0
     - _QueueOffset: 0
+    - _Speed: -0.2
     m_Colors:
-    - _BaseColor: {r: 1, g: 0, b: 0, a: 0}
-    - _BorderColor: {r: 0, g: 4, b: 2.649744, a: 0}
+    - _ColorA: {r: 47.937256, g: 25.027464, b: 0, a: 0}
+    - _ColorB: {r: 23.968628, g: 0.24549155, b: 0, a: 0}
+    - _Vector2: {r: 1, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
---- !u!114 &2858824165367049075
+--- !u!114 &1923269002506487234
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
