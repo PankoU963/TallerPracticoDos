@@ -7,14 +7,13 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: ShaderDisolve
-  m_Shader: {fileID: -6465566751694194690, guid: f05de79737e31e441954fa0f689a49ce, type: 3}
+  m_Name: HoloBarrier
+  m_Shader: {fileID: -6465566751694194690, guid: f07d2d014928cba4090ebb5ddec85c36, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords:
-  - _DIRECTION_UP
+  m_ValidKeywords: []
   m_InvalidKeywords: []
-  m_LightmapFlags: 2
+  m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
@@ -25,6 +24,10 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _SampleTexture2D_cb3a1108e60d4dd28380a57964038e27_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: bcfa1cf30518ce747b36d17df717c50c, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -39,19 +42,19 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _DIRECTION: 3
-    - _Disolve: -0.236
-    - _EdgeWidth: 0.08
-    - _NoiseScale: 70.3
-    - _NoiseStrenght: 1.11
+    - _Density: 10
+    - _GridRotation: 0
     - _QueueControl: 0
     - _QueueOffset: 0
+    - _Speed: -0.1
     m_Colors:
-    - _BaseColor: {r: 1, g: 0, b: 0, a: 0}
-    - _BorderColor: {r: 0, g: 4, b: 2.649744, a: 0}
+    - _ColorA: {r: 9.361331, g: 23.968628, b: 22.74498, a: 0}
+    - _ColorB: {r: 0, g: 54.77527, b: 95.874535, a: 0}
+    - _Vector2: {r: 15, g: 2, b: 0, a: 0}
+    - _Vector3: {r: 0.5, g: 0.5, b: 0.5, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
---- !u!114 &2858824165367049075
+--- !u!114 &2185454231049952146
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}

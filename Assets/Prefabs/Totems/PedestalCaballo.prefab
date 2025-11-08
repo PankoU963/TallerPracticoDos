@@ -64,7 +64,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 46358b7d3f4bb8d429474a68a97b5fb4, type: 2}
+  - {fileID: 2100000, guid: b58f09a03e5530040beef2d46d695b11, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -204,6 +204,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6738899745769739972}
   - component: {fileID: 4506363398046032387}
+  - component: {fileID: 6833996665074726012}
   m_Layer: 0
   m_Name: PedestalCaballo
   m_TagString: Untagged
@@ -243,7 +244,7 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -251,3 +252,23 @@ CapsuleCollider:
   m_Height: 4
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &6833996665074726012
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7798933170598765655}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77256aa215aa99c4981ee8e64e3561f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 0}
+  playerTag: Player
+  activationDistance: 0.5
+  childName: 
+  targetRenderer: {fileID: 4098680016317927187}
+  dissolveMaterial: {fileID: 2100000, guid: b58f09a03e5530040beef2d46d695b11, type: 2}
+  dissolveProperty: _Disolve
+  dissolveSpeed: -0.1
