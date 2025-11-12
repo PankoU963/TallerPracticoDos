@@ -66,6 +66,7 @@ Material:
     - _AmbientColor: {r: 1, g: 1, b: 1, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 0}
     - _DotColor: {r: 0.014332486, g: 0.51589143, b: 0.690566, a: 0}
+    - _EmisiveColo: {r: 0, g: 3.858824, b: 8, a: 0}
     - _MainColor: {r: 1, g: 1, b: 1, a: 0}
     - _OutlineColor: {r: 0.4867924, g: 0.08220826, b: 0, a: 0}
     - _RimColor: {r: 1, g: 1, b: 1, a: 0}

@@ -29,6 +29,11 @@ public class MisionBotero : MonoBehaviour
     [Header("Mission UI")]
     [SerializeField] private GameObject missionCanvas; // panel that shows mission text + accept button
     [SerializeField] private string playerTag = "Player";
+    [Header("Input")]
+    [SerializeField, Tooltip("Key used to accept the mission when standing inside the trigger")] private KeyCode acceptKey = KeyCode.E;
+
+    // runtime flag set when player is inside this info point trigger
+    private bool isPlayerInside = false;
     [Tooltip("Optional: assign the museum door here if you prefer to wire it from the Mision Info Point. This will call MissionManager.SetDoor at Start.")]
     [SerializeField] private GameObject doorReference;
 
@@ -264,9 +269,22 @@ public class MisionBotero : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        // Allow accepting mission by key when player is within the trigger and mission is available
+        if (isPlayerInside && missionAvailable && !missionAccepted)
+        {
+            if (Input.GetKeyDown(acceptKey))
+            {
+                AcceptMission();
+            }
+        }
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (!other.CompareTag(playerTag)) return;
+        isPlayerInside = true;
         if (!missionAvailable) return;
         if (missionAccepted) return;
 
@@ -277,6 +295,7 @@ public class MisionBotero : MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
         if (!other.CompareTag(playerTag)) return;
+        isPlayerInside = false;
         if (missionCanvas != null)
             missionCanvas.SetActive(false);
     }
