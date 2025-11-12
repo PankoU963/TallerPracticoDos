@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System;
 
 public class SculptureDisolve : MonoBehaviour
 {
@@ -25,6 +26,16 @@ public class SculptureDisolve : MonoBehaviour
     private Coroutine hideCoroutine; // <--- nueva coroutine para esconder después de delay
     private int propID;
     private float currentValue = 0f;
+    private bool hasDissolved = false;
+
+    // Event raised when this sculpture has finished its dissolve/hide sequence.
+    // Subscribers can track how many sculptures remain.
+    public static event Action<SculptureDisolve> OnSculptureDissolved;
+
+    public static event Action<SculptureDisolve> OnSculptureCreated;
+
+    // Public read-only accessor so other systems can check if this sculpture already finished dissolving.
+    public bool IsDissolved => hasDissolved;
 
     private void Awake()
     {
@@ -37,7 +48,6 @@ public class SculptureDisolve : MonoBehaviour
             return;
         }
 
-        // Aseguramos que el target esté activo al inicio (visible)
         if (!targetChild.activeSelf) targetChild.SetActive(true);
 
         targetRenderers = targetChild.GetComponentsInChildren<Renderer>();
@@ -46,19 +56,18 @@ public class SculptureDisolve : MonoBehaviour
 
         propID = Shader.PropertyToID(dissolveProperty);
 
-        // Inicializa la propiedad en 0 (visible).
         SetDissolveValue(0f);
         currentValue = 0f;
+
+        OnSculptureCreated?.Invoke(this);
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (!other.CompareTag(playerTag)) return;
 
-        // iniciar dissolve (mantengo la llamada existente)
         StartDissolveTo(1f);
 
-        // cancelar cualquier hide pendiente y arrancar nuevo hide después de 2s
         if (hideCoroutine != null) StopCoroutine(hideCoroutine);
         hideCoroutine = StartCoroutine(HideAfterDelay(2f));
     }
@@ -67,11 +76,9 @@ public class SculptureDisolve : MonoBehaviour
     {
         if (!other.CompareTag(playerTag)) return;
 
-        // Si queremos revertir el dissolve al salir
         if (reverseOnExit)
             StartDissolveTo(0f);
 
-        // cancelar la ocultación si el jugador sale antes de los 2s
         if (hideCoroutine != null)
         {
             StopCoroutine(hideCoroutine);
@@ -81,7 +88,6 @@ public class SculptureDisolve : MonoBehaviour
 
     private void StartDissolveTo(float target)
     {
-        // Si vamos a animar hacia visible, aseguramos que el objeto esté activo
         if (targetChild != null && target < 1f && !targetChild.activeSelf)
             targetChild.SetActive(true);
 
@@ -99,7 +105,6 @@ public class SculptureDisolve : MonoBehaviour
         }
         runningCoroutine = null;
 
-        // Mantengo la lógica previa por compatibilidad (hay inconsistencias de valores en shader).
         if (Mathf.Approximately(target, -1f) && deactivateWhenDissolved)
         {
             if (targetChild != null)
@@ -107,7 +112,6 @@ public class SculptureDisolve : MonoBehaviour
         }
     }
 
-    // nueva coroutine: espera segundos y luego desactiva el hijo
     private IEnumerator HideAfterDelay(float seconds)
     {
         yield return new WaitForSeconds(seconds);
@@ -116,24 +120,26 @@ public class SculptureDisolve : MonoBehaviour
         {
             targetChild.SetActive(false);
             Debug.Log($"{name}: targetChild desactivado.");
+            if (!hasDissolved)
+            {
+                hasDissolved = true;
+                try
+                {
+                    OnSculptureDissolved?.Invoke(this);
+                }
+                catch (Exception ex)
+                {
+                    Debug.LogWarning($"{name}: error al invocar OnSculptureDissolved: {ex}");
+                }
+            }
         }
         else
         {
-            Debug.Log($"{name}: HideAfterDelay terminó (no se desactivó por deactivateWhenDissolved={deactivateWhenDissolved}).");
+            Debug.Log($"{name}: HideAfterDelay terminado (no se desactivó por deactivateWhenDissolved={deactivateWhenDissolved}).");
         }
 
-        // NOTIFICAR al MissionManager siempre que termine el hide (para cubrir casos en que
-        // la desactivación ocurra aquí o que otro sistema de desactivación esté presente).
-        if (MissionManager.Instance != null)
-        {
-            Debug.Log($"{name}: Notificando a MissionManager.");
-            MissionManager.Instance.NotifySculptureDeactivated();
-        }
-        else
-        {
-            Debug.LogWarning($"{name}: MissionManager.Instance es null. Asegura que el MissionManager esté en la escena.");
-        }
-
+        // Nota: ya no notificamos a MissionManager para evitar que la puerta
+        // se abra automáticamente cuando una escultura se disuelva.
         hideCoroutine = null;
     }
 
@@ -149,4 +155,6 @@ public class SculptureDisolve : MonoBehaviour
             rend.SetPropertyBlock(mpb);
         }
     }
+
+
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using UnityEngine;
@@ -11,6 +12,12 @@ public class ActivacionCuadro : MonoBehaviour
     [SerializeField] private Renderer frameRenderer;
     [SerializeField] private Color emissionColor = Color.yellow;
     [SerializeField, Tooltip("Multiplier for emission color intensity")] private float emissionIntensity = 2f;
+
+    [Header("UI: prompt and image")]
+    [Tooltip("GameObject que contiene el TextMeshPro (o Canvas) que se muestra cuando el cuadro es interactuable")]
+    [SerializeField] private GameObject promptObject;
+    [Tooltip("Canvas/GameObject que contiene la imagen a mostrar cuando el jugador interactúa")]
+    [SerializeField] private GameObject imageCanvas;
 
     [Header("Totems / Spawn")]
     [Tooltip("Prefabs to spawn as totems. If multiple, they will be chosen in order.")]
@@ -29,6 +36,8 @@ public class ActivacionCuadro : MonoBehaviour
     // state
     private bool isCleaned = false;
     private bool activated = false;
+    // pre-instantiated totems so other systems can detect them in Awake/Start
+    private List<GameObject> prespawnedTotems;
     
     [Header("Raycast Activation (optional)")]
     [Tooltip("Optional origin transform for the raycast (camera or flashlight). If null, Camera.main will be used at Start.")]
@@ -41,8 +50,8 @@ public class ActivacionCuadro : MonoBehaviour
     private float lookTimer = 0f;
 
     // small contract:
-    // - OnWallCleaned() -> enables emission on frame
-    // - Interact() or OnMouseDown() -> if cleaned and not activated, spawn totems and shake camera
+    // - OnWallCleaned() -> enables emission on frame AND shows promptObject
+    // - Interact() or OnMouseDown() -> if cleaned and not activated, spawn totems, show imageCanvas and activar puerta via MissionManager.OpenDoor()
 
     /// <summary>
     /// Call this from your Lintern/cleaning script when the wall/area is cleaned.
@@ -56,33 +65,39 @@ public class ActivacionCuadro : MonoBehaviour
         if (frameRenderer == null)
         {
             Debug.LogWarning("ActivacionCuadro: frameRenderer not assigned.");
-            return;
         }
-
-        // Use instance material so we don't modify shared asset unintentionally in editor.
-        Material mat = frameRenderer.material;
-        mat.EnableKeyword("_EMISSION");
-        Color final = emissionColor * Mathf.LinearToGammaSpace(emissionIntensity);
-        if (mat.HasProperty("_EmissionColor"))
-            mat.SetColor("_EmissionColor", final);
-        else if (mat.HasProperty("_Emission"))
-            mat.SetColor("_Emission", final);
-
-        // Try to update realtime GI if available (uses reflection so it doesn't force a compile dependency)
-        try
+        else
         {
-            // find type and method via reflection
-            var dynType = AppDomain.CurrentDomain.GetAssemblies()
-                .Select(a => a.GetType("UnityEngine.Experimental.GlobalIllumination.DynamicGI"))
-                .FirstOrDefault(t => t != null);
-            if (dynType != null)
+            // Use instance material so we don't modify shared asset unintentionally in editor.
+            Material mat = frameRenderer.material;
+            mat.EnableKeyword("_EMISSION");
+            Color final = emissionColor * Mathf.LinearToGammaSpace(emissionIntensity);
+            if (mat.HasProperty("_EmissionColor"))
+                mat.SetColor("_EmissionColor", final);
+            else if (mat.HasProperty("_Emission"))
+                mat.SetColor("_Emission", final);
+
+            // Try to update realtime GI if available (uses reflection so it doesn't force a compile dependency)
+            try
             {
-                var method = dynType.GetMethod("SetEmissive", BindingFlags.Static | BindingFlags.Public);
-                if (method != null)
-                    method.Invoke(null, new object[] { frameRenderer, final });
+                var dynType = AppDomain.CurrentDomain.GetAssemblies()
+                    .Select(a => a.GetType("UnityEngine.Experimental.GlobalIllumination.DynamicGI"))
+                    .FirstOrDefault(t => t != null);
+                if (dynType != null)
+                {
+                    var method = dynType.GetMethod("SetEmissive", BindingFlags.Static | BindingFlags.Public);
+                    if (method != null)
+                        method.Invoke(null, new object[] { frameRenderer, final });
+                }
             }
+            catch (Exception) { /* non-fatal if API not present */ }
         }
-        catch (Exception) { /* non-fatal if API not present */ }
+
+        // Show the prompt (TMP) so player knows it's interactuable
+        if (promptObject != null)
+        {
+            promptObject.SetActive(true);
+        }
     }
 
     // note: Camera shake logic moved to CameraShakeController to keep responsibilities separated
@@ -113,6 +128,52 @@ public class ActivacionCuadro : MonoBehaviour
     {
         if (rayOrigin == null && Camera.main != null)
             rayOrigin = Camera.main.transform;
+
+        // ensure UIs are hidden initially
+        if (promptObject != null) promptObject.SetActive(false);
+        if (imageCanvas != null) imageCanvas.SetActive(false);
+    }
+
+    private void Awake()
+    {
+        // Pre-instantiate totems (inactive) so MisionBotero or other systems that scan in Start()
+        // can find the instances and count them. We keep them inactive and then activate/animate
+        // them in ActivateSequence().
+        if (totemSpawnTargets != null && totemSpawnTargets.Length > 0 && totemPrefabs != null && totemPrefabs.Length > 0)
+        {
+            prespawnedTotems = new List<GameObject>(totemSpawnTargets.Length);
+            for (int i = 0; i < totemSpawnTargets.Length; i++)
+            {
+                Transform target = totemSpawnTargets[i];
+                if (target == null)
+                {
+                    prespawnedTotems.Add(null);
+                    continue;
+                }
+
+                GameObject prefab = totemPrefabs[i % totemPrefabs.Length];
+                if (prefab == null)
+                {
+                    prespawnedTotems.Add(null);
+                    continue;
+                }
+
+                Vector3 endPos = target.position;
+                Vector3 startPos = endPos - Vector3.up * riseHeight;
+
+                GameObject spawned = Instantiate(prefab, startPos, target.rotation);
+                // Keep inactive so Start() on other scripts runs before they become active
+                spawned.SetActive(false);
+                spawned.transform.SetParent(null);
+                prespawnedTotems.Add(spawned);
+
+                Debug.Log($"ActivacionCuadro.Awake: pre-instantiated '{prefab.name}' for target {i} (inactive).");
+            }
+        }
+        else
+        {
+            prespawnedTotems = new List<GameObject>();
+        }
     }
 
     private void Update()
@@ -172,63 +233,70 @@ public class ActivacionCuadro : MonoBehaviour
 
     private IEnumerator ActivateSequence()
     {
-        // Spawn totems
+        // hide prompt
+        if (promptObject != null) promptObject.SetActive(false);
+
+        // Show image UI
+        if (imageCanvas != null)
+            imageCanvas.SetActive(true);
+
+        // Spawn totems (existing behavior)
         if (totemSpawnTargets == null || totemSpawnTargets.Length == 0)
-        {
             Debug.LogWarning("ActivacionCuadro: No totemSpawnTargets assigned — no totems will be spawned.");
-        }
         if (totemPrefabs == null || totemPrefabs.Length == 0)
-        {
             Debug.LogWarning("ActivacionCuadro: No totemPrefabs assigned — no totems will be spawned.");
-        }
 
         if (totemSpawnTargets != null && totemSpawnTargets.Length > 0 && totemPrefabs != null && totemPrefabs.Length > 0)
         {
-            Debug.Log($"ActivacionCuadro: Spawning {totemSpawnTargets.Length} totems (prefabs: {totemPrefabs.Length}).");
             for (int i = 0; i < totemSpawnTargets.Length; i++)
             {
                 Transform target = totemSpawnTargets[i];
-                if (target == null)
-                {
-                    Debug.LogWarning($"ActivacionCuadro: totemSpawnTargets[{i}] is null — skipping.");
-                    continue;
-                }
-
-                GameObject prefab = totemPrefabs[i % totemPrefabs.Length];
-                if (prefab == null)
-                {
-                    Debug.LogWarning($"ActivacionCuadro: totemPrefabs[{i % totemPrefabs.Length}] is null — skipping.");
-                    continue;
-                }
+                if (target == null) continue;
 
                 Vector3 endPos = target.position;
                 Vector3 startPos = endPos - Vector3.up * riseHeight;
 
-                GameObject spawned = Instantiate(prefab, startPos, target.rotation);
-                if (spawned == null)
+                GameObject spawned = null;
+                // Try to reuse pre-instantiated totem if present
+                if (prespawnedTotems != null && i < prespawnedTotems.Count && prespawnedTotems[i] != null)
                 {
-                    Debug.LogWarning($"ActivacionCuadro: Failed to instantiate prefab for target index {i}.");
-                    continue;
+                    spawned = prespawnedTotems[i];
+                    spawned.transform.position = startPos;
+                    spawned.transform.rotation = target.rotation;
+                    spawned.SetActive(true);
                 }
-                spawned.SetActive(true);
-                Debug.Log($"ActivacionCuadro: Instantiated totem '{spawned.name}' at {startPos} -> will rise to {endPos}.");
-                // optional: parent under a container for cleanliness
-                spawned.transform.SetParent(null);
-                StartCoroutine(RiseToPosition(spawned.transform, startPos, endPos, riseTime));
-                // small stagger so they don't all appear exact same frame
+                else
+                {
+                    // fallback: instantiate if no prespawned object
+                    GameObject prefab = totemPrefabs[i % totemPrefabs.Length];
+                    if (prefab == null) continue;
+                    spawned = Instantiate(prefab, startPos, target.rotation);
+                    spawned.SetActive(true);
+                    spawned.transform.SetParent(null);
+                }
+
+                if (spawned != null)
+                    StartCoroutine(RiseToPosition(spawned.transform, startPos, endPos, riseTime));
+
                 yield return new WaitForSeconds(0.15f);
             }
         }
 
-        // Camera shake: delegate to CameraShakeController (keeps responsibilities separated)
+        // Camera shake
         CameraShakeController shaker = cameraShakeController != null ? cameraShakeController : CameraShakeController.Instance;
         if (shaker != null)
         {
             shaker.Shake(cameraShakeDuration, cameraShakeIntensity);
         }
+
+        // Activate (show) the door via MissionManager so the player gets enclosed when inspecting the cuadro.
+        if (MissionManager.Instance != null)
+        {
+            MissionManager.Instance.OpenDoor();
+        }
         else
         {
-            Debug.LogWarning("ActivacionCuadro: No CameraShakeController found in scene; camera will not shake.");
+            Debug.LogWarning("ActivacionCuadro: MissionManager no encontrado en la escena.");
         }
 
         yield break;
