@@ -62,9 +62,11 @@ Material:
     - _VertexOffset: 0.001
     m_Colors:
     - _FlickerFrecuence: {r: 0.4, g: 0.6, b: 0, a: 0}
-    - _FresnelColor: {r: 3.7761717, g: 0.9062836, b: 0, a: 1}
+    - _FresnelColor: {r: 5.992157, g: 0.8156863, b: 0, a: 1}
     - _HologramTiling: {r: 5, g: 2, b: 0, a: 0}
-    - _MainCoior: {r: 0.98491573, g: 9.849154, b: 6.8944097, a: 1}
+    - _MainCoior: {r: 2.4880488, g: 23.968632, b: 17.41634, a: 1}
+    - _ScanLineSpeed: {r: 0, g: 0.3, b: 0, a: 0}
+    - _ScanLineTiling: {r: 1, g: 0.7, b: 0, a: 0}
     - _ScrollSpeedV2: {r: 4.44, g: 4.69, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
