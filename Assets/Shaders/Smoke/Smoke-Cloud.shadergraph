@@ -203,6 +203,9 @@
         },
         {
             "m_Id": "66c0491fee7a499d8067fb42ba26ac3d"
+        },
+        {
+            "m_Id": "defd775da74e4efa9e1f8bd12754bb85"
         }
     ],
     "m_GroupDatas": [],
@@ -262,6 +265,20 @@
                     "m_Id": "4808d369c1d14bec87268d15753c0713"
                 },
                 "m_SlotId": 1
+            }
+        },
+        {
+            "m_OutputSlot": {
+                "m_Node": {
+                    "m_Id": "29122e1a15ed48cc8d68dce44d1f69bb"
+                },
+                "m_SlotId": 2
+            },
+            "m_InputSlot": {
+                "m_Node": {
+                    "m_Id": "defd775da74e4efa9e1f8bd12754bb85"
+                },
+                "m_SlotId": 2
             }
         },
         {
@@ -1238,10 +1255,10 @@
     "m_Guid": {
         "m_GuidSerialized": "3ec50577-b90a-41b8-846b-ec22124e3b62"
     },
-    "m_Name": "Tiling (1)",
+    "m_Name": "Form Tiling",
     "m_DefaultRefNameVersion": 1,
-    "m_RefNameGeneratedByDisplayName": "Tiling (1)",
-    "m_DefaultReferenceName": "_Tiling_1",
+    "m_RefNameGeneratedByDisplayName": "Form Tiling",
+    "m_DefaultReferenceName": "_Form_Tiling",
     "m_OverrideReferenceName": "",
     "m_GeneratePropertyBlock": true,
     "m_UseCustomSlotLabel": false,
@@ -1592,6 +1609,30 @@
     },
     "m_Space": 0,
     "m_PositionSource": 0
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.DynamicVectorMaterialSlot",
+    "m_ObjectId": "26d753476eb2443c9f5b6aaaa8222c19",
+    "m_Id": 1,
+    "m_DisplayName": "Edge2",
+    "m_SlotType": 0,
+    "m_Hidden": false,
+    "m_ShaderOutputName": "Edge2",
+    "m_StageCapability": 3,
+    "m_Value": {
+        "x": 0.0,
+        "y": 1.0,
+        "z": 1.0,
+        "w": 1.0
+    },
+    "m_DefaultValue": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
+    }
 }
 
 {
@@ -2028,9 +2069,9 @@
         "m_Position": {
             "serializedVersion": "2",
             "x": -2619.19970703125,
-            "y": 189.5999755859375,
+            "y": 172.79995727539063,
             "width": 121.599853515625,
-            "height": 33.60009765625
+            "height": 33.60002136230469
         }
     },
     "m_Slots": [
@@ -2438,6 +2479,30 @@
 
 {
     "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.DynamicVectorMaterialSlot",
+    "m_ObjectId": "446e0409b7e04fba99b5bc434c916e87",
+    "m_Id": 0,
+    "m_DisplayName": "Edge1",
+    "m_SlotType": 0,
+    "m_Hidden": false,
+    "m_ShaderOutputName": "Edge1",
+    "m_StageCapability": 3,
+    "m_Value": {
+        "x": 1.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
+    },
+    "m_DefaultValue": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
+    }
+}
+
+{
+    "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.FresnelNode",
     "m_ObjectId": "4723222800fb4ad5936e62dfc22f3775",
     "m_Group": {
@@ -2527,6 +2592,9 @@
     "m_ObjectId": "4c1b78ccef84482092b4a3446e1340e4",
     "m_Name": "Form",
     "m_ChildObjectList": [
+        {
+            "m_Id": "14ebd648dfd640d9a0f9397a6ba3356c"
+        },
         {
             "m_Id": "d074323a2fc2402c8bd8bb750c00a7ba"
         },
@@ -2659,9 +2727,6 @@
         },
         {
             "m_Id": "3238494e5fcb4402a36ed853d9bcdecf"
-        },
-        {
-            "m_Id": "14ebd648dfd640d9a0f9397a6ba3356c"
         }
     ]
 }
@@ -2946,6 +3011,30 @@
 
 {
     "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.DynamicVectorMaterialSlot",
+    "m_ObjectId": "622daa273bcd42c18675ccc390c17313",
+    "m_Id": 2,
+    "m_DisplayName": "In",
+    "m_SlotType": 0,
+    "m_Hidden": false,
+    "m_ShaderOutputName": "In",
+    "m_StageCapability": 3,
+    "m_Value": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
+    },
+    "m_DefaultValue": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
+    }
+}
+
+{
+    "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.Vector2MaterialSlot",
     "m_ObjectId": "639d2a2516f848aeac90784fd74899a5",
     "m_Id": 0,
@@ -3069,7 +3158,7 @@
     "m_Hidden": false,
     "m_ShaderOutputName": "AngleOffset",
     "m_StageCapability": 3,
-    "m_Value": 1.0,
+    "m_Value": 3.0,
     "m_DefaultValue": 2.0,
     "m_Labels": []
 }
@@ -3419,7 +3508,7 @@
     "m_Hidden": false,
     "m_ShaderOutputName": "AngleOffset",
     "m_StageCapability": 3,
-    "m_Value": 1.0,
+    "m_Value": 3.0,
     "m_DefaultValue": 2.0,
     "m_Labels": []
 }
@@ -4899,6 +4988,30 @@
 
 {
     "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.DynamicVectorMaterialSlot",
+    "m_ObjectId": "bc0c40fea7a44eec8e8695f5da0580dc",
+    "m_Id": 3,
+    "m_DisplayName": "Out",
+    "m_SlotType": 1,
+    "m_Hidden": false,
+    "m_ShaderOutputName": "Out",
+    "m_StageCapability": 3,
+    "m_Value": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
+    },
+    "m_DefaultValue": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
+    }
+}
+
+{
+    "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.TilingAndOffsetNode",
     "m_ObjectId": "c540350bfe40452f9c1d4f09b9c9d3f5",
     "m_Group": {
@@ -5510,6 +5623,50 @@
     },
     "isMainColor": false,
     "m_ColorMode": 0
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.SmoothstepNode",
+    "m_ObjectId": "defd775da74e4efa9e1f8bd12754bb85",
+    "m_Group": {
+        "m_Id": ""
+    },
+    "m_Name": "Smoothstep",
+    "m_DrawState": {
+        "m_Expanded": true,
+        "m_Position": {
+            "serializedVersion": "2",
+            "x": -931.2001342773438,
+            "y": -138.39999389648438,
+            "width": 208.0,
+            "height": 325.6000061035156
+        }
+    },
+    "m_Slots": [
+        {
+            "m_Id": "446e0409b7e04fba99b5bc434c916e87"
+        },
+        {
+            "m_Id": "26d753476eb2443c9f5b6aaaa8222c19"
+        },
+        {
+            "m_Id": "622daa273bcd42c18675ccc390c17313"
+        },
+        {
+            "m_Id": "bc0c40fea7a44eec8e8695f5da0580dc"
+        }
+    ],
+    "synonyms": [
+        "curve"
+    ],
+    "m_Precision": 0,
+    "m_PreviewExpanded": true,
+    "m_DismissedVersion": 0,
+    "m_PreviewMode": 0,
+    "m_CustomColors": {
+        "m_SerializableColors": []
+    }
 }
 
 {
