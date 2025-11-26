@@ -52,6 +52,8 @@ public class MisionBotero : MonoBehaviour
     private int sculpturesRemaining = 0;
     private bool missionAvailable = false;
     private bool missionAccepted = false;
+    // cache proximity listeners so we can notify them when we spawn objects
+    private ProximidadObjetivos[] proximityListeners;
 
     private void Start()
     {
@@ -169,6 +171,23 @@ public class MisionBotero : MonoBehaviour
         // Subscribe after we sampled the current state
         SculptureDisolve.OnSculptureDissolved += HandleSculptureDissolved;
         SculptureDisolve.OnSculptureCreated += HandleNewSculpture;
+
+        // Cache ProximidadObjetivos instances (if any) so spawned objects can be registered there
+        // Use scene traversal to include inactive objects and avoid obsolete API warnings.
+        var proxList = new List<ProximidadObjetivos>();
+        for (int si2 = 0; si2 < SceneManager.sceneCount; si2++)
+        {
+            var scene = SceneManager.GetSceneAt(si2);
+            if (!scene.isLoaded) continue;
+            var roots = scene.GetRootGameObjects();
+            for (int ri2 = 0; ri2 < roots.Length; ri2++)
+            {
+                var root = roots[ri2];
+                if (root == null) continue;
+                proxList.AddRange(root.GetComponentsInChildren<ProximidadObjetivos>(true));
+            }
+        }
+        proximityListeners = proxList.ToArray();
 
         // If there are no sculptures at start, we consider the mission info point available immediately
         if (totalInitialSculptures == 0)
@@ -433,6 +452,16 @@ public class MisionBotero : MonoBehaviour
             var go = Instantiate(prefab, spawn.position, spawn.rotation);
             go.SetActive(true);
             go.transform.SetParent(null);
+
+            // Notify proximity listeners so they add this spawned object to their objectives list
+            if (proximityListeners != null && proximityListeners.Length > 0)
+            {
+                foreach (var pl in proximityListeners)
+                {
+                    if (pl == null) continue;
+                    try { pl.AddObjective(go.transform); } catch { }
+                }
+            }
 
             Debug.Log($"MisionBotero: spawned '{prefab.name}' at {spawn.position} (spawnIndex={spawnIndex}).");
             spawned++;
