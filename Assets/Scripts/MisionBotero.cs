@@ -42,6 +42,8 @@ public class MisionBotero : MonoBehaviour
     [SerializeField, Tooltip("Possible spawn locations for respawned sculptures")] private Transform[] spawnPoints;
     [SerializeField, Tooltip("Optional: prefab for a house miniature to instantiate when the mission is accepted")] private GameObject miniaturaCasaPrefab;
     [SerializeField, Tooltip("Optional: spawn location for the house miniature. If null and doorReference is assigned, doorReference.transform will be used.")] private Transform casaSpawnPoint;
+    [Header("Proximity target")]
+    [SerializeField, Tooltip("Optional: a ProximidadObjetivos instance to register spawned objects with. If empty, MisionBotero will notify all discovered ProximidadObjetivos instances.")] private ProximidadObjetivos proximityTarget;
     [SerializeField, Tooltip("How many sculptures to spawn when mission accepted")]
     private int miniaturasToSpawn = 4;
 
@@ -453,8 +455,14 @@ public class MisionBotero : MonoBehaviour
             go.SetActive(true);
             go.transform.SetParent(null);
 
-            // Notify proximity listeners so they add this spawned object to their objectives list
-            if (proximityListeners != null && proximityListeners.Length > 0)
+            // Register spawned object with a proximity tracker.
+            // If a specific `proximityTarget` was assigned in the Inspector, notify only it;
+            // otherwise fall back to notifying all discovered ProximidadObjetivos instances.
+            if (proximityTarget != null)
+            {
+                try { proximityTarget.AddObjective(go.transform); } catch { }
+            }
+            else if (proximityListeners != null && proximityListeners.Length > 0)
             {
                 foreach (var pl in proximityListeners)
                 {
