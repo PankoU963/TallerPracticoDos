@@ -31,6 +31,8 @@ public class TypeWriter : MonoBehaviour
     [SerializeField] private bool quickSkip;
     [SerializeField] [Min(1)] private int skipSpeedUp = 5;
 
+    private ParagraphSequencer paragraphSequencer;
+
     // Events Funcionality
     private WaitForSeconds _textboxFullEventDelay;
     [SerializeField] [Range(0.1f, 0.5f)] private float sendDoneDelay = 0.25f;
@@ -42,8 +44,12 @@ public class TypeWriter : MonoBehaviour
         _textBox = GetComponent<TMP_Text>();
         _simpleDelay = new WaitForSeconds(1f / charactersPerSecond);
         _interpuntuationDelay = new WaitForSeconds(interpuntuationDelay);
+        _skipDelay = new WaitForSeconds(1f / (charactersPerSecond * skipSpeedUp));
+        _textboxFullEventDelay = new WaitForSeconds(sendDoneDelay);
 
-        _skipDelay = new WaitForSeconds(1 / (charactersPerSecond * skipSpeedUp));
+        // paragraphSequencer may be assigned in the inspector; only call StartSequence if assigned.
+        if (paragraphSequencer != null)
+            paragraphSequencer.StartSequence();
     }
 
     private void OnEnable()
@@ -67,17 +73,43 @@ public class TypeWriter : MonoBehaviour
 
     public void PrepareForNewText(Object obj)
     {
-        if (!_readyForNewText)  return;
+        if (!_readyForNewText) return;
+
+        // Ensure we have a reference to the TMP_Text. The event may pass the TMP_Text instance
+        // (or be called before Awake depending on execution order), so try to recover from the
+        // provided object or GetComponent fallback.
+        if (_textBox == null)
+        {
+            // Try the event object first
+            if (obj is TMP_Text tmpFromEvent)
+            {
+                _textBox = tmpFromEvent;
+            }
+            else if (obj is GameObject go)
+            {
+                _textBox = go.GetComponent<TMP_Text>();
+            }
+            else
+            {
+                // Try to find one on this GameObject
+                _textBox = GetComponent<TMP_Text>();
+            }
+        }
+
+        if (_textBox == null)
+        {
+            Debug.LogWarning("TypeWriter: TMP_Text is missing. Cannot start typewriter.");
+            return;
+        }
 
         _readyForNewText = false;
-
 
         if (_typingWriteCoroutine != null)
         {
             StopCoroutine(_typingWriteCoroutine);
+            _typingWriteCoroutine = null;
         }
 
-        // _textBox.text = text;
         _textBox.maxVisibleCharacters = 0;
         _currentVisibleCharacterIndex = 0;
 
@@ -87,25 +119,20 @@ public class TypeWriter : MonoBehaviour
     private IEnumerator TypewriterCoroutine()
     {
         TMP_TextInfo textInfo = _textBox.textInfo;
+        int totalChars = textInfo.characterCount;
 
-        while (_currentVisibleCharacterIndex < textInfo.characterCount + 1)
+        while (_currentVisibleCharacterIndex < totalChars)
         {
-            var lastCharacterIndex = textInfo.characterCount - 1;
-
-            if (_currentVisibleCharacterIndex == lastCharacterIndex)
-            {
-                _textBox.maxVisibleCharacters++;
-                yield return _textboxFullEventDelay;
-                CompleteTextRevealed?.Invoke();
-                _readyForNewText = true;
-                yield break;
-            }
+            // defensive: refresh textInfo each loop in case TMP updated it
+            textInfo = _textBox.textInfo;
+            if (_currentVisibleCharacterIndex >= textInfo.characterCount)
+                break;
 
             char character = textInfo.characterInfo[_currentVisibleCharacterIndex].character;
-            _textBox.maxVisibleCharacters++; 
+            _textBox.maxVisibleCharacters++;
 
-            if (!CurrentSkipping && (character == '.' || character == ',' || character == ';' || character == ':' || 
-            character == '!' || character == '?' || character == '-' ))
+            if (!CurrentSkipping && (character == '.' || character == ',' || character == ';' || character == ':' ||
+                                     character == '!' || character == '?' || character == '-'))
             {
                 yield return _interpuntuationDelay;
             }
@@ -117,44 +144,51 @@ public class TypeWriter : MonoBehaviour
             CharacterRevealed?.Invoke(character);
             _currentVisibleCharacterIndex++;
         }
+
+        // finalization: wait a small configured delay then signal completion
+        if (_textboxFullEventDelay != null)
+            yield return _textboxFullEventDelay;
+        CompleteTextRevealed?.Invoke();
+        _readyForNewText = true;
+        yield break;
     }
 
-    // void Skip()
-    // {
-    //     if (CurrentSkipping)
-    //         return;
+    void Skip()
+    {
+        if (CurrentSkipping)
+            return;
 
-    //     CurrentSkipping = true;
-    //     if (!quickSkip)
-    //     {
-    //         StartCoroutine(SkipSpeedUpReset());
-    //         return;
-    //     }
-
-    //     StopCoroutine(_typingWriteCoroutine);
-    //     _textBox.maxVisibleCharacters = _textBox.textInfo.characterCount;
-    //     _readyForNewText = true;
-    //     CompleteTextRevealed?.Invoke();
-
-    // }
-    private void Skip(bool quickSkipNeeded = false)
+        CurrentSkipping = true;
+        if (!quickSkip)
         {
-            if (CurrentSkipping)
-                return;
-            
-            CurrentSkipping = true;
-
-            if (!quickSkip || !quickSkipNeeded)
-            {
-                StartCoroutine(SkipSpeedUpReset());
-                return;
-            }
-
-            StopCoroutine(_typingWriteCoroutine);
-            _textBox.maxVisibleCharacters = _textBox.textInfo.characterCount;
-            _readyForNewText = true;
-            CompleteTextRevealed?.Invoke();
+            StartCoroutine(SkipSpeedUpReset());
+            return;
         }
+
+        StopCoroutine(_typingWriteCoroutine);
+        _textBox.maxVisibleCharacters = _textBox.textInfo.characterCount;
+        _readyForNewText = true;
+        CompleteTextRevealed?.Invoke();
+
+    }
+    // private void Skip(bool quickSkipNeeded = false)
+    //     {
+    //         if (CurrentSkipping)
+    //             return;
+            
+    //         CurrentSkipping = true;
+
+    //         if (!quickSkip || !quickSkipNeeded)
+    //         {
+    //             StartCoroutine(SkipSpeedUpReset());
+    //             return;
+    //         }
+
+    //         StopCoroutine(_typingWriteCoroutine);
+    //         _textBox.maxVisibleCharacters = _textBox.textInfo.characterCount;
+    //         _readyForNewText = true;
+    //         CompleteTextRevealed?.Invoke();
+    //     }
 
     private IEnumerator SkipSpeedUpReset()
     {

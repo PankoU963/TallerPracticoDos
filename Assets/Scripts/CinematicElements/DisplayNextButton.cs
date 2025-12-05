@@ -4,16 +4,16 @@ public class DisplayNextButton : MonoBehaviour
 {
     [SerializeField] private GameObject nextButton;
     
-    private void OnEnable()
+    public void OnEnable()
     {
         TypeWriter.CompleteTextRevealed += ShowNextButton;
     }
-    private void OnDisable()
+    public void OnDisable()
     {
         TypeWriter.CompleteTextRevealed -= ShowNextButton;
     }
 
-    private void ShowNextButton()
+    public void ShowNextButton()
     {
         if (nextButton != null)
             nextButton.SetActive(true);

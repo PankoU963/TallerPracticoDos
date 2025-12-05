@@ -53,24 +53,24 @@ public class CinematicController : MonoBehaviour
 
     private void Update()
     {
-        if (!allowSkip || director == null) return;
+        // if (!allowSkip || director == null) return;
 
-        // Only allow skipping while the director is playing
-        if (director.state != PlayState.Playing) return;
+        // // Only allow skipping while the director is playing
+        // if (director.state != PlayState.Playing) return;
 
-        // Check key
-        if (Input.GetKeyDown(skipKey))
-        {
-            SkipCinematic();
-            return;
-        }
+        // // Check key
+        // if (Input.GetKeyDown(skipKey))
+        // {
+        //     SkipCinematic();
+        //     return;
+        // }
 
-        // Check mouse
-        if (allowMouseClick && Input.GetMouseButtonDown(0))
-        {
-            SkipCinematic();
-            return;
-        }
+        // // Check mouse
+        // if (allowMouseClick && Input.GetMouseButtonDown(0))
+        // {
+        //     SkipCinematic();
+        //     return;
+        // }
     }
 
     /// <summary>
