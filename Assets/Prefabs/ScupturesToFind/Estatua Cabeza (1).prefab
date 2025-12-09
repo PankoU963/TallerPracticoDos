@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6006565955625689332}
   - component: {fileID: 7776695946659398150}
   - component: {fileID: 5607488857168168361}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Modelo Cabeza
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,7 +95,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1260329930372523600}
-  m_Layer: 0
+  - component: {fileID: 6051659366576921369}
+  - component: {fileID: 1082327639214846747}
+  m_Layer: 7
   m_Name: Estatua Cabeza (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -119,6 +121,45 @@ Transform:
   - {fileID: 4163069288941645546}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6051659366576921369
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6350865236828605169}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 939f47d7d28b08b40b651387d0a1a75c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabIndex: 1
+  OnPlaced:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!136 &1082327639214846747
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6350865236828605169}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 2
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1 &7810091178044383667
 GameObject:
   m_ObjectHideFlags: 0
@@ -131,7 +172,7 @@ GameObject:
   - component: {fileID: 7640206048501178593}
   - component: {fileID: 7201802675347722442}
   - component: {fileID: 1148002146861912042}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}

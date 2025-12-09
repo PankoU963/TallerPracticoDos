@@ -9,7 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1833315477185978998}
-  m_Layer: 0
+  - component: {fileID: 3520922925295356258}
+  - component: {fileID: -6611769967846908320}
+  m_Layer: 7
   m_Name: Caballo (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -33,6 +35,45 @@ Transform:
   - {fileID: 7008179707619564551}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3520922925295356258
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1094013357238076252}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 939f47d7d28b08b40b651387d0a1a75c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabIndex: 0
+  OnPlaced:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!136 &-6611769967846908320
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1094013357238076252}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 2
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &5179355608352110958
 GameObject:
   m_ObjectHideFlags: 0
@@ -44,7 +85,7 @@ GameObject:
   - component: {fileID: 7008179707619564551}
   - component: {fileID: 7764555436162015320}
   - component: {fileID: 1333702030272071517}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Plane (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -130,7 +171,7 @@ GameObject:
   - component: {fileID: 8339422639226666599}
   - component: {fileID: 9102635856349684332}
   - component: {fileID: 5676159245585571067}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: ModeloCaballo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
