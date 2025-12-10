@@ -33,11 +33,11 @@ public class MissionManager : MonoBehaviour
         // When the player accepts the mission we want the museum door to be closed/disabled.
         if (door != null)
         {
-            Debug.Log($"MissionManager.AcceptMission(): door='{door.name}', activeBefore={door.activeSelf}, doorOpenedFlag={doorOpened}");
+            // Debug log removed for build cleanliness
             door.SetActive(false);
             // mark as closed
             doorOpened = false;
-            Debug.Log($"MissionManager.AcceptMission(): door.SetActive(false) called. activeNow={door.activeSelf}");
+            // Debug log removed for build cleanliness
 
             // Verify next frame that nothing re-enabled the door (helps catch other scripts reactivating it)
             // Use a short coroutine to check in the next frame.
@@ -46,7 +46,7 @@ public class MissionManager : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("MissionManager: misión aceptada, pero 'door' no está asignada en el Inspector.");
+            // Debug warning removed for build cleanliness
         }
     }
 
@@ -56,11 +56,11 @@ public class MissionManager : MonoBehaviour
         if (door == null) yield break;
         if (door.activeSelf)
         {
-            Debug.LogWarning($"MissionManager: después de AcceptMission el GameObject '{door.name}' sigue activo. Algo lo reactivó.");
+            // Debug warning removed for build cleanliness
         }
         else
         {
-            Debug.Log($"MissionManager: verificación: '{door.name}' está inactivo después de AcceptMission (OK).");
+            // Debug log removed for build cleanliness
         }
     }
 
@@ -68,7 +68,7 @@ public class MissionManager : MonoBehaviour
     // Ahora NO abre la puerta. Se deja para notificar otros sistemas si lo deseas.
     public void NotifySculptureDeactivated()
     {
-        Debug.Log($"MissionManager: NotifySculptureDeactivated() llamada. (no abre puerta automáticamente ahora).");
+        // Debug log removed for build cleanliness
         // opcional: puedes registrar que una escultura fue destruida, pero no abrimos la puerta aquí.
     }
 
@@ -77,7 +77,7 @@ public class MissionManager : MonoBehaviour
     {
         if (doorOpened)
         {
-            Debug.Log("MissionManager: OpenDoor() llamado pero la puerta ya está abierta.");
+            // Debug log removed for build cleanliness
             return;
         }
 
@@ -86,11 +86,11 @@ public class MissionManager : MonoBehaviour
             // Activate the door GameObject to make the door appear (close the museum)
             door.SetActive(true);
             doorOpened = true;
-            Debug.Log("MissionManager: puerta activada (apareció) vía OpenDoor().");
+            // Debug log removed for build cleanliness
         }
         else
         {
-            Debug.LogWarning("MissionManager: 'door' no asignada en el Inspector en OpenDoor().");
+            // Debug warning removed for build cleanliness
         }
     }
 
@@ -98,7 +98,7 @@ public class MissionManager : MonoBehaviour
     {
         if (!doorOpened)
         {
-            Debug.Log("MissionManager: CloseDoor() llamado pero la puerta ya está cerrada (ya abierta la salida).");
+            // Debug log removed for build cleanliness
             return;
         }
 
@@ -107,11 +107,11 @@ public class MissionManager : MonoBehaviour
             // Deactivate the door GameObject to open the museum exit
             door.SetActive(false);
             doorOpened = false;
-            Debug.Log("MissionManager: puerta desactivada (salida abierta) vía CloseDoor().");
+            // Debug log removed for build cleanliness
         }
         else
         {
-            Debug.LogWarning("MissionManager: 'door' no asignada en el Inspector en CloseDoor().");
+            // Debug warning removed for build cleanliness
         }
     }
 
@@ -129,11 +129,11 @@ public class MissionManager : MonoBehaviour
         {
             door.SetActive(false);
             doorOpened = false;
-            Debug.Log("MissionManager: Door assigned via SetDoor(); door deactivated by default.");
+            // Debug log removed for build cleanliness
         }
         else
         {
-            Debug.LogWarning("MissionManager.SetDoor called with null.");
+            // Debug warning removed for build cleanliness
         }
     }
 }

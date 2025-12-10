@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 755827414916843855}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.7071068, z: 0.7071068, w: 0}
-  m_LocalPosition: {x: 0, y: 1.5, z: 0}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 40, y: 40, z: 40}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -97,7 +97,6 @@ GameObject:
   - component: {fileID: 6254017309620287536}
   - component: {fileID: 8594395957341574042}
   - component: {fileID: 1436846669728333848}
-  - component: {fileID: 3290348366758561092}
   m_Layer: 7
   m_Name: Plane
   m_TagString: Untagged
@@ -173,28 +172,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &3290348366758561092
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8305618628518866835}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &8364702096217365770
 GameObject:
   m_ObjectHideFlags: 0
@@ -206,6 +183,7 @@ GameObject:
   - component: {fileID: 3189374988106239748}
   - component: {fileID: -2317009212874277056}
   - component: {fileID: 5448632170027771159}
+  - component: {fileID: 5246598706177488588}
   m_Layer: 7
   m_Name: Perro (1)
   m_TagString: Untagged
@@ -269,3 +247,24 @@ CapsuleCollider:
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &5246598706177488588
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8364702096217365770}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5106ff4d5a6f6944a86f1f3352f2465d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  iconTransform: {fileID: 3189374988106239748}
+  minScale: 0.1
+  maxScale: 1
+  maxDistance: 100
+  alwaysVisible: 1
+  uiIconPrefab: {fileID: 8305618628518866835}
+  edgePadding: 8
+  minimapCamera: {fileID: 50115436069726075, guid: 9189290603bb39c42a765eebc3a9b0fd, type: 3}
+  minimapContainer: {fileID: 7521758804961620836, guid: ec48354c5d282974fa466ad356709f1a, type: 3}

@@ -74,7 +74,10 @@ MonoBehaviour:
   dissolveProperty: _Disolve
   dissolveSpeed: -0.3
   reverseOnExit: 0
+  deactivateWhenDissolved: 1
+  postDissolveDelay: 0.2
   playerTag: Player
+  debugLogs: 1
 --- !u!1 &2015774676523819464
 GameObject:
   m_ObjectHideFlags: 0

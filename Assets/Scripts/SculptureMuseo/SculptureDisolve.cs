@@ -16,6 +16,8 @@ public class SculptureDisolve : MonoBehaviour
     [SerializeField] private bool reverseOnExit = false;
     [Tooltip("Si está activo, al completar el dissolve el objeto targetChild se desactiva.")]
     [SerializeField] private bool deactivateWhenDissolved = true;
+    [Tooltip("Delay (segundos) desde que comienza el dissolve hasta que el objeto se desactiva.")]
+    [SerializeField] private float hideDelay = 2f;
 
     [Header("Trigger / Player")]
     [Tooltip("Tag que identifica al jugador")]
@@ -44,7 +46,7 @@ public class SculptureDisolve : MonoBehaviour
 
         if (targetChild == null)
         {
-            Debug.LogWarning($"{name}: No targetChild asignado y no hay hijos.");
+            // Debug warning removed for build cleanliness
             return;
         }
 
@@ -52,7 +54,9 @@ public class SculptureDisolve : MonoBehaviour
 
         targetRenderers = targetChild.GetComponentsInChildren<Renderer>();
         if (targetRenderers == null || targetRenderers.Length == 0)
-            Debug.LogWarning($"{name}: No se encontraron Renderers en el targetChild.");
+        {
+            // Debug warning removed for build cleanliness
+        }
 
         propID = Shader.PropertyToID(dissolveProperty);
 
@@ -67,23 +71,14 @@ public class SculptureDisolve : MonoBehaviour
         if (!other.CompareTag(playerTag)) return;
 
         StartDissolveTo(1f);
-
-        if (hideCoroutine != null) StopCoroutine(hideCoroutine);
-        hideCoroutine = StartCoroutine(HideAfterDelay(2f));
     }
 
     private void OnTriggerExit(Collider other)
     {
+        // Once dissolve has been started, do not stop or reverse it on trigger exit.
+        // This ensures the dissolve continues to completion even if the player leaves the trigger.
+        // We keep the method for compatibility but intentionally do nothing here.
         if (!other.CompareTag(playerTag)) return;
-
-        if (reverseOnExit)
-            StartDissolveTo(0f);
-
-        if (hideCoroutine != null)
-        {
-            StopCoroutine(hideCoroutine);
-            hideCoroutine = null;
-        }
     }
 
     private void StartDissolveTo(float target)
@@ -93,6 +88,11 @@ public class SculptureDisolve : MonoBehaviour
 
         if (runningCoroutine != null) StopCoroutine(runningCoroutine);
         runningCoroutine = StartCoroutine(AnimateDissolve(target));
+        // Start (or restart) the hide timer when dissolve begins so deactivation happens
+        // a fixed time after the dissolve starts, independently of when the dissolve finishes.
+        if (hideCoroutine != null) StopCoroutine(hideCoroutine);
+        if (deactivateWhenDissolved && hideDelay > 0f)
+            hideCoroutine = StartCoroutine(HideAfterDelay(hideDelay));
     }
 
     private IEnumerator AnimateDissolve(float target)
@@ -119,7 +119,7 @@ public class SculptureDisolve : MonoBehaviour
         if (deactivateWhenDissolved && targetChild != null)
         {
             targetChild.SetActive(false);
-            Debug.Log($"{name}: targetChild desactivado.");
+            // Debug log removed for build cleanliness
             if (!hasDissolved)
             {
                 hasDissolved = true;
@@ -127,15 +127,15 @@ public class SculptureDisolve : MonoBehaviour
                 {
                     OnSculptureDissolved?.Invoke(this);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    Debug.LogWarning($"{name}: error al invocar OnSculptureDissolved: {ex}");
+                    // Debug warning removed for build cleanliness
                 }
             }
         }
         else
         {
-            Debug.Log($"{name}: HideAfterDelay terminado (no se desactivó por deactivateWhenDissolved={deactivateWhenDissolved}).");
+            // Debug log removed for build cleanliness
         }
 
         // Nota: ya no notificamos a MissionManager para evitar que la puerta

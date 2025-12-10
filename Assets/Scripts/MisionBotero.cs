@@ -25,6 +25,13 @@ public class MisionBotero : MonoBehaviour
     private bool missionAccepted = false;
 
     private ProximidadObjetivos[] proximityListeners;
+    private ProyectorSlot[] projectorSlots;
+
+    // mission runtime tracking
+    private int missionSpawnedCount = 0;
+    private int hologramsPlaced = 0;
+    // Progress event: (collected, total)
+    public event Action<int,int> OnMissionProgressChanged;
 
     private void Start()
     {
@@ -69,6 +76,38 @@ public class MisionBotero : MonoBehaviour
         }
         proximityListeners = proxList.ToArray();
 
+        // find all projector slots in loaded scenes and subscribe to their events
+        var projList = new List<ProyectorSlot>();
+        for (int si3 = 0; si3 < SceneManager.sceneCount; si3++)
+        {
+            var scene = SceneManager.GetSceneAt(si3);
+            if (!scene.isLoaded) continue;
+            var roots = scene.GetRootGameObjects();
+            for (int ri3 = 0; ri3 < roots.Length; ri3++)
+            {
+                var root = roots[ri3];
+                if (root == null) continue;
+                projList.AddRange(root.GetComponentsInChildren<ProyectorSlot>(true));
+            }
+        }
+        projectorSlots = projList.ToArray();
+
+        // subscribe to proximity listeners to track pickups (optional, only if they expose events)
+        foreach (var pl in proximityListeners)
+        {
+            if (pl == null) continue;
+            pl.OnObjectiveCollected += HandleObjectiveCollected;
+            pl.OnAllObjectivesCollected += HandleAllObjectivesCollected;
+        }
+
+        // subscribe to hologram activation events
+        foreach (var ps in projectorSlots)
+        {
+            if (ps == null) continue;
+            if (ps.OnHologramActivated != null)
+                ps.OnHologramActivated.AddListener(HandleHologramActivated);
+        }
+
         if (totalInitialSculptures == 0)
             EnableMissionPoint();
     }
@@ -77,6 +116,27 @@ public class MisionBotero : MonoBehaviour
     {
         SculptureDisolve.OnSculptureDissolved -= HandleSculptureDissolved;
         SculptureDisolve.OnSculptureCreated -= HandleNewSculpture;
+        // unsubscribe proximity listeners
+        if (proximityListeners != null)
+        {
+            foreach (var pl in proximityListeners)
+            {
+                if (pl == null) continue;
+                pl.OnObjectiveCollected -= HandleObjectiveCollected;
+                pl.OnAllObjectivesCollected -= HandleAllObjectivesCollected;
+            }
+        }
+
+        // unsubscribe projector listeners
+        if (projectorSlots != null)
+        {
+            foreach (var ps in projectorSlots)
+            {
+                if (ps == null) continue;
+                if (ps.OnHologramActivated != null)
+                    ps.OnHologramActivated.RemoveListener(HandleHologramActivated);
+            }
+        }
     }
 
     private void HandleSculptureDissolved(SculptureDisolve s)
@@ -93,6 +153,49 @@ public class MisionBotero : MonoBehaviour
         if (!s.IsDissolved) sculpturesRemaining++;
     }
 
+    private void HandleObjectiveCollected(Transform t)
+    {
+        sculpturesRemaining = Mathf.Max(0, sculpturesRemaining - 1);
+        // Debug log removed for build cleanliness
+        // Notify listeners about progress: collected = total - remaining
+        int collected = missionSpawnedCount - sculpturesRemaining;
+        OnMissionProgressChanged?.Invoke(collected, missionSpawnedCount);
+    }
+
+    private void HandleAllObjectivesCollected()
+    {
+        sculpturesRemaining = 0;
+        // Debug log removed for build cleanliness
+        int collected = missionSpawnedCount;
+        OnMissionProgressChanged?.Invoke(collected, missionSpawnedCount);
+    }
+
+    private void HandleHologramActivated(int prefabIndex)
+    {
+        hologramsPlaced++;
+        // Debug log removed for build cleanliness
+        if (missionSpawnedCount > 0 && hologramsPlaced >= missionSpawnedCount)
+        {
+            CompleteMission();
+        }
+    }
+
+    private void CompleteMission()
+    {
+        // Debug log removed for build cleanliness
+        // abrir la puerta o notificar al MissionManager según convenga
+        if (MissionManager.Instance != null)
+        {
+            // por defecto, pedimos que la puerta se cierre (CloseDoor = abrir salida)
+            MissionManager.Instance.CloseDoor();
+        }
+        // limpiar estado de misión
+        missionAccepted = false;
+        missionAvailable = false;
+        uiController?.Hide();
+        emissionController?.Disable();
+    }
+
     private void EnableMissionPoint()
     {
         missionAvailable = true;
@@ -107,7 +210,9 @@ public class MisionBotero : MonoBehaviour
             if (MissionManager.Instance != null)
                 MissionManager.Instance.AcceptMission();
             else
-                Debug.LogWarning("MisionBotero: MissionManager no encontrado al cerrar el UI tras aceptar la misión.");
+            {
+                // Debug warning removed for build cleanliness
+            }
         }
     }
 
@@ -140,7 +245,7 @@ public class MisionBotero : MonoBehaviour
     {
         if (!missionAvailable || missionAccepted)
         {
-            Debug.LogWarning("MisionBotero: No se puede aceptar la misión en el estado actual.");
+            // Debug warning removed for build cleanliness
             return;
         }
         missionAccepted = true;
@@ -152,27 +257,27 @@ public class MisionBotero : MonoBehaviour
         if (MissionManager.Instance != null)
             MissionManager.Instance.AcceptMission();
         else
-            Debug.LogWarning("MisionBotero: MissionManager no encontrado al aceptar la misión.");
+        {
+            // Debug warning removed for build cleanliness
+        }
 
         int spawnCount = Mathf.Clamp(miniaturasToSpawn, 0, 9999);
-        int spawned = 0;
+        var instances = new List<GameObject>();
         if (spawner != null)
-            spawned = spawner.Spawn(spawnCount, proximityListeners);
+            instances = spawner.SpawnInstances(spawnCount, proximityListeners);
 
-        sculpturesRemaining = spawned;
+        missionSpawnedCount = instances != null ? instances.Count : 0;
+        hologramsPlaced = 0;
 
-        if (spawner == null || spawned == 0)
-            Debug.LogWarning("MisionBotero: No se han generado esculturas (revisa prefabs y spawnPoints).");
+        sculpturesRemaining = missionSpawnedCount;
 
-        //var house = spawner != null ? spawner.SpawnHouse(doorReference != null ? doorReference.transform : null) : null;
-        // if (house != null)
-        // {
-        //     var sd = house.GetComponentInChildren<SculptureDisolve>(true);
-        //     if (sd != null)
-        //     {
-        //         totalInitialSculptures++;
-        //         if (!sd.IsDissolved) sculpturesRemaining++;
-        //     }
-        // }
+        // Notify initial progress (0 collected)
+        OnMissionProgressChanged?.Invoke(0, missionSpawnedCount);
+
+        if (spawner == null || missionSpawnedCount == 0)
+        {
+            // Debug warning removed for build cleanliness
+        }
+
     }
 }

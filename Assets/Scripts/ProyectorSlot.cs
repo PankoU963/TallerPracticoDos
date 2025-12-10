@@ -32,7 +32,10 @@ public class ProyectorSlot : MonoBehaviour
     private GameObject currentHologram;
     private Collider myCollider;
     private bool playerInside = false;
+    public bool PlayerInside => playerInside;
+    public bool RequiresInteraction => requireInteraction;
     private List<PlaceableSculpture> candidates = new List<PlaceableSculpture>();
+    private bool hologramActivated = false;
 
     private void Reset()
     {
@@ -60,12 +63,23 @@ public class ProyectorSlot : MonoBehaviour
                 var held = inv.Held;
                 if (held != null && !held.IsPlaced)
                 {
-                    // try to place the held object directly
-                    if (TryPlacePlaceable(held, inv))
+                    // Only try to auto-place on enter when interaction is NOT required.
+                    // If interaction is required, register the held item as a candidate
+                    // so the player can press the interact key to place it.
+                    if (!requireInteraction)
                     {
-                        // successfully placed; no further processing needed
-                        if (debugLogs) Debug.Log("ProyectorSlot: placed held object from player inventory");
-                        return;
+                        // try to place the held object directly
+                        if (TryPlacePlaceable(held, inv))
+                        {
+                            // successfully placed; no further processing needed
+                            if (debugLogs) Debug.Log("ProyectorSlot: placed held object from player inventory (auto)");
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        // when interaction is required, add held to candidates so E will place it
+                        if (!candidates.Contains(held)) candidates.Add(held);
                     }
                 }
             }
@@ -78,17 +92,19 @@ public class ProyectorSlot : MonoBehaviour
 
         if (debugLogs)
         {
-            Debug.Log($"ProyectorSlot: OnTriggerEnter by {other.gameObject.name}. foundPlaceable={(placeable!=null)}");
+            // Debug logs removed for build cleanliness
             if (placeable != null)
-                Debug.Log($"ProyectorSlot: placeable prefabIndex={placeable.PrefabIndex}, IsPlaced={placeable.IsPlaced}, obj={placeable.gameObject.name}");
+            {
+                // (no-op)
+            }
             else
             {
                 var childPlaceables = other.gameObject.GetComponentsInChildren<PlaceableSculpture>(true);
-                Debug.Log($"ProyectorSlot: GetComponentsInChildren found {childPlaceables.Length} PlaceableSculpture(s) on {other.gameObject.name}");
+                // Debug log removed for build cleanliness
             }
             // Debug: list all PlaceableSculpture instances and their distance to this projector
             var all = UnityEngine.Resources.FindObjectsOfTypeAll<PlaceableSculpture>();
-            Debug.Log($"ProyectorSlot: scene has {all.Length} PlaceableSculpture(s)");
+            // Debug log removed for build cleanliness
             var refPosDbg = hologramSpawnPoint != null ? hologramSpawnPoint.position : transform.position;
             foreach (var p in all)
             {
@@ -96,7 +112,7 @@ public class ProyectorSlot : MonoBehaviour
                 var col = p.GetComponent<Collider>();
                 var rb = p.GetComponent<Rigidbody>();
                 float d = Vector3.Distance(refPosDbg, p.transform.position);
-                Debug.Log($" - {p.gameObject.name}: index={p.PrefabIndex}, placed={p.IsPlaced}, active={p.gameObject.activeInHierarchy}, collider={(col!=null?col.enabled:false)}, rigidbody={(rb!=null)}, dist={d:F2}");
+                // Debug log removed for build cleanliness
             }
         }
 
@@ -146,9 +162,18 @@ public class ProyectorSlot : MonoBehaviour
         if (consumeOnPlace)
         {
             placeable.MarkPlaced();
-            // Try to disable the whole spawned object
-            var root = candidate.transform.root.gameObject;
-            root.SetActive(false);
+            // Mark placed and notify ProximidadObjetivos so it can update counters/UI
+            try
+            {
+                var proxim = UnityEngine.Object.FindAnyObjectByType<ProximidadObjetivos>();
+                if (proxim != null) proxim.NotifyCollected(placeable.transform);
+            }
+            catch { }
+
+            // Disable only the visuals/colliders/physics for the placeable (safer than SetActive on root)
+            TryDisablePlaceableVisuals(placeable);
+            // Detach from any parent (e.g. player hold point) so the placed object doesn't remain a child of the player
+            try { placeable.transform.SetParent(null, true); } catch { }
         }
         else
         {
@@ -175,13 +200,22 @@ public class ProyectorSlot : MonoBehaviour
         if (debugLogs) Debug.Log($"ProyectorSlot: Placing (inventory) prefabIndex={idx} from object {placeable.gameObject.name}");
         ActivateHologram(idx);
 
+
         placeable.MarkPlaced();
+
+        // Notify ProximidadObjetivos so it can update counters/UI
+        try
+        {
+            var proxim = UnityEngine.Object.FindAnyObjectByType<ProximidadObjetivos>();
+            if (proxim != null) proxim.NotifyCollected(placeable.transform);
+        }
+        catch { }
 
         if (consumeOnPlace)
         {
-            // disable the spawned root so it disappears from scene
-            var root = placeable.transform.root.gameObject;
-            root.SetActive(false);
+            // Disable only the placeable visuals/colliders/physics to avoid disabling player root
+            TryDisablePlaceableVisuals(placeable);
+            try { placeable.transform.SetParent(null, true); } catch { }
         }
 
         // If the object was held by a player inventory, clear the reference
@@ -312,7 +346,7 @@ public class ProyectorSlot : MonoBehaviour
 
     private void ActivateHologram(int prefabIndex)
     {
-        if (currentHologram != null) return;
+        if (currentHologram != null || hologramActivated) return;
         var prefab = hologramPrefabs[prefabIndex];
         if (prefab == null) return;
         var spawn = hologramSpawnPoint != null ? hologramSpawnPoint : transform;
@@ -327,10 +361,57 @@ public class ProyectorSlot : MonoBehaviour
             var child = transform.Find("lupa") ?? transform.Find("Lupa") ?? transform.Find("magnifier") ?? transform.Find("Magnifier");
             if (child != null) child.gameObject.SetActive(false);
         }
+        // prevent re-entrancy once we're about to instantiate
+        hologramActivated = true;
         currentHologram = Instantiate(prefab, spawn.position, spawn.rotation);
         currentHologram.SetActive(true);
         currentHologram.transform.SetParent(spawn, true);
         OnHologramActivated?.Invoke(prefabIndex);
+        // keep hologramActivated==true while a hologram exists
+    }
+
+    private void TryDisablePlaceableVisuals(PlaceableSculpture placeable)
+    {
+        if (placeable == null) return;
+        try
+        {
+            // disable renderers
+            var rends = placeable.GetComponentsInChildren<Renderer>(true);
+            if (rends != null)
+            {
+                foreach (var r in rends)
+                {
+                    if (r == null) continue;
+                    try { r.enabled = false; } catch { }
+                }
+            }
+
+            // disable colliders in the placeable subtree
+            var cols = placeable.GetComponentsInChildren<Collider>(true);
+            if (cols != null)
+            {
+                foreach (var c in cols)
+                {
+                    if (c == null) continue;
+                    try { c.enabled = false; } catch { }
+                }
+            }
+
+            // make rigidbodies kinematic and disable collisions for safety
+            var rbs = placeable.GetComponentsInChildren<Rigidbody>(true);
+            if (rbs != null)
+            {
+                foreach (var rb in rbs)
+                {
+                    if (rb == null) continue;
+                    try { rb.isKinematic = true; rb.detectCollisions = false; } catch { }
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            if (debugLogs) Debug.LogWarning($"ProyectorSlot: error disabling placeable visuals: {ex}");
+        }
     }
 
     public void ClearHologram()
@@ -339,6 +420,7 @@ public class ProyectorSlot : MonoBehaviour
         {
             Destroy(currentHologram);
             currentHologram = null;
+            hologramActivated = false;
         }
     }
 }

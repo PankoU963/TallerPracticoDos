@@ -39,6 +39,23 @@ public class PlayerPickupController : MonoBehaviour
     {
         if (Input.GetKeyDown(interactKey))
         {
+            // If the player is inside any ProyectorSlot that requires interaction,
+            // do not treat the key as pickup/drop. Let the ProyectorSlot handle it.
+            try
+            {
+                var slots = UnityEngine.Object.FindObjectsByType<ProyectorSlot>(UnityEngine.FindObjectsSortMode.None);
+                foreach (var s in slots)
+                {
+                    if (s == null) continue;
+                    if (s.PlayerInside && s.RequiresInteraction)
+                    {
+                        // consume the input here (do nothing in pickup controller)
+                        return;
+                    }
+                }
+            }
+            catch { }
+
             if (inventory.HasHeld())
             {
                 DropHeld();
@@ -70,9 +87,13 @@ public class PlayerPickupController : MonoBehaviour
     public void Pickup(PlaceableSculpture p)
     {
         if (p == null) return;
-        // Parentear al holdPoint
+        // First register in inventory (hides renderers and stores collider/rigidbody state)
+        inventory.Pickup(p);
+
+        // Then parent to the holdPoint and disable colliders/physics to avoid interference
         var root = p.transform.root;
-        root.gameObject.SetActive(true);
+        // Ensure root is active (in case it was inactive)
+        try { root.gameObject.SetActive(true); } catch { }
         root.SetParent(holdPoint, true);
         root.localPosition = Vector3.zero;
         root.localRotation = Quaternion.identity;
@@ -86,9 +107,6 @@ public class PlayerPickupController : MonoBehaviour
             r.isKinematic = true;
             r.detectCollisions = false;
         }
-
-        // Registrar en inventario
-        inventory.Pickup(p);
     }
 
     public void DropHeld()
