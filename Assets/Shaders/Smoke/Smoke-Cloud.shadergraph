@@ -5674,7 +5674,7 @@
     "m_Type": "UnityEditor.ShaderGraph.Vector2MaterialSlot",
     "m_ObjectId": "df1d16351013432bb1aedc89ddb5f701",
     "m_Id": 0,
-    "m_DisplayName": "Tiling (1)",
+    "m_DisplayName": "Form Tiling",
     "m_SlotType": 1,
     "m_Hidden": false,
     "m_ShaderOutputName": "Out",

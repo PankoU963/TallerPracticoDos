@@ -1,0 +1,747 @@
+fileFormatVersion: 2
+guid: 155698d9051d2954b857bf1f0054240b
+ModelImporter:
+  serializedVersion: 22200
+  internalIDToNameTable: []
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: ARBOLIN
+    second: {fileID: 2100000, guid: bdfeffc8fac53b244951d0e561b2630e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Arbolon
+    second: {fileID: 2100000, guid: cb79a1c15c926bb4da86233acfa50fb6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Aviso
+    second: {fileID: 2100000, guid: 626c011c11944fc47995762d8c47dab1, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Base cuadrada palmera
+    second: {fileID: 2100000, guid: e658219d771687e4a8c46a8d183f48fc, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Base palmera redonda
+    second: {fileID: 2100000, guid: 87e3905d2f5382c4e96732cd054eb980, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Base redonda palmera- fondo
+    second: {fileID: 2100000, guid: 0baede3bf656b124d928d0ddd89dce9f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Basura
+    second: {fileID: 2100000, guid: 62efb22935577254ba8ef80ad13afd93, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Basurero
+    second: {fileID: 2100000, guid: 071e17fc9c45b0342b3af5b0b2f40f54, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Basurero 2
+    second: {fileID: 2100000, guid: 29553c1b259d00d45a053a5518f0cb79, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Botero caballo
+    second: {fileID: 2100000, guid: 1345a5523510b4d4799616e1a1e4f467, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Botero cabeza
+    second: {fileID: 2100000, guid: 7fbffadf69a3a384aacb9425304b8f41, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Botero gato
+    second: {fileID: 2100000, guid: 68bfdedb9b17da24cabd4d2c088dd285, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Botero perro
+    second: {fileID: 2100000, guid: 0d8ac3a363bd8e044b44b09c573516e0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Cuadra Hotel nutibara
+    second: {fileID: 2100000, guid: 6b0ebb98a7dc0f9459ca6f642ad02696, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Cuadra Museo Antioquia
+    second: {fileID: 2100000, guid: a330e1fa57a55274cba23dea4c17a7d3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Cuadra Parque berrio
+    second: {fileID: 2100000, guid: 8a8a74a3c99b26a4e92da702736054cf, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Cuadra iglesia
+    second: {fileID: 2100000, guid: 17f02a50ce9bf4e46bfdf8012051a587, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Cuadra1
+    second: {fileID: 2100000, guid: 518750e23a2d98d4eb115d7dad907fcf, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Cuadra2
+    second: {fileID: 2100000, guid: bc56d7183f0c4d44a8a997409172af0d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Cuadra3
+    second: {fileID: 2100000, guid: 8558f4052d9f2ea41a18fdf5efbff37c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Cupula
+    second: {fileID: 2100000, guid: e4d0fc847d5686b4d953a86304574989, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Edificio Banco popular
+    second: {fileID: 2100000, guid: 6968af173227da6459d9c94b6de80e24, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Edificio Domo
+    second: {fileID: 2100000, guid: 82fd521a7b67301448eda242e45b0305, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Edificio Esquina
+    second: {fileID: 2100000, guid: 222cb4371701e64408930d5ab71c50c1, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Edificio acostado
+    second: {fileID: 2100000, guid: d78d8bb14cbd4214dab5afb1333bd308, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Edificio alto ancho
+    second: {fileID: 2100000, guid: c9cf609491864234b8083300cd2d3707, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Edificio alto1
+    second: {fileID: 2100000, guid: ab88a92d6b7b5674e85b847a28a127ea, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Edificio alto2
+    second: {fileID: 2100000, guid: c9ccb7b7650ae934eaa37b84dd60b6de, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Edificio arrugado
+    second: {fileID: 2100000, guid: c52828f554996f14bbf8be23e348d4eb, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Edificio bajo
+    second: {fileID: 2100000, guid: 9bb9c40213a0b28488182fcaf063326c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Edificio cohete
+    second: {fileID: 2100000, guid: 22ebb27512eec5c48b39c6047139537d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Edificio cuadrado
+    second: {fileID: 2100000, guid: 6cc5d67a85ce6a445bc3c9427eb3c66b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Edificio cuadrado2
+    second: {fileID: 2100000, guid: 8ca896d745a157d40b3d77a9bddd5203, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Edificio cuadrado3
+    second: {fileID: 2100000, guid: cbea67e6cc1860b49a1418e9ede33b2e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Edificio entre altos
+    second: {fileID: 2100000, guid: d2d1af7faa853814284655efbb2bf886, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Edificio fondo1
+    second: {fileID: 2100000, guid: a188e8eaec9945647be182be75203da6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Edificio fondo2
+    second: {fileID: 2100000, guid: 09243c4676189ad42a6a7d79458f01c5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Edificio fondo3
+    second: {fileID: 2100000, guid: 6d7f7c3fee5a64440a8fb57cc605620e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Edificio fondo4
+    second: {fileID: 2100000, guid: 7b58a7e0f8da41d4a8fb96bcfc60a34b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Edificio fondo5
+    second: {fileID: 2100000, guid: 7f6d1c085a071bb4da82d300e248e546, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Edificio fondo6
+    second: {fileID: 2100000, guid: 5a660cf637cdc014b97191be23af40e2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Edificio fondo7
+    second: {fileID: 2100000, guid: 3592fea4556f17249ae4054094f8f29c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Edificio fondo8
+    second: {fileID: 2100000, guid: 0c761817391615147a5c72fb574328c8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Edificio navio
+    second: {fileID: 2100000, guid: 3973bdbe156305841bda1d3ce9af59c0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Edificio nutibara
+    second: {fileID: 2100000, guid: 8a47bcd746b204248817bd5789f2a4f2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Edificio redondeado
+    second: {fileID: 2100000, guid: ecf9d0419a6312b499af3491a40e9005, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Estacion metro
+    second: {fileID: 2100000, guid: 96ecee28e4b148545be1e223e910cfb4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Fuente
+    second: {fileID: 2100000, guid: f76dd9428ac45584e933b6df4f095286, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Hidrante
+    second: {fileID: 2100000, guid: ba1f11e763739354f97b09ab2f5c0154, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Iglesia base
+    second: {fileID: 2100000, guid: 16468dc5cb0aa27429345a6b8e125e2f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lupita
+    second: {fileID: 2100000, guid: fb303f1ee6e547b42b0825820586e14c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Luz calle doble
+    second: {fileID: 2100000, guid: 8941df44c4a512d49b56a115cca75303, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Luz calle unica
+    second: {fileID: 2100000, guid: 5f30ecb9a39b8b941a6d1bccfa3db156, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material palmera
+    second: {fileID: 2100000, guid: f659be55526723b448017c12800d03ca, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Metro
+    second: {fileID: 2100000, guid: 28c01394612ce1747b29ebccfadc6b68, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Museo de Antioquia
+    second: {fileID: 2100000, guid: 463903235ed0c8946af171f07982803e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: P_botero_jardines1
+    second: {fileID: 2100000, guid: 7ba34b2287567064585f54b6d18da154, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: P_botero_jardines2
+    second: {fileID: 2100000, guid: 3c87283782fd60242b2ad6fc68a067c8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: P_botero_jardines3
+    second: {fileID: 2100000, guid: a442f4b3d353a954c9fbf84d77ea5a51, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: P_botero_jardines4
+    second: {fileID: 2100000, guid: 2a3b0ef58723adb47aa2f825ac4fe4c5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Palacio de la cultura
+    second: {fileID: 2100000, guid: dfb6397eefab2364fb88acde43ca858b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Palmera
+    second: {fileID: 2100000, guid: 490c198bc07a9c4408c4468fefa13310, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Plataforma
+    second: {fileID: 2100000, guid: 7391f3b4d4e3e7e4c83e4f3e405265f8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Relleno basura
+    second: {fileID: 2100000, guid: b42ec71153744c2408d7e8131bd45ff4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Semaforo
+    second: {fileID: 2100000, guid: b7ba956674f27e74bbf232309b721e66, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Sillas
+    second: {fileID: 2100000, guid: 3f10b6cf5cd159e43bc9a37ac7e68398, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Tiendita
+    second: {fileID: 2100000, guid: 715059d47c11f9a45a7c9509c0ce6102, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Triangulo cupula
+    second: {fileID: 2100000, guid: c3269303b17571e4497c191f42cd4530, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Tubo metalico basurero
+    second: {fileID: 2100000, guid: 3dec1908f77211f429eada1f74f8cd6f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Vias del metro estacion
+    second: {fileID: 2100000, guid: 144a7bd8c2900d340bbc6a934eac5e3d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Vias del metro2
+    second: {fileID: 2100000, guid: 14babf45f3b520042955413156884dad, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Vias del metro3
+    second: {fileID: 2100000, guid: 2e886949ae53b6141ac87c855e25438a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Vias del metro4
+    second: {fileID: 2100000, guid: 2ad0ae06ea6e49048b423eb252e9461e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: calles
+    second: {fileID: 2100000, guid: a9e62e189794eb6439f953eb8584c202, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: cupula posterior
+    second: {fileID: 2100000, guid: 1039174eb9e6b0642ad67121a109a577, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: margen aviso
+    second: {fileID: 2100000, guid: 088f1c295e9f2254e9d1b161d2088ea1, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: poste aviso1
+    second: {fileID: 2100000, guid: cc52ba2aff14de14c80b0afab4a19ba4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: vias del metro1
+    second: {fileID: 2100000, guid: 157d46d60af13a148b0708913e603f9b, type: 2}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Base Cuadrada Palmeras_DefaultMaterial_BaseColor
+    second: {fileID: 2800000, guid: c7ee9a7cf8f9d8d4da12a4e71be45409, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Base Palmera_DefaultMaterial_BaseColor
+    second: {fileID: 2800000, guid: 38c74830ed95fe3429506b6e156e3555, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Cuadra HNutibara (1)_DefaultMaterial_BaseColor
+    second: {fileID: 2800000, guid: b1ec12a0d577b9e40a7d0df734021bf6, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Cuadra Iglesia (1)_DefaultMaterial_BaseColor
+    second: {fileID: 2800000, guid: b4d2f9fcf237b3a4b825c2622271f7c4, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Cuadra Parque Berrio (1)_DefaultMaterial_BaseColor
+    second: {fileID: 2800000, guid: 25de98531098f1d4b90ad1021ac977cc, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Cuadra museo de antioquia (1)_DefaultMaterial_BaseColor
+    second: {fileID: 2800000, guid: 02b7ba6239e0fbc4db6dc3ca59f07254, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Cuadra2 (1)_DefaultMaterial_BaseColor
+    second: {fileID: 2800000, guid: d8b30838ba2d73342be1321ac8bd678d, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Cuadra3 (1)_DefaultMaterial_BaseColor
+    second: {fileID: 2800000, guid: 069fc00b9479f724492e71eea4f878a1, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: EStacion metro_DefaultMaterial_BaseColor
+    second: {fileID: 2800000, guid: bf96e7e27e4af944184307f9ff4c8433, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Edificio Alto ancho_DefaultMaterial_BaseColor
+    second: {fileID: 2800000, guid: 4696d8f9d964e034ebbcb0b4f044d6d9, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Edificio Alto1 y 2_DefaultMaterial_BaseColor
+    second: {fileID: 2800000, guid: 7e94de12305577d428cd53af8895e175, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Edificio Cuadrado (1)_DefaultMaterial_BaseColor
+    second: {fileID: 2800000, guid: c42297e1c479eed45af8451cf7eef5e9, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Edificio Cuadrado2 (1)_DefaultMaterial_BaseColor
+    second: {fileID: 2800000, guid: 51d6bdd35a421544baa867f2e49aed58, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Edificio Esquina (1)_DefaultMaterial_BaseColor
+    second: {fileID: 2800000, guid: 7bedd4c88fe49ee4c9d5d9d9b0bb9858, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Edificio Navio_DefaultMaterial_BaseColor
+    second: {fileID: 2800000, guid: 8a3d8bb6c0ff4ad469028fd2d541745d, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Edificio arrugado OK (1)_DefaultMaterial_BaseColor
+    second: {fileID: 2800000, guid: 3c70a985292a7d5438e3fcd233360d88, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Edificio bajo (1)_DefaultMaterial_BaseColor
+    second: {fileID: 2800000, guid: 100fc6589747220419b6c94f71e2d193, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Edificio banco popular_DefaultMaterial_BaseColor
+    second: {fileID: 2800000, guid: ce7329e8f1774fc4db94b8898e97d416, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Edificio cuadrado3 (1)_DefaultMaterial_BaseColor
+    second: {fileID: 2800000, guid: 72721dee0007cc94e8d21bec49fbd1ed, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Edificio entre altos (2)_DefaultMaterial_BaseColor
+    second: {fileID: 2800000, guid: 3e790459544fa8b4eb21fef1573822dc, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Edificio fondo 3_DefaultMaterial_BaseColor
+    second: {fileID: 2800000, guid: 5bdf30eb2e2c0eb4dbe148e8635c680a, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Edificio fondo 6_DefaultMaterial_BaseColor
+    second: {fileID: 2800000, guid: 0e54663f0ec893549962866d53528b8c, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Edificio fondo 8 (1)_DefaultMaterial_BaseColor
+    second: {fileID: 2800000, guid: 1a9e548e64a1e54408a82a73db03f04f, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Edificio fondo1_DefaultMaterial_BaseColor
+    second: {fileID: 2800000, guid: 2cd22fc7244cd7a47b06f15f1620d6fc, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Edificio fondo2_DefaultMaterial_BaseColor
+    second: {fileID: 2800000, guid: 3f390a3c41a9a314b89bb9480929806a, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Edificio fondo4_DefaultMaterial_BaseColor
+    second: {fileID: 2800000, guid: fa6c2af848348b747ab18d82eb41b3bd, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Edificio fondo5_DefaultMaterial_BaseColor
+    second: {fileID: 2800000, guid: db1f5e0e7ca51d34599b98fdeb33a73a, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Edificio fondo7_DefaultMaterial_BaseColor
+    second: {fileID: 2800000, guid: 2eb64949a56dcd649b62affcd0bca4c0, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Edificio redondeado (1)_DefaultMaterial_BaseColor
+    second: {fileID: 2800000, guid: e818e399394e5a841b102dda09fe8da5, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Fuente (2)_DefaultMaterial_BaseColor
+    second: {fileID: 2800000, guid: 3afe4d656aae9e14eb17f8cc79942893, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Iglesia base_DefaultMaterial_BaseColor
+    second: {fileID: 2800000, guid: bc1bb5281e6e9434c8f5a9165e6311a5, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Iglesia cruz posterior_DefaultMaterial_BaseColor
+    second: {fileID: 2800000, guid: 6ecd4681196785e4dba3ccbddb371ac7, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Iglesia cupula izquierda_DefaultMaterial_BaseColor
+    second: {fileID: 2800000, guid: 5aac5abec4045bb408712eac99927384, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Iglesia triangulo cupula _DefaultMaterial_BaseColor
+    second: {fileID: 2800000, guid: 49fc4d081e941b342837473a5cf1bbb8, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Luz calle doble_Luz calle_BaseColor
+    second: {fileID: 2800000, guid: 37e1e521af043454fb65ef67efe36d03, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Luz calle unica_Luz calle_BaseColor
+    second: {fileID: 2800000, guid: df3370aa0240194409f31347a9b8da40, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Museo de Antioquia_DefaultMaterial_BaseColor
+    second: {fileID: 2800000, guid: 2e52ae21d1540d8468ee66ffbf522f1d, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: P_Botero_Jardines01_DefaultMaterial_BaseColor
+    second: {fileID: 2800000, guid: 7197c8c856e242147ba974a07accdb00, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: P_Botero_Jardines04_DefaultMaterial_BaseColor
+    second: {fileID: 2800000, guid: 2e403627a756c2240a108e80a29a1b07, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: P_Botero_jardines02_DefaultMaterial_BaseColor
+    second: {fileID: 2800000, guid: f186c234fcb85af44a598c8923165492, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: P_Botero_jardines03_DefaultMaterial_BaseColor
+    second: {fileID: 2800000, guid: e5ed417ed74cab54f9f669bf48f30fdf, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Palacio de la cultura_DefaultMaterial_BaseColor
+    second: {fileID: 2800000, guid: 469397283622e9c4f816dd9ac4cb902d, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Vias Metro Estacion Metro_DefaultMaterial_BaseColor
+    second: {fileID: 2800000, guid: 3888eb44a2e8d7347b5f0447878612d2, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Vias Metro1_DefaultMaterial_BaseColor
+    second: {fileID: 2800000, guid: c647b7600eb82b6488e6bc7895ef5ee9, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Vias Metro2_DefaultMaterial_BaseColor
+    second: {fileID: 2800000, guid: 158ed0b782d6cd340b17ed3ff55be402, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Vias Metro3_DefaultMaterial_BaseColor
+    second: {fileID: 2800000, guid: 58b89df3d91dec74184412964a204268, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Vias Metro4_DefaultMaterial_BaseColor
+    second: {fileID: 2800000, guid: 996536c41ce91dc44986e4df9d0504b5, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: lupita_DefaultMaterial_BaseColor
+    second: {fileID: 2800000, guid: 1b459ff2856d0a145a9189a82173a079, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: silla_m_bench_BaseColor
+    second: {fileID: 2800000, guid: e669a32e5ac9d1f4085309b0f53fd3f7, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: tiendita_DefaultMaterial_BaseColor
+    second: {fileID: 2800000, guid: 969ea244056fa0b4985e547236ff99b4, type: 3}
+  materials:
+    materialImportMode: 2
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    removeConstantScaleCurves: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importPhysicalCameras: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    nodeNameCollisionStrategy: 1
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    optimizeBones: 1
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    strictVertexDataChecks: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 2
+  humanoidOversampling: 1
+  avatarSetup: 0
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  importBlendShapeDeformPercent: 1
+  remapMaterialsIfMaterialImportModeIsNone: 0
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
