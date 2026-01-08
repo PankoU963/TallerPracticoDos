@@ -61,6 +61,13 @@ public class PlayerController : MonoBehaviour
     public bool hideMeshInFirstPerson = true;
     [Tooltip("Optional: assign specific Renderers (MeshRenderer/SkinnedMeshRenderer) to hide in FirstPerson. Leave empty to auto-detect all child Renderers.")]
     public Renderer[] renderersToHide;
+
+    [Header("Animation")]
+    public Animator animator;
+    public string animParamSpeed = "Speed";
+    public string animParamRunning = "IsRunning";
+    public string animParamJump = "Jump";
+    public string animParamGrounded = "Grounded";
     
 
     void Awake()
@@ -69,6 +76,10 @@ public class PlayerController : MonoBehaviour
         if (cc == null) cc = gameObject.AddComponent<CharacterController>();
 
         inputActions = new PlayerMovement();
+
+        // try auto-assign animator from children if none set
+        if (animator == null)
+            animator = GetComponentInChildren<Animator>();
     }
 
     void Start()
@@ -182,11 +193,13 @@ public class PlayerController : MonoBehaviour
 
         // Base speed, modified by Run input (left shift by default in PlayerMovement)
         float speed = walkSpeed;
+        bool isRunning = false;
         try
         {
             // Run is a Button action; ReadValue<float>() returns 1 when pressed, 0 otherwise
             float runVal = inputActions.Actions.Run.ReadValue<float>();
-            if (runVal > 0.5f) speed *= runMultiplier;
+            isRunning = runVal > 0.5f || runToggled;
+            if (isRunning) speed *= runMultiplier;
         }
         catch (System.Exception)
         {
@@ -214,6 +227,7 @@ public class PlayerController : MonoBehaviour
             {
                 // v = sqrt(2 * -gravity * jumpHeight)
                 velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+                if (animator != null) animator.SetTrigger(animParamJump);
             }
         }
         catch (System.Exception)
@@ -266,6 +280,14 @@ public class PlayerController : MonoBehaviour
                 float newYaw = Mathf.LerpAngle(euler.y, targetYaw, 10f * Time.deltaTime);
                 transform.rotation = Quaternion.Euler(0f, newYaw, 0f);
             }
+        }
+
+        // Update animator parameters
+        if (animator != null)
+        {
+            animator.SetFloat(animParamSpeed, new Vector3(velocity.x, 0f, velocity.z).magnitude);
+            animator.SetBool(animParamRunning, isRunning);
+            animator.SetBool(animParamGrounded, cc.isGrounded);
         }
     }
 

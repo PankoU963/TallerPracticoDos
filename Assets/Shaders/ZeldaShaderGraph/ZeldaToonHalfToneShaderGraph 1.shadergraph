@@ -1532,8 +1532,8 @@
     "m_ObjectId": "04211c9f70884704bd3e1bfd97d8d145",
     "m_Title": "Light Intensity",
     "m_Position": {
-        "x": -984.7999877929688,
-        "y": -670.39990234375
+        "x": -984.800048828125,
+        "y": -670.400146484375
     }
 }
 
@@ -2713,7 +2713,7 @@
     "m_Title": "NdotH",
     "m_Position": {
         "x": -835.199951171875,
-        "y": 232.80029296875
+        "y": 232.800048828125
     }
 }
 
@@ -3348,10 +3348,10 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": 1900.0001220703125,
-            "y": -1204.0,
-            "width": 140.9998779296875,
-            "height": 34.0
+            "x": 1820.7999267578125,
+            "y": -1227.2000732421875,
+            "width": 140.800048828125,
+            "height": 33.5999755859375
         }
     },
     "m_Slots": [
@@ -3548,8 +3548,8 @@
     "m_ObjectId": "38f4f89867b44edf805b9482f3ce77d4",
     "m_Title": "Specular Light",
     "m_Position": {
-        "x": -599.1998291015625,
-        "y": 216.000244140625
+        "x": -599.2000122070313,
+        "y": 215.999755859375
     }
 }
 
@@ -7002,7 +7002,7 @@
     "m_Type": "UnityEditor.ShaderGraph.Texture2DMaterialSlot",
     "m_ObjectId": "acd6435744fe4c2999cadb054734c72e",
     "m_Id": 0,
-    "m_DisplayName": "Texture2D",
+    "m_DisplayName": "MainTex",
     "m_SlotType": 1,
     "m_Hidden": false,
     "m_ShaderOutputName": "Out",
@@ -7224,8 +7224,8 @@
     "m_ObjectId": "b199cb442e0645af95f7a23839815a48",
     "m_Title": "HalfTone",
     "m_Position": {
-        "x": 1424.7996826171875,
-        "y": 816.0
+        "x": 1424.7998046875,
+        "y": 816.0001220703125
     }
 }
 
@@ -8061,8 +8061,8 @@
     "m_ObjectId": "cf1eba221dba41168c64128abfe6a115",
     "m_Title": "Additional Light",
     "m_Position": {
-        "x": -314.4000244140625,
-        "y": -1728.7999267578125
+        "x": -314.3999938964844,
+        "y": -1728.8001708984375
     }
 }
 
@@ -8664,7 +8664,7 @@
     "m_Title": "N dor L",
     "m_Position": {
         "x": -1946.4000244140625,
-        "y": -611.2000732421875
+        "y": -611.2000122070313
     }
 }
 
@@ -8927,10 +8927,10 @@
     "m_Guid": {
         "m_GuidSerialized": "8c0cc93f-715f-4829-8754-c628a08f7dd0"
     },
-    "m_Name": "Texture2D",
+    "m_Name": "MainTex",
     "m_DefaultRefNameVersion": 1,
-    "m_RefNameGeneratedByDisplayName": "Texture2D",
-    "m_DefaultReferenceName": "_Texture2D",
+    "m_RefNameGeneratedByDisplayName": "MainTex",
+    "m_DefaultReferenceName": "_MainTex",
     "m_OverrideReferenceName": "",
     "m_GeneratePropertyBlock": true,
     "m_UseCustomSlotLabel": false,
@@ -9052,8 +9052,8 @@
     "m_ObjectId": "ee02c16eb22646f7adb63abf5c1998e4",
     "m_Title": "Half Vector",
     "m_Position": {
-        "x": -1900.7999267578125,
-        "y": 229.600341796875
+        "x": -1900.8001708984375,
+        "y": 229.6000518798828
     }
 }
 
@@ -9631,8 +9631,8 @@
     "m_ObjectId": "f8c6bac878854a358c49af88f54f8a38",
     "m_Title": "Outline",
     "m_Position": {
-        "x": 1278.3997802734375,
-        "y": 1400.0
+        "x": 1278.39990234375,
+        "y": 1399.999755859375
     }
 }
 
