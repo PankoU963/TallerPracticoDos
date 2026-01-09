@@ -1,5 +1,5 @@
-    using System;
-    using System.Collections;
+using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -45,6 +45,10 @@ public class TelePorter : MonoBehaviour
     [Tooltip("Multiplier applied to particle system simulation speed during the delay (e.g., 2 = twice as fast).")]
     public float ParticleSpeedMultiplier = 2f;
 
+    [Header("Mission Activation")]
+    [Tooltip("If false, this teleporter will ignore teleport attempts until re-enabled by mission completion.")]
+    public bool TeleportEnabled = true;
+
     // internal cooldown tracker per object (using instanceID)
     // Use a static dictionary so all TelePorter instances share cooldown state and avoid immediate bounce-back
     private static System.Collections.Generic.Dictionary<int, float> s_lastTeleportedTime = new System.Collections.Generic.Dictionary<int, float>();
@@ -67,6 +71,8 @@ public class TelePorter : MonoBehaviour
     // Public method so UI or other scripts can trigger teleport explicitly
     public bool Teleport(GameObject obj)
     {
+        if (!TeleportEnabled) return false;
+
         if (obj == null) return false;
 
         // Tag filtering
@@ -134,9 +140,41 @@ public class TelePorter : MonoBehaviour
 
         // 3) Fallback: just move transform
         MoveTransform(obj.transform, dest);
-    s_lastTeleportedTime[id] = now;
+        s_lastTeleportedTime[id] = now;
         OnTeleported?.Invoke(obj);
+
+        // If the player used this teleporter, disable it until mission completion
+        if (obj.CompareTag("Player"))
+        {
+            TeleportEnabled = false;
+            // optional: stop particle effects / visuals to indicate disabled state
+            if (TeleportParticles != null)
+            {
+                foreach (var ps in TeleportParticles) if (ps != null) ps.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+            }
+        }
         return true;
+    }
+
+    private void Awake()
+    {
+        // subscribe to mission completion so teleporters can be re-enabled
+        MisionBotero.OnMissionCompleted += HandleMissionCompleted;
+    }
+
+    private void OnDestroy()
+    {
+        MisionBotero.OnMissionCompleted -= HandleMissionCompleted;
+    }
+
+    private void HandleMissionCompleted()
+    {
+        TeleportEnabled = true;
+        // restore particles/visuals if any
+        if (TeleportParticles != null)
+        {
+            foreach (var ps in TeleportParticles) if (ps != null) ps.Play(true);
+        }
     }
 
     // Convenience: teleport the player (this GameObject) when something enters trigger
@@ -285,40 +323,44 @@ public class TelePorter : MonoBehaviour
             var ps = modifiedSystems[i];
             if (ps == null) continue;
             var main = ps.main;
+            // restore original simulation speed
             main.simulationSpeed = originalSpeeds[i];
-            // restore playing state
-            if (originalPlaying != null && i < originalPlaying.Count)
+
+            // Restore playing state
+            if (originalPlaying[i])
             {
-                if (!originalPlaying[i] && ps.isPlaying)
-                    ps.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
-                else if (originalPlaying[i] && !ps.isPlaying)
-                    ps.Play(true);
+                ps.Play(true);
+            }
+            else
+            {
+                ps.Stop(true, ParticleSystemStopBehavior.StopEmitting);
             }
         }
     }
 
-    // Calculate destination world position based on destination transform and offset
+    // Move the transform of an object to a destination, applying the optional offset
+    private void MoveTransform(Transform objTransform, Transform destTransform)
+    {
+        if (objTransform == null || destTransform == null) return;
+
+        // Compute the destination position with the optional offset
+        Vector3 destinationPosition = destTransform.position + destTransform.TransformVector(DestinationOffset);
+
+        // Snap the position immediately
+        objTransform.position = destinationPosition;
+
+        if (MatchRotation)
+        {
+            // Optionally match the rotation to the destination
+            objTransform.rotation = destTransform.rotation;
+        }
+    }
+
+    // Calculate the correct destination position considering the destination's rotation and the offset
     private Vector3 CalcDestinationPosition(Transform dest)
     {
-        return dest.TransformPoint(DestinationOffset);
-    }
-
-    private void MoveTransform(Transform src, Transform dest)
-    {
-        src.position = CalcDestinationPosition(dest);
-        if (MatchRotation)
-            src.rotation = dest.rotation;
-    }
-
-    // Draw a gizmo line to the destination for editor convenience
-    private void OnDrawGizmos()
-    {
-        var dest = GetDestination();
-        if (dest != null)
-        {
-            Gizmos.color = Color.cyan;
-            Gizmos.DrawLine(transform.position, dest.position);
-            Gizmos.DrawSphere(dest.position, 0.1f);
-        }
+        if (dest == null) return Vector3.zero;
+        // Apply the inverse of the destination's rotation to the offset, then add to the destination position
+        return dest.position + Quaternion.Inverse(dest.rotation) * DestinationOffset;
     }
 }

@@ -33,6 +33,9 @@ public class MisionBotero : MonoBehaviour
     // Progress event: (collected, total)
     public event Action<int,int> OnMissionProgressChanged;
 
+    // Evento global que notifica cuando la misión se completa (estatuas colocadas)
+    public static event Action OnMissionCompleted;
+
     private void Start()
     {
         emissionController?.Initialize();
@@ -194,6 +197,9 @@ public class MisionBotero : MonoBehaviour
         missionAvailable = false;
         uiController?.Hide();
         emissionController?.Disable();
+
+        // Notificar a listeners (teleporters, etc.) que reactiven
+        try { OnMissionCompleted?.Invoke(); } catch { }
     }
 
     private void EnableMissionPoint()
