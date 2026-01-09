@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 284.32 32.54">
+  <g isolation="isolate">
+    <g id="OBJECTS">
+      <rect x="7.27" y="8.69" width="146.8" height="15.27" fill="#00f4ff" mix-blend-mode="screen" opacity=".7" stroke-width="0"/>
+      <path d="M260.62,32.04H.5V10.6C4.41,6.7,6.59,4.51,10.5.6h260.12v21.44c-3.91,3.91-6.09,6.09-10,10Z" fill="none" mix-blend-mode="screen" stroke="#0aebed" stroke-miterlimit="10"/>
+      <line x1="260.13" y1="8.69" x2="260.13" y2="23.95" fill="none" mix-blend-mode="screen" stroke="#0aebed" stroke-miterlimit="10"/>
+      <rect x="277.24" y=".5" width="6.58" height="21.48" fill="none" mix-blend-mode="screen" stroke="#0aebed" stroke-miterlimit="10"/>
+    </g>
+  </g>
+</svg>

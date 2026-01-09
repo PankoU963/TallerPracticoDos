@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 91.16 88.42">
+  <defs>
+    <linearGradient id="Degradado_sin_nombre_4" data-name="Degradado sin nombre 4" x1="379.95" y1="111.23" x2="526.75" y2="111.23" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#011337"/>
+      <stop offset=".1" stop-color="#012042"/>
+      <stop offset=".3" stop-color="#034561"/>
+      <stop offset=".57" stop-color="#058092"/>
+      <stop offset=".9" stop-color="#08d0d6"/>
+      <stop offset="1" stop-color="#0aebed"/>
+    </linearGradient>
+    <linearGradient id="Degradado_sin_nombre_4-2" data-name="Degradado sin nombre 4" x1="-106.15" y1="561.77" x2="-106.15" y2="575.92" gradientTransform="translate(721.23 -457.11)" xlink:href="#Degradado_sin_nombre_4"/>
+  </defs>
+  <g isolation="isolate">
+    <g id="OBJECTS">
+      <g id="BOTON">
+        <path d="M78.66,87.92H15.24c-4.69-4.69-7.31-7.31-12-12V12.5C7.93,7.81,10.55,5.19,15.24.5h63.42c4.69,4.69,7.31,7.31,12,12v63.42l-12,12Z" fill="none" mix-blend-mode="screen" stroke="#0aebed" stroke-miterlimit="10"/>
+        <polygon points="17.31 82.92 8.24 73.85 8.24 14.57 17.31 5.5 76.59 5.5 85.66 14.57 85.66 73.85 76.59 82.92 17.31 82.92" fill="#00f4ff" mix-blend-mode="screen" opacity=".7" stroke-width="0"/>
+        <g>
+          <rect y="22.82" width="6.48" height="20.28" fill="#0aebed" stroke-width="0"/>
+          <rect y="45.24" width="6.48" height="4.02" fill="#0aebed" stroke-width="0"/>
+          <rect y="50.22" width="6.48" height="1.19" fill="#0aebed" stroke-width="0"/>
+        </g>
+      </g>
+      <g display="none">
+        <rect x="379.95" y="103.6" width="146.8" height="15.27" fill="url(#Degradado_sin_nombre_4)" mix-blend-mode="screen" stroke-width="0"/>
+        <path d="M633.3,126.95h-260.12v-21.44c3.91-3.91,6.09-6.09,10-10h260.12v21.44c-3.91,3.91-6.09,6.09-10,10Z" fill="none" mix-blend-mode="screen" stroke="#0aebed" stroke-miterlimit="10"/>
+        <rect x="595.12" y="103.6" width="39.92" height="15.27" transform="translate(1230.16 222.46) rotate(180)" fill="url(#Degradado_sin_nombre_4-2)" stroke-width="0"/>
+        <line x1="585.06" y1="103.6" x2="585.06" y2="118.86" fill="none" mix-blend-mode="screen" stroke="#0aebed" stroke-miterlimit="10"/>
+        <g mix-blend-mode="color-dodge">
+          <g>
+            <path d="M597.51,108.31c.57-.08,1.24-.15,1.98-.15,1.34,0,2.29.31,2.92.9.64.59,1.02,1.42,1.02,2.59s-.36,2.14-1.04,2.8c-.67.67-1.79,1.04-3.19,1.04-.66,0-1.22-.03-1.69-.09v-7.09ZM598.44,114.68c.24.04.58.05.94.05,1.99,0,3.07-1.11,3.07-3.06,0-1.7-.95-2.78-2.92-2.78-.48,0-.84.04-1.09.1v5.69Z" fill="#4cffd5" stroke-width="0"/>
+            <path d="M606.7,113.15l-.75,2.27h-.96l2.45-7.21h1.12l2.46,7.21h-1l-.77-2.27h-2.56ZM609.07,112.42l-.71-2.08c-.16-.47-.27-.9-.37-1.32h-.02c-.11.43-.22.87-.36,1.3l-.71,2.09h2.17Z" fill="#4cffd5" stroke-width="0"/>
+            <path d="M613.68,109h-2.19v-.79h5.34v.79h-2.2v6.42h-.94v-6.42Z" fill="#4cffd5" stroke-width="0"/>
+            <path d="M619.04,113.15l-.75,2.27h-.96l2.45-7.21h1.12l2.46,7.21h-1l-.77-2.27h-2.56ZM621.4,112.42l-.71-2.08c-.16-.47-.27-.9-.37-1.32h-.02c-.11.43-.22.87-.36,1.3l-.71,2.09h2.17Z" fill="#4cffd5" stroke-width="0"/>
+            <path d="M628.68,114.34c.27.17.89.44,1.54.44,1.21,0,1.58-.77,1.57-1.35-.01-.97-.89-1.39-1.8-1.39h-.52v-.71h.52c.68,0,1.55-.35,1.55-1.18,0-.56-.35-1.05-1.22-1.05-.56,0-1.09.25-1.39.46l-.25-.68c.36-.27,1.07-.54,1.82-.54,1.37,0,1.99.81,1.99,1.66,0,.72-.43,1.33-1.28,1.64v.02c.86.17,1.55.81,1.55,1.79,0,1.11-.87,2.08-2.54,2.08-.78,0-1.47-.25-1.81-.47l.26-.73Z" fill="#4cffd5" stroke-width="0"/>
+          </g>
+        </g>
+        <rect x="649.92" y="95.41" width="6.58" height="21.48" fill="none" mix-blend-mode="screen" stroke="#0aebed" stroke-miterlimit="10"/>
+      </g>
+      <g display="none">
+        <g>
+          <rect x="202.75" y="-27.88" width="59.72" height="144.13" transform="translate(276.8 -188.42) rotate(90)" fill="none" mix-blend-mode="screen" stroke="#0aebed" stroke-miterlimit="10"/>
+          <rect x="162.54" y="16.33" width="140.13" height="55.72" fill="#00f4ff" opacity=".7" stroke-width="0"/>
+          <polygon points="160.54 79.01 160.54 83.36 218.04 83.36 221.38 86.7 250.93 86.7 247.59 83.36 253.07 83.36 253.08 83.37 297.35 83.44 299.51 85.6 255.3 85.6 262.47 92.76 297.76 92.76 304.76 85.76 304.76 79.01 160.54 79.01" fill="#0aebed" stroke-width="0"/>
+          <polygon points="254.93 89.76 257.92 92.76 205.93 92.76 203 89.83 254.93 89.76" fill="#0aebed" stroke-width="0"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>
