@@ -44,8 +44,8 @@ public class PlayerController : MonoBehaviour
     bool isPaused = false;
     Coroutine pauseCoroutine = null;
 
-    // Run toggle state
-    bool runToggled = false;
+    // previous running state to detect edge for trigger
+    // no prevRunning needed when updating IsRunning each frame
 
     // Input System
     PlayerMovement inputActions;
@@ -100,30 +100,20 @@ public class PlayerController : MonoBehaviour
     void OnEnable()
     {
         inputActions.Enable();
-        // subscribe to Run performed to toggle run state
-        if (inputActions != null)
-            inputActions.Actions.Run.performed += OnRunPerformed;
+        // subscribe jump performed for immediate response
+        inputActions.Actions.Jump.performed += OnJumpPerformed;
     }
-
+    
     void OnDisable()
     {
         // unsubscribe to avoid leaking delegates
-        if (inputActions != null)
-            inputActions.Actions.Run.performed -= OnRunPerformed;
-
+        inputActions.Actions.Jump.performed -= OnJumpPerformed;
+ 
         if (cameraController != null)
             cameraController.OnModeBlendComplete -= OnCameraBlendComplete;
-
+ 
         inputActions.Disable();
         inputActions.Dispose();
-    }
-
-    void OnRunPerformed(UnityEngine.InputSystem.InputAction.CallbackContext ctx)
-    {
-        if (ctx.performed)
-        {
-            runToggled = !runToggled;
-        }
     }
 
     void Update()
@@ -198,7 +188,8 @@ public class PlayerController : MonoBehaviour
         {
             // Run is a Button action; ReadValue<float>() returns 1 when pressed, 0 otherwise
             float runVal = inputActions.Actions.Run.ReadValue<float>();
-            isRunning = runVal > 0.5f || runToggled;
+            // run only while the Run button is held
+            isRunning = runVal > 0.5f;
             if (isRunning) speed *= runMultiplier;
         }
         catch (System.Exception)
@@ -220,21 +211,14 @@ public class PlayerController : MonoBehaviour
 
         Vector3 horizontalVelocity = move * speed;
 
-        // Jump (triggered) - use Input System action triggered to avoid continuous jumping while held
-        try
+        // Actualizar parámetro de velocidad ANTES de mover para que la transición Idle->Walk sea inmediata
+        if (animator != null)
         {
-            if (inputActions.Actions.Jump.triggered && cc.isGrounded)
-            {
-                // v = sqrt(2 * -gravity * jumpHeight)
-                velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
-                if (animator != null) animator.SetTrigger(animParamJump);
-            }
-        }
-        catch (System.Exception)
-        {
-            // ignore missing input bindings
+            float currentSpeed = new Vector3(horizontalVelocity.x, 0f, horizontalVelocity.z).magnitude;
+            animator.SetFloat(animParamSpeed, currentSpeed);
         }
 
+        // Jump handled in OnJumpPerformed callback (ensures immediate trigger)
         // Apply gravity
         if (cc.isGrounded && velocity.y < 0f)
             velocity.y = -1f; // small negative to keep grounded
@@ -285,7 +269,9 @@ public class PlayerController : MonoBehaviour
         // Update animator parameters
         if (animator != null)
         {
-            animator.SetFloat(animParamSpeed, new Vector3(velocity.x, 0f, velocity.z).magnitude);
+            float vel = new Vector3(velocity.x, 0f, velocity.z).magnitude;
+            animator.SetFloat(animParamSpeed, vel);
+            // update running state every frame so it stops immediately when Shift is released
             animator.SetBool(animParamRunning, isRunning);
             animator.SetBool(animParamGrounded, cc.isGrounded);
         }
@@ -466,5 +452,15 @@ public class PlayerController : MonoBehaviour
         }
 
         blendTimer = controlBlendTime;
+    }
+
+    void OnJumpPerformed(UnityEngine.InputSystem.InputAction.CallbackContext ctx)
+    {
+        if (ctx.performed && cc != null && cc.isGrounded)
+        {
+            // apply jump velocity immediately
+            velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+            if (animator != null) animator.SetTrigger(animParamJump);
+        }
     }
 }
