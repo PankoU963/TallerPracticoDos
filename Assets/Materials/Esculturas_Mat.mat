@@ -61,6 +61,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Emissive:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MainTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -143,13 +147,14 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _AdditionalLightColor: {r: 1, g: 0.16509432, b: 0.16509432, a: 0}
-    - _AmbientColor: {r: 0.103773594, g: 0.103773594, b: 0.103773594, a: 0}
+    - _AmbientColor: {r: 4, g: 4, b: 4, a: 0}
     - _BaseColor: {r: 0.5660378, g: 0.27100918, b: 0.013349946, a: 1}
     - _Color: {r: 0.5660378, g: 0.27100915, b: 0.013349945, a: 1}
     - _DotColor: {r: 0, g: 0, b: 0, a: 0}
+    - _EmisiveColo: {r: 1, g: 1, b: 1, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _MainColor: {r: 1, g: 0.465245, b: 0, a: 0}
-    - _OutlineColor: {r: 0.4528302, g: 0.29433224, b: 0.023495909, a: 1}
+    - _OutlineColor: {r: 0, g: 11.984315, b: 10.302015, a: 1}
     - _RimColor: {r: 1, g: 1, b: 1, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _SpecularColor: {r: 4, g: 4, b: 4, a: 0}
