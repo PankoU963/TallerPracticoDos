@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using System;
+using UnityEngine.UI; // agregado para mostrar mensaje UI
 
 /// <summary>
 /// Slot de un proyector que acepta una escultura colocada (PlaceableSculpture).
@@ -17,6 +18,17 @@ public class ProyectorSlot : MonoBehaviour
     [SerializeField] private GameObject magnifierObject;
     [Tooltip("Si true, el objeto colocado se desactivará (consumido)" )]
     [SerializeField] private bool consumeOnPlace = true;
+
+    // Mensaje al acercarse el jugador
+    [Header("Approach Message")]
+    [Tooltip("UI Text que mostrará el mensaje cuando el jugador se acerque (opcional)")]
+    [SerializeField] private Text messageText;
+    [Tooltip("Panel u objeto que se activará/desactivará para mostrar el mensaje (opcional)")]
+    [SerializeField] private GameObject messagePanel;
+    [Tooltip("Mensaje que aparecerá al acercarse")]
+    [SerializeField] private string approachMessage = "La luz recuerda lo que el tiempo borró.";
+    [Tooltip("Duración en segundos para ocultar automáticamente el mensaje (<=0 para mantener hasta la salida)")]
+    [SerializeField] private float messageDuration = 0f;
 
     [Header("Interaction")]
     [Tooltip("Si true, el jugador debe interactuar (tecla/tap) para colocar; si false, coloca automáticamente al entrar")]
@@ -37,6 +49,8 @@ public class ProyectorSlot : MonoBehaviour
     private List<PlaceableSculpture> candidates = new List<PlaceableSculpture>();
     private bool hologramActivated = false;
 
+    private Coroutine messageCoroutine = null;
+
     private void Reset()
     {
         hologramSpawnPoint = transform;
@@ -52,7 +66,11 @@ public class ProyectorSlot : MonoBehaviour
         if (other == null) return;
 
         // track player presence for keyboard interaction
-        if (other.CompareTag(playerTag)) playerInside = true;
+        if (other.CompareTag(playerTag)) 
+        {
+            playerInside = true;
+            ShowApproachMessage();
+        }
 
         // If the collider belongs to the player, check if the player has a held object
         if (other.CompareTag(playerTag))
@@ -227,7 +245,11 @@ public class ProyectorSlot : MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
         if (other == null) return;
-        if (other.CompareTag(playerTag)) playerInside = false;
+        if (other.CompareTag(playerTag)) 
+        {
+            playerInside = false;
+            HideApproachMessage();
+        }
 
         var placeable = other.GetComponentInParent<PlaceableSculpture>() ?? other.GetComponentInChildren<PlaceableSculpture>(true);
         if (placeable != null && candidates.Contains(placeable)) candidates.Remove(placeable);
@@ -422,5 +444,53 @@ public class ProyectorSlot : MonoBehaviour
             currentHologram = null;
             hologramActivated = false;
         }
+    }
+
+    // Muestra/oculta el mensaje al acercarse el jugador
+    private void ShowApproachMessage()
+    {
+        if (hologramActivated) return; // opcional: no mostrar si ya está activo el holograma
+
+        if (messageText != null)
+        {
+            messageText.text = approachMessage;
+            if (messagePanel != null) messagePanel.SetActive(true);
+            else messageText.gameObject.SetActive(true);
+        }
+        else if (messagePanel != null)
+        {
+            // si solo hay panel, intentar encontrar un Text en su hijo
+            var txt = messagePanel.GetComponentInChildren<Text>(true);
+            if (txt != null) txt.text = approachMessage;
+            messagePanel.SetActive(true);
+        }
+        else
+        {
+            if (debugLogs) Debug.Log($"ProyectorSlot: {approachMessage}");
+        }
+
+        if (messageCoroutine != null) StopCoroutine(messageCoroutine);
+        if (messageDuration > 0f) messageCoroutine = StartCoroutine(HideAfterSeconds(messageDuration));
+    }
+
+    private void HideApproachMessage()
+    {
+        if (messageCoroutine != null) { StopCoroutine(messageCoroutine); messageCoroutine = null; }
+
+        if (messageText != null)
+        {
+            if (messagePanel != null) messagePanel.SetActive(false);
+            else messageText.gameObject.SetActive(false);
+        }
+        else if (messagePanel != null)
+        {
+            messagePanel.SetActive(false);
+        }
+    }
+
+    private System.Collections.IEnumerator HideAfterSeconds(float secs)
+    {
+        yield return new WaitForSeconds(secs);
+        HideApproachMessage();
     }
 }

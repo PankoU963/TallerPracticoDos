@@ -24,6 +24,8 @@ public class ImagePopupController : MonoBehaviour
     public string prompt = "Click para cerrar";
     [Tooltip("Si true también cierra al presionar Escape")]
     public bool closeWithEscape = true;
+    [Tooltip("Si true también cierra al presionar la tecla E")]
+    public bool closeWithE = true;
 
     [Header("Events")]
     public UnityEvent OnClosed;
@@ -56,6 +58,9 @@ public class ImagePopupController : MonoBehaviour
         if (imageRoot != null && imageRoot.activeSelf)
         {
             if (closeWithEscape && Input.GetKeyDown(KeyCode.Escape))
+                Close();
+
+            if (closeWithE && Input.GetKeyDown(KeyCode.E))
                 Close();
 
             // cerrar por click global SOLO si no existe fullscreenCloseButton
