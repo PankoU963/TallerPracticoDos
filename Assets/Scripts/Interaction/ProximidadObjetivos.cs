@@ -72,6 +72,31 @@ public class ProximidadObjetivos : MonoBehaviour
             }
         }
         catch { }
+
+        // Subscribe to global mission-completed notification so this component
+        // reacts even if mission completion happens elsewhere (e.g. holograms activation)
+        try
+        {
+            MisionBotero.OnMissionCompleted += OnMissionCompletedStatic;
+        }
+        catch { }
+    }
+
+    private void OnDestroy()
+    {
+        try { MisionBotero.OnMissionCompleted -= OnMissionCompletedStatic; } catch { }
+    }
+
+    private void OnMissionCompletedStatic()
+    {
+        // mark everything collected and clear active objectives so Update() will refresh UI accordingly
+        collectedSoFar = totalAssigned;
+        try { objetivosSet.Clear(); } catch { }
+        // immediately clear distance UI as mission is done
+        if (distanceUIText != null) distanceUIText.text = string.Empty;
+        if (distanceTMPText != null) distanceTMPText.text = string.Empty;
+        if (collectedUIText != null) collectedUIText.text = string.Empty;
+        if (collectedTMPText != null) collectedTMPText.text = string.Empty;
     }
 
     /// <summary>
@@ -133,10 +158,21 @@ public class ProximidadObjetivos : MonoBehaviour
     {
         if (jugador == null) return; // nothing to do without a player
 
+        int collectedCount = Mathf.Clamp(collectedSoFar, 0, totalAssigned);
+
         if (objetivosSet == null || objetivosSet.Count == 0)
         {
-            // notify once if needed and then early out
-            // (avoid spamming logs every frame)
+            // If there are no tracked objectives, still clear distance UI when
+            // the mission is effectively complete (prevents showing "0 m").
+            collectedCount = Mathf.Clamp(collectedSoFar, 0, totalAssigned);
+            bool missionCompletedEarly = (totalAssigned > 0 && collectedCount >= totalAssigned) || (totalAssigned > 0 && (objetivosSet == null || objetivosSet.Count == 0));
+            if (missionCompletedEarly)
+            {
+                if (distanceUIText != null) distanceUIText.text = string.Empty;
+                if (distanceTMPText != null) distanceTMPText.text = string.Empty;
+                // keep collected UI visible — only hide distance here
+            }
+            // avoid spamming logs every frame
             return;
         }
 
@@ -219,7 +255,6 @@ public class ProximidadObjetivos : MonoBehaviour
         }
 
         // Update on-screen distance UI for nearest objective and collected count
-        int collectedCount = Mathf.Clamp(collectedSoFar, 0, totalAssigned);
 
         // Distance text (separate field)
         if (distanceUIText != null || distanceTMPText != null)
@@ -243,10 +278,18 @@ public class ProximidadObjetivos : MonoBehaviour
 
         if (missionCompleted)
         {
-            string doneMsg = "Completado, activa los hologramas.";
-            // Show 'Completado' in the distance fields and clear the collected-specific fields
-            if (distanceUIText != null) distanceUIText.text = doneMsg;
-            if (distanceTMPText != null) distanceTMPText.text = doneMsg;
+            // Si es la misión de las 4 miniaturas, ocultar la distancia al completarse
+            if (totalAssigned == 4)
+            {
+                if (distanceUIText != null) distanceUIText.text = string.Empty;
+                if (distanceTMPText != null) distanceTMPText.text = string.Empty;
+            }
+            else
+            {
+                string doneMsg = "Completado, activa los hologramas.";
+                if (distanceUIText != null) distanceUIText.text = doneMsg;
+                if (distanceTMPText != null) distanceTMPText.text = doneMsg;
+            }
 
             if (collectedUIText != null) collectedUIText.text = string.Empty;
             if (collectedTMPText != null) collectedTMPText.text = string.Empty;
@@ -289,7 +332,10 @@ public class ProximidadObjetivos : MonoBehaviour
             // no lo consideramos "capturado" para evitar destruir objetos que el jugador tiene en mano.
             if (jugador != null && objetivoMasCercano.IsChildOf(jugador))
             {
-                // Ignorar: el jugador ya lo tiene
+                // Si el objetivo fue parentado al jugador (se recogió), tratarlo como recogido
+                NotifyCollected(objetivoMasCercano);
+                if (distanceUIText != null) distanceUIText.text = string.Empty;
+                if (distanceTMPText != null) distanceTMPText.text = string.Empty;
                 return;
             }
 

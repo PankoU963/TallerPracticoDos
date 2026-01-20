@@ -1,10 +1,12 @@
 using System;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class MissionUIController : MonoBehaviour
 {
     [SerializeField] private GameObject missionCanvas;
+    [SerializeField] private TextMeshProUGUI collectedText;
 
     private Action onAccept;
     private Action onClose;
@@ -53,5 +55,16 @@ public class MissionUIController : MonoBehaviour
     public void Hide()
     {
         if (missionCanvas != null) missionCanvas.SetActive(false);
+    }
+
+    public void UpdateCollected(int collected, int total)
+    {
+        if (collectedText == null) return;
+
+        // mostrar mensaje especial cuando se recolecten las 4 miniaturas
+        if (total == 4 && collected >= total)
+            collectedText.text = "Esculturas recolectadas. Lleva a la luz lo olvidado";
+        else
+            collectedText.text = $"{collected}/{total}";
     }
 }

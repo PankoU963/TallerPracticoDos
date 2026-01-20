@@ -41,6 +41,10 @@ public class MisionBotero : MonoBehaviour
         emissionController?.Initialize();
         uiController?.Initialize(AcceptMission, CloseMissionUI);
 
+        // subscribe UI to mission progress updates
+        if (uiController != null)
+            OnMissionProgressChanged += uiController.UpdateCollected;
+
         if (doorReference != null && MissionManager.Instance != null)
             MissionManager.Instance.SetDoor(doorReference);
 
