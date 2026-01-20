@@ -62,6 +62,10 @@ public class PlayerController : MonoBehaviour
     [Tooltip("Optional: assign specific Renderers (MeshRenderer/SkinnedMeshRenderer) to hide in FirstPerson. Leave empty to auto-detect all child Renderers.")]
     public Renderer[] renderersToHide;
 
+    [Header("FirstPerson Child")]
+    [Tooltip("GameObject (por ejemplo el objeto que contiene la cámara FP) que se habilita solo cuando termina la transición a FirstPerson")]
+    public GameObject firstPersonChildToToggle;
+
     [Header("Animation")]
     public Animator animator;
     public string animParamSpeed = "Speed";
@@ -92,6 +96,11 @@ public class PlayerController : MonoBehaviour
             EnsureRenderersPopulated();
             UpdateMeshVisibility(controlMode != ControlMode.FirstPerson);
         }
+
+        // inicializar estado del objeto FP (si comienza en FP lo dejamos activo, si no, desactivado)
+        if (firstPersonChildToToggle != null)
+            firstPersonChildToToggle.SetActive(controlMode == ControlMode.FirstPerson);
+
         // subscribe to camera blend complete so we can hide/show the player mesh after transition
         if (cameraController != null)
             cameraController.OnModeBlendComplete += OnCameraBlendComplete;
@@ -304,7 +313,10 @@ public class PlayerController : MonoBehaviour
         if (cameraController != null)
             cameraController.SetMode(mode == ControlMode.TopDown ? CameraController.CameraMode.TopDown : CameraController.CameraMode.FirstPerson);
 
-        // If switching to FirstPerson, snap player yaw to the active camera's yaw so movement forward matches view immediately
+        // ocultar el objeto FP inmediatamente al iniciar la transición a FirstPerson
+        if (firstPersonChildToToggle != null)
+            firstPersonChildToToggle.SetActive(false);
+
         // Start a small blend so control direction doesn't jump abruptly
         StartControlBlend();
 
@@ -314,9 +326,7 @@ public class PlayerController : MonoBehaviour
             // from the player's FP anchor (or vice versa). We keep the control blend so movement direction transitions smoothly.
         }
 
-        // update cursor according to new mode
         UpdateCursorState();
-
     }
 
     void EnsureRenderersPopulated()
@@ -339,10 +349,17 @@ public class PlayerController : MonoBehaviour
 
     void OnCameraBlendComplete(CameraController.CameraMode mode)
     {
-        if (!hideMeshInFirstPerson) return;
-        EnsureRenderersPopulated();
-        bool visible = mode != CameraController.CameraMode.FirstPerson;
-        UpdateMeshVisibility(visible);
+        // actualizar visibilidad del mesh del jugador si está configurado
+        if (hideMeshInFirstPerson)
+        {
+            EnsureRenderersPopulated();
+            bool visible = mode != CameraController.CameraMode.FirstPerson;
+            UpdateMeshVisibility(visible);
+        }
+
+        // activar/desactivar el objeto hijo de la cámara FP cuando la transición termina
+        if (firstPersonChildToToggle != null)
+            firstPersonChildToToggle.SetActive(mode == CameraController.CameraMode.FirstPerson);
     }
 
     void UpdateCursorState()
