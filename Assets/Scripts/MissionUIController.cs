@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -7,6 +8,17 @@ public class MissionUIController : MonoBehaviour
 {
     [SerializeField] private GameObject missionCanvas;
     [SerializeField] private TextMeshProUGUI collectedText;
+    [Header("Completion Message (optional)")]
+    [Tooltip("Panel o GameObject que contiene el mensaje de misión completada (se activa al mostrar)")]
+    public GameObject completionMessagePanel;
+
+    [Tooltip("Texto UI (UnityEngine.UI.Text) opcional para el mensaje")]
+    public Text uiMessageText;
+
+    [Tooltip("Texto UI (TextMeshPro) opcional para el mensaje")]
+    public TMP_Text messageTMPText;
+
+    private Coroutine hideCoroutine;
 
     private Action onAccept;
     private Action onClose;
@@ -14,6 +26,9 @@ public class MissionUIController : MonoBehaviour
     private void Awake()
     {
         if (missionCanvas != null) missionCanvas.SetActive(false);
+        if (completionMessagePanel != null) completionMessagePanel.SetActive(false);
+        if (uiMessageText != null) uiMessageText.text = string.Empty;
+        if (messageTMPText != null) messageTMPText.text = string.Empty;
     }
 
     public void Initialize(Action acceptCallback, Action closeCallback)
@@ -66,5 +81,24 @@ public class MissionUIController : MonoBehaviour
             collectedText.text = "Esculturas recolectadas. Lleva a la luz lo olvidado";
         else
             collectedText.text = $"{collected}/{total}";
+    }
+
+    public void ShowMessage(string message, float duration)
+    {
+        if (completionMessagePanel != null) completionMessagePanel.SetActive(true);
+        if (uiMessageText != null) uiMessageText.text = message;
+        if (messageTMPText != null) messageTMPText.text = message;
+
+        if (hideCoroutine != null) StopCoroutine(hideCoroutine);
+        if (duration > 0f) hideCoroutine = StartCoroutine(HideAfterSeconds(duration));
+    }
+
+    private IEnumerator HideAfterSeconds(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+        if (completionMessagePanel != null) completionMessagePanel.SetActive(false);
+        if (uiMessageText != null) uiMessageText.text = string.Empty;
+        if (messageTMPText != null) messageTMPText.text = string.Empty;
+        hideCoroutine = null;
     }
 }

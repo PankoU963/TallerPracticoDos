@@ -44,6 +44,13 @@ public class ProximidadObjetivos : MonoBehaviour
     // Number of objectives actually collected/removed
     private int collectedSoFar = 0;
 
+    [Header("Mission UI")]
+    [Tooltip("Optional reference to a MissionUIController that will show the completed message")]
+    public MissionUIController missionUIController;
+
+    // Ensure we only show the mission-completed message once
+    private bool missionMessageShown = false;
+
     // Events for external systems
     public event Action<Transform> OnObjectiveCollected;
     public event Action OnAllObjectivesCollected;
@@ -80,11 +87,26 @@ public class ProximidadObjetivos : MonoBehaviour
             MisionBotero.OnMissionCompleted += OnMissionCompletedStatic;
         }
         catch { }
+
+        // Subscribe internal handler to the local "all collected" event so
+        // the UI shows regardless of which path triggered the completion.
+        OnAllObjectivesCollected += HandleAllObjectivesCollected;
+
+        // If the MissionUIController wasn't assigned in the inspector, try to find one in scene.
+        if (missionUIController == null)
+        {
+            missionUIController = UnityEngine.Object.FindObjectOfType<MissionUIController>();
+            if (missionUIController != null)
+                Debug.Log("ProximidadObjetivos: missionUIController auto-asignado desde escena.");
+            else
+                Debug.Log("ProximidadObjetivos: No se encontró MissionUIController en la escena. Asignalo en el Inspector para mostrar el mensaje de finalización.");
+        }
     }
 
     private void OnDestroy()
     {
         try { MisionBotero.OnMissionCompleted -= OnMissionCompletedStatic; } catch { }
+        try { OnAllObjectivesCollected -= HandleAllObjectivesCollected; } catch { }
     }
 
     private void OnMissionCompletedStatic()
@@ -97,6 +119,34 @@ public class ProximidadObjetivos : MonoBehaviour
         if (distanceTMPText != null) distanceTMPText.text = string.Empty;
         if (collectedUIText != null) collectedUIText.text = string.Empty;
         if (collectedTMPText != null) collectedTMPText.text = string.Empty;
+        // Show mission completed message if a UI controller is assigned
+        if (!missionMessageShown)
+        {
+            if (missionUIController != null)
+            {
+                missionUIController.ShowMessage("Objetos recolectados, devuelve la luz lo olvidado. Solo entonces podras avanzar a otras zonas", 5f);
+                missionMessageShown = true;
+            }
+            else
+            {
+                Debug.Log("ProximidadObjetivos: missionUIController no está asignado; no se mostrará el mensaje de finalización.");
+            }
+        }
+    }
+
+    private void HandleAllObjectivesCollected()
+    {
+        Debug.Log("ProximidadObjetivos: HandleAllObjectivesCollected invoked.");
+        if (missionMessageShown) return;
+        if (missionUIController != null)
+        {
+            missionUIController.ShowMessage("Objetos recolectados, devuelve la luz lo olvidado. Solo entonces podras avanzar a otras zonas", 5f);
+            missionMessageShown = true;
+        }
+        else
+        {
+            Debug.Log("ProximidadObjetivos: HandleAllObjectivesCollected invoked but missionUIController is null.");
+        }
     }
 
     /// <summary>
@@ -278,17 +328,28 @@ public class ProximidadObjetivos : MonoBehaviour
 
         if (missionCompleted)
         {
-            // Si es la misión de las 4 miniaturas, ocultar la distancia al completarse
-            if (totalAssigned == 4)
+            if (!missionMessageShown)
             {
-                if (distanceUIText != null) distanceUIText.text = string.Empty;
-                if (distanceTMPText != null) distanceTMPText.text = string.Empty;
-            }
-            else
-            {
-                string doneMsg = "Completado, activa los hologramas.";
-                if (distanceUIText != null) distanceUIText.text = doneMsg;
-                if (distanceTMPText != null) distanceTMPText.text = doneMsg;
+                if (missionUIController != null)
+                {
+                    missionUIController.ShowMessage("Objetos recolectados, devuelve la luz lo olvidado. Solo entonces podras avanzar a otras zonas", 5f);
+                }
+                else
+                {
+                    // Si es la misión de las 4 miniaturas, ocultar la distancia al completarse
+                    if (totalAssigned == 4)
+                    {
+                        if (distanceUIText != null) distanceUIText.text = string.Empty;
+                        if (distanceTMPText != null) distanceTMPText.text = string.Empty;
+                    }
+                    else
+                    {
+                        string doneMsg = "Completado, activa los hologramas.";
+                        if (distanceUIText != null) distanceUIText.text = doneMsg;
+                        if (distanceTMPText != null) distanceTMPText.text = doneMsg;
+                    }
+                }
+                missionMessageShown = true;
             }
 
             if (collectedUIText != null) collectedUIText.text = string.Empty;
