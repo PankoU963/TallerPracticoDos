@@ -21,12 +21,12 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Esculturas_Mat
-  m_Shader: {fileID: -6465566751694194690, guid: 14c6caa97f4a43f49a5fe405732abb5b, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: 4489eae5e80ed0d4c8a0fbe5f1888013, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
   m_InvalidKeywords: []
-  m_LightmapFlags: 4
+  m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
@@ -65,8 +65,12 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _FlickerTexture:
+        m_Texture: {fileID: 2800000, guid: 2f4b4dcc29af85140acf6b40757ca61e, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: ca901be71af628e4db68d82e75ad7671, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -87,6 +91,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _Texture2D:
         m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture2DAsset_9e8d78a42d7547fb9fda984de9673492_Out_0_Texture2D:
+        m_Texture: {fileID: 2800000, guid: ca901be71af628e4db68d82e75ad7671, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -122,6 +130,7 @@ Material:
     - _DstBlendAlpha: 0
     - _EnvironmentReflections: 1
     - _FirstEdge: 0.74
+    - _FresnelPower: 22.56
     - _GlossMapScale: 0
     - _Glossiness: 6
     - _GlossyReflections: 0
@@ -136,6 +145,7 @@ Material:
     - _RimAmount: 0.7
     - _RimThreshold: 0.1
     - _SampleGI: 0
+    - _ScrollSpeed: -0.15
     - _ShadowThreshold: 0.26
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
@@ -143,6 +153,7 @@ Material:
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
     - _Surface: 0
+    - _VertexOffset: 1.65
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
@@ -153,9 +164,15 @@ Material:
     - _DotColor: {r: 0, g: 0, b: 0, a: 0}
     - _EmisiveColo: {r: 1, g: 1, b: 1, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _FlickerFrecuence: {r: 5, g: 2, b: 0, a: 0}
+    - _FresnelColor: {r: 23.968624, g: 5.3270283, b: 0.4974615, a: 1}
+    - _HologramTiling: {r: 5, g: 5, b: 0, a: 0}
+    - _MainCoior: {r: 23.968626, g: 0, b: 16.311588, a: 1}
     - _MainColor: {r: 1, g: 0.465245, b: 0, a: 0}
     - _OutlineColor: {r: 0, g: 11.984315, b: 10.302015, a: 1}
     - _RimColor: {r: 1, g: 1, b: 1, a: 0}
+    - _ScanLineSpeed: {r: 0.2, g: 0.2, b: 0, a: 0}
+    - _ScanLineTiling: {r: 0.1, g: 0.1, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _SpecularColor: {r: 4, g: 4, b: 4, a: 0}
   m_BuildTextureStacks: []
